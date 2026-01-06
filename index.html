@@ -40,9 +40,24 @@
     Built for creators, founders, and teams.
   </p>
 
-  <button onclick="alert('Thanks for joining the waitlist!')">
-    Join the Waitlist
-  </button>
+  <input type="email" id="emailInput" placeholder="Enter your email" style="padding:10px; border-radius:6px; width:250px;">
+<button onclick="saveEmail()" style="margin-left:10px;">Join the Waitlist</button>
+<p id="message" style="margin-top:10px;"></p>
+
+<script>
+function saveEmail() {
+    var email = document.getElementById('emailInput').value;
+    if(email) {
+        document.getElementById('message').innerText = "Thanks! " + email + " is on the waitlist.";
+        document.getElementById('emailInput').value = "";
+    } else {
+        document.getElementById('message').innerText = "Please enter a valid email.";
+    }
+}
+</script>
 
 </body>
 </html>
+
+
+Add interactive email input for waitlist
