@@ -38,11 +38,29 @@
       cursor: pointer;
       background: #5b6cff;
       color: white;
-      transition: 0.2s;
+      transition: 0.3s;
+      box-shadow: 0 0 0 rgba(91,108,255,0);
     }
 
     .top-options button:hover {
       background: #4a54d1;
+      box-shadow: 0 0 12px rgba(91,108,255,0.6);
+    }
+
+    .top-options button:active { 
+      transform: scale(0.97); 
+      opacity:0.9; 
+    }
+
+    .top-options button span {
+      display: block;
+      font-size: 12px;
+      color: #8b90c9;
+      margin-top: 4px;
+    }
+
+    .top-options button.selected {
+      box-shadow: 0 0 20px rgba(91,108,255,0.9);
     }
 
     .output {
@@ -56,6 +74,13 @@
 
     .idea {
       margin-bottom: 25px;
+      opacity: 0;
+      transform: translateY(10px);
+      animation: fadeIn 0.4s forwards;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .idea h3 {
@@ -83,6 +108,23 @@
       font-size: 14px;
       color: #8b90c9;
     }
+
+    .back-button {
+      margin-top: 20px;
+      background: #3b3f58;
+      padding: 12px 20px;
+      border-radius: 10px;
+      border: none;
+      color: white;
+      cursor: pointer;
+      font-size: 14px;
+      transition: 0.2s;
+    }
+
+    .back-button:hover {
+      background: #2e3145;
+    }
+
   </style>
 </head>
 <body>
@@ -93,15 +135,22 @@
       <span class="disclaimer">Demo prototype – outputs are pre-generated for illustration purposes.</span>
     </p>
 
-    <div class="top-options">
-      <button onclick="showSubOptions('option1')">Morning Reset Routine</button>
-      <button onclick="showSubOptions('option2')">A Day in My Life</button>
-      <button onclick="showSubOptions('option3')">Small Wins</button>
+    <div id="top-container" class="top-options">
+      <button onclick="showSubOptions('option1')">
+        Morning Reset Routine
+        <span>Content idea for morning posts</span>
+      </button>
+      <button onclick="showSubOptions('option2')">
+        A Day in My Life
+        <span>Content idea for daily life posts</span>
+      </button>
+      <button onclick="showSubOptions('option3')">
+        Small Wins
+        <span>Content idea for everyday achievements</span>
+      </button>
     </div>
 
-    <div id="sub-options" class="output">
-      <!-- Sub-options will appear here -->
-    </div>
+    <div id="sub-options" class="output"></div>
   </div>
 
   <script>
@@ -126,6 +175,13 @@
     function showSubOptions(optionKey) {
       const container = document.getElementById("sub-options");
       container.innerHTML = ""; // clear previous
+
+      // Highlight selected button
+      document.querySelectorAll(".top-options button").forEach(btn => {
+        btn.classList.remove("selected");
+      });
+      document.querySelectorAll(".top-options button")[["option1","option2","option3"].indexOf(optionKey)].classList.add("selected");
+
       demoData[optionKey].forEach(item => {
         const div = document.createElement("div");
         div.className = "idea";
@@ -134,9 +190,26 @@
                          ${item.hashtags.map(tag=>`<span class="tag">${tag}</span>`).join('')}`;
         container.appendChild(div);
       });
+
+      // Add a back button
+      const backBtn = document.createElement("button");
+      backBtn.className = "back-button";
+      backBtn.innerText = "← Choose another theme";
+      backBtn.onclick = resetDemo;
+      container.appendChild(backBtn);
+
       container.style.display = "block";
       container.scrollIntoView({behavior:"smooth"});
+    }
+
+    function resetDemo() {
+      const container = document.getElementById("sub-options");
+      container.style.display = "none";
+      container.innerHTML = "";
+      // Remove selected highlight
+      document.querySelectorAll(".top-options button").forEach(btn => btn.classList.remove("selected"));
     }
   </script>
 </body>
 </html>
+
