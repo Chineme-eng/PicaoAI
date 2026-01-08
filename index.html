@@ -2,153 +2,135 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Picao AI</title>
-  <style>
-    /* --- Global Styles --- */
-    * { box-sizing: border-box; margin:0; padding:0; }
-    body { font-family: Inter, Arial, sans-serif; background: #0b0f1a; color: #ffffff; line-height: 1.6; scroll-behavior: smooth; overflow-x:hidden; }
-    a { text-decoration: none; color: inherit; }
-    section { padding: 80px 20px; opacity:0; transform: translateY(50px); transition: all 0.8s ease-out; }
-    section.visible { opacity:1; transform: translateY(0); }
-    h1,h2,h3 { margin-bottom: 20px; }
-    button { cursor:pointer; transition:0.3s; }
-
-    /* --- Header / Hero --- */
-    header { text-align:center; padding:100px 20px 60px; }
-    header h1 { font-size: 48px; margin-bottom:20px; }
-    header p { font-size:20px; color:#c7cbe3; max-width:700px; margin:0 auto 40px; text-align:center; }
-    .hero-button {
-      padding:16px 32px;
-      font-size:18px;
-      border:none;
-      border-radius:10px;
-      background:#6366f1;
-      color:white;
-    }
-    .hero-button:hover { background:#4f46e5; transform: translateY(-2px); }
-
-    /* --- Features --- */
-    .features { display:flex; flex-wrap:wrap; justify-content:center; gap:30px; margin-top:40px; }
-    .feature { background:#12172a; padding:20px; border-radius:16px; max-width:280px; text-align:center; transition: transform 0.3s, box-shadow 0.3s; }
-    .feature:hover { transform: translateY(-5px); box-shadow:0 10px 20px rgba(91,108,255,0.3); }
-    .feature h3 { margin-bottom:12px; }
-    .feature p { color:#c7cbe3; }
-
-    /* --- Demo Section --- */
-    #demo-section { background:#1e293b; text-align:center; }
-    #demo-section h2 { font-size:32px; margin-bottom:20px; }
-    #demo-section p { color:#cbd5e1; font-size:18px; margin-bottom:30px; max-width:700px; margin:0 auto; }
-    #demo-section button { padding:14px 28px; font-size:18px; border:none; border-radius:8px; background:#6366f1; color:white; }
-    #demo-section button:hover { background:#4f46e5; transform: translateY(-2px); }
-
-    /* --- Waitlist Section --- */
-    #waitlist { text-align:center; }
-    #waitlist h2 { font-size:32px; margin-bottom:20px; }
-    #waitlist p { color:#c7cbe3; font-size:18px; margin-bottom:20px; max-width:700px; margin:0 auto; text-align:center; }
-    #waitlist input { padding:14px; border-radius:8px; border:none; margin-bottom:12px; width:280px; max-width:90%; display:block; margin:0 auto; }
-    #waitlist button {
-      padding:16px 32px;
-      font-size:18px;
-      border:none;
-      border-radius:10px;
-      background:#6366f1; /* Updated to blue theme */
-      color:white;
-      margin-top:8px;
-    }
-    #waitlist button:hover { background:#4f46e5; transform: translateY(-2px); }
-    #thankyou-message { color:#10b981; margin-top:12px; display:none; }
-
-    /* --- Footer --- */
-    footer { text-align:center; padding:40px 20px; color:#8b90c9; font-size:14px; }
-
-    /* --- Responsive --- */
-    @media(max-width:768px) {
-      .features { flex-direction: column; align-items:center; }
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Picao AI - All your tasks, one assistant</title>
+  <meta name="description" content="AI assistant for creators, freelancers, and small teams to get work done faster and smarter.">
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
+<body class="bg-gray-50 font-sans">
 
-  <!-- Header / Hero -->
-  <header class="visible">
-    <h1>Picao AI</h1>
-    <p>All your tasks, One Assistant. Virtual assistant for creators, founders, investors, freelancers, and business owners.</p>
-    <button class="hero-button" onclick="document.getElementById('waitlist').scrollIntoView({behavior:'smooth'})">Join the Waitlist</button>
-  </header>
+  <!-- Hero Section -->
+  <section class="bg-white py-24 text-center">
+    <h1 class="text-4xl md:text-5xl font-bold mb-4">
+      Generate content, visuals, and ideas in minutes — no design skills needed
+    </h1>
+    <p class="text-lg md:text-xl text-gray-700 mb-8">
+      AI assistant for creators, freelancers, and small teams to get work done faster and smarter.
+    </p>
+    <div class="flex justify-center gap-4">
+      <a href="demo.html" class="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
+        Try Live Demo
+      </a>
+      <a href="#waitlist" class="bg-gray-200 text-gray-800 px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 transition">
+        Join Waitlist
+      </a>
+    </div>
+  </section>
 
-  <!-- Features -->
-  <section class="features">
-    <div class="feature">
-      <h3>Instant Visuals</h3>
-      <p>Create images for your ideas in seconds without design skills.</p>
-    </div>
-    <div class="feature">
-      <h3>Captions & Hashtags</h3>
-      <p>Generate smart captions and trending hashtags for any post.</p>
-    </div>
-    <div class="feature">
-      <h3>Time Saver</h3>
-      <p>Focus on your content. Picao AI handles the creative process quickly.</p>
+  <!-- Problem Section -->
+  <section class="py-20 text-center max-w-3xl mx-auto">
+    <h2 class="text-3xl font-bold mb-6">Multiple tools slow down your workflow</h2>
+    <p class="text-gray-700 text-lg mb-4">Creators waste hours switching between apps for captions, images, and branding.</p>
+    <p class="text-gray-700 text-lg mb-4">Freelancers struggle to plan projects and build skills efficiently.</p>
+    <p class="text-gray-700 text-lg">Small teams need actionable outputs without hiring consultants.</p>
+  </section>
+
+  <!-- Features Section with Auto-Playing Carousel -->
+  <section class="bg-white py-20 text-center max-w-4xl mx-auto">
+    <h2 class="text-3xl font-bold mb-6">One AI assistant for everything you need</h2>
+
+    <!-- Carousel -->
+    <div class="relative overflow-hidden rounded-lg shadow-lg mx-auto max-w-2xl">
+      <div class="flex transition-transform duration-500" id="carousel-inner">
+        <div class="flex-shrink-0 w-full">
+          <img src="demo-captions.gif" alt="Caption generation" class="w-full rounded-lg">
+          <p class="text-gray-700 mt-2">Generate captions & hashtags instantly</p>
+        </div>
+        <div class="flex-shrink-0 w-full">
+          <img src="demo-visuals.gif" alt="Visual creation" class="w-full rounded-lg">
+          <p class="text-gray-700 mt-2">Create visuals and branding assets in seconds</p>
+        </div>
+        <div class="flex-shrink-0 w-full">
+          <img src="demo-ideas.gif" alt="Idea structuring" class="w-full rounded-lg">
+          <p class="text-gray-700 mt-2">Structure projects and ideas effortlessly</p>
+        </div>
+      </div>
+
+      <!-- Carousel Buttons -->
+      <button id="prev" class="absolute top-1/2 left-2 -translate-y-1/2 bg-white/70 p-2 rounded-full shadow hover:bg-white">‹</button>
+      <button id="next" class="absolute top-1/2 right-2 -translate-y-1/2 bg-white/70 p-2 rounded-full shadow hover:bg-white">›</button>
     </div>
   </section>
 
   <!-- Demo Section -->
-  <section id="demo-section">
-    <h2>Try Picao AI in Action</h2>
-    <p>Experience how Picao generates Instagram post ideas, captions, and hashtags for real content creators. Click below to explore our interactive demo prototype.</p>
-    <a href="demo.html" target="_blank">
-      <button>Try the Demo</button>
+  <section id="demo" class="py-20 text-center max-w-3xl mx-auto">
+    <h2 class="text-3xl font-bold mb-6">See Picao AI in action</h2>
+    <p class="text-gray-700 mb-8">
+      Explore the Picao AI demo to see how it generates captions, images, and structures ideas — no coding or design skills required.
+    </p>
+    <a href="demo.html" class="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
+      Try Live Demo
     </a>
   </section>
 
-  <!-- Waitlist Section -->
-  <section id="waitlist">
-    <h2>Join the Waitlist</h2>
-    <p>Be the first to access Picao AI and get exclusive early access.</p>
-    <input type="email" id="email" placeholder="Enter your email" />
-    <button onclick="submitWaitlist()">Join Now</button>
-    <p id="thankyou-message">Thank you for joining the waitlist!</p>
+  <!-- Waitlist Section with Google Form -->
+  <section id="waitlist" class="bg-blue-50 py-20 text-center">
+    <h2 class="text-3xl font-bold mb-6">Join early adopters</h2>
+    <p class="text-gray-700 mb-6">
+      Picao AI currently has a waitlist of early users eager to test the platform. Enter your email below to join!
+    </p>
+
+    <!-- Google Form Embed -->
+    <form 
+      action="https://docs.google.com/forms/d/e/1FAIpQLSfvy2ZL9P3bcFx24ck1W3hi0Q_8jG3-U-02AqEN09d_rLUSVA/formResponse" 
+      method="POST" 
+      target="hidden_iframe"
+      onsubmit="alert('Thanks for joining the waitlist!');"
+      class="flex flex-col items-center gap-4 max-w-md mx-auto"
+    >
+      <input 
+        type="email" 
+        name="entry.505288260" 
+        placeholder="Enter your email" 
+        required 
+        class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600"
+      />
+      <button 
+        type="submit" 
+        class="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition"
+      >
+        Join Waitlist
+      </button>
+    </form>
+
+    <!-- Hidden iframe to prevent redirect -->
+    <iframe name="hidden_iframe" style="display:none;"></iframe>
   </section>
 
   <!-- Footer -->
-  <footer>
-    &copy; 2026 Picao AI. All rights reserved.
+  <footer class="py-12 text-center text-gray-600 text-sm">
+    Built by Chineme, founder and CEO. All coding, AI integration, and infrastructure handled in-house.
   </footer>
 
+  <!-- Carousel Script with Auto-Play -->
   <script>
-    // Google Form ID (replace with your actual Form ID)
-    const FORM_ID = "https://docs.google.com/forms/d/e/1FAIpQLSfvy2ZL9P3bcFx24ck1W3hi0Q_8jG3-U-02AqEN09d_rLUSVA/"; // e.g., "1FAIpQLS..."
-    function submitWaitlist() {
-      const email = document.getElementById("email").value;
-      if(!email) { alert("Please enter your email."); return; }
+    const carousel = document.getElementById('carousel-inner');
+    const prevBtn = document.getElementById('prev');
+    const nextBtn = document.getElementById('next');
+    let index = 0;
+    const total = carousel.children.length;
 
-      const url = `https://docs.google.com/forms/d/e/${FORM_ID}/formResponse`;
-      const data = new FormData();
-      // Replace 'entry.1234567890' with your form's email field entry ID
-      data.append('entry.505288260', email);
-
-      fetch(url, { method: 'POST', mode:'no-cors', body:data })
-        .then(() => {
-          document.getElementById("thankyou-message").style.display = "block";
-          document.getElementById("email").value = "";
-        })
-        .catch(() => {
-          document.getElementById("thankyou-message").style.display = "block";
-          document.getElementById("email").value = "";
-        });
+    function showSlide(i) {
+      index = (i + total) % total;
+      carousel.style.transform = `translateX(-${index * 100}%)`;
     }
 
-    // Section fade-in on scroll
-    const sections = document.querySelectorAll("section");
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if(entry.isIntersecting) {
-          entry.target.classList.add("visible");
-        }
-      });
-    }, { threshold: 0.2 });
+    prevBtn.addEventListener('click', () => showSlide(index - 1));
+    nextBtn.addEventListener('click', () => showSlide(index + 1));
 
-    sections.forEach(section => observer.observe(section));
+    // Auto-play every 3 seconds
+    setInterval(() => showSlide(index + 1), 3000);
   </script>
 
 </body>
