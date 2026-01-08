@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Picao AI Demo - All your tasks, one assistant</title>
-  <meta name="description" content="Interactive demo of Picao AI showing captions, visuals, and idea structuring.">
+  <title>Picao AI Demo - Your AI Friend</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-50 font-sans">
@@ -13,53 +12,37 @@
   <nav class="bg-white shadow-md py-4 sticky top-0 z-50">
     <div class="max-w-6xl mx-auto flex justify-between items-center px-4">
       <h1 class="text-2xl font-bold text-blue-600">Picao AI Demo</h1>
-      <div class="space-x-4">
-        <a href="index.html" class="text-blue-600 font-semibold hover:underline">Home</a>
-        <a href="#captions" class="text-gray-700 hover:text-blue-600 transition">Captions</a>
-        <a href="#visuals" class="text-gray-700 hover:text-blue-600 transition">Visuals</a>
-        <a href="#ideas" class="text-gray-700 hover:text-blue-600 transition">Ideas</a>
-      </div>
+      <a href="index.html" class="text-blue-600 font-semibold hover:underline">Back to Home</a>
     </div>
   </nav>
 
   <!-- Hero Section -->
   <section class="bg-blue-50 py-24 text-center">
-    <h2 class="text-4xl md:text-5xl font-bold mb-4">Experience Picao AI Live</h2>
+    <h2 class="text-4xl md:text-5xl font-bold mb-4">Meet Picao — your friendly AI assistant</h2>
     <p class="text-lg md:text-xl text-gray-700 max-w-2xl mx-auto">
-      Explore how Picao AI generates captions, visuals, and structures ideas — all in one platform.
+      Picao helps you generate captions, visuals, and ideas — all in a fun, interactive way!
     </p>
-    <a href="index.html" class="mt-6 inline-block bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
-      Back to Home
-    </a>
   </section>
 
-  <!-- Captions Section -->
-  <section id="captions" class="py-20 max-w-6xl mx-auto px-4">
-    <h3 class="text-3xl font-bold mb-6 text-center">Generate Captions</h3>
-    <div class="bg-white rounded-2xl shadow-lg p-6 max-w-3xl mx-auto flex flex-col items-center hover:scale-105 transition-transform">
-      <textarea id="captionInput" rows="3" placeholder="Enter your topic..." class="w-full border border-gray-300 rounded-lg p-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-600"></textarea>
-      <button onclick="generateCaption()" class="bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 transition mb-4">Generate</button>
-      <div id="captionOutput" class="text-gray-700 text-center mt-2"></div>
+  <!-- Chat Demo Section -->
+  <section class="max-w-3xl mx-auto px-4 py-16">
+    <div id="chatContainer" class="bg-white rounded-2xl shadow-lg p-6 flex flex-col gap-4 h-[500px] overflow-y-auto">
+      <div class="message bot p-3 rounded-xl bg-blue-100 self-start max-w-[80%]">
+        Hi! I'm Picao. What would you like to generate today?
+      </div>
     </div>
-  </section>
 
-  <!-- Visuals Section -->
-  <section id="visuals" class="py-20 bg-gray-100 max-w-6xl mx-auto px-4">
-    <h3 class="text-3xl font-bold mb-6 text-center">Generate Visuals</h3>
-    <div class="bg-white rounded-2xl shadow-lg p-6 max-w-3xl mx-auto flex flex-col items-center hover:scale-105 transition-transform">
-      <input id="visualInput" type="text" placeholder="Describe an image..." class="w-full border border-gray-300 rounded-lg p-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-600">
-      <button onclick="generateVisual()" class="bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 transition mb-4">Generate</button>
-      <img id="visualOutput" class="rounded-lg shadow-md mt-2 w-full max-h-64 object-contain" alt="">
+    <!-- Options -->
+    <div id="options" class="mt-6 flex flex-col sm:flex-row gap-4 justify-center">
+      <button onclick="selectOption('caption')" class="bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 transition">Caption</button>
+      <button onclick="selectOption('visual')" class="bg-green-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-green-700 transition">Visual</button>
+      <button onclick="selectOption('idea')" class="bg-purple-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-purple-700 transition">Idea</button>
     </div>
-  </section>
 
-  <!-- Idea Structuring Section -->
-  <section id="ideas" class="py-20 max-w-6xl mx-auto px-4">
-    <h3 class="text-3xl font-bold mb-6 text-center">Structure Ideas</h3>
-    <div class="bg-white rounded-2xl shadow-lg p-6 max-w-3xl mx-auto flex flex-col items-center hover:scale-105 transition-transform">
-      <textarea id="ideaInput" rows="3" placeholder="Enter your idea..." class="w-full border border-gray-300 rounded-lg p-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-600"></textarea>
-      <button onclick="generateIdea()" class="bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 transition mb-4">Generate</button>
-      <div id="ideaOutput" class="text-gray-700 text-center mt-2"></div>
+    <!-- Input Section -->
+    <div id="inputSection" class="mt-6 hidden flex flex-col items-center gap-2">
+      <input id="userInput" type="text" placeholder="" class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-600">
+      <button onclick="submitInput()" class="bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 transition">Submit</button>
     </div>
   </section>
 
@@ -68,30 +51,55 @@
     Powered by Picao AI | Built by Chineme, founder and CEO
   </footer>
 
-  <!-- Demo JS -->
+  <!-- JS Logic -->
   <script>
-    // Mock demo functions
-    function generateCaption() {
-      const input = document.getElementById('captionInput').value;
-      const output = document.getElementById('captionOutput');
-      output.textContent = input ? `"${input}" - Perfect caption generated!` : "Enter a topic first!";
+    const chat = document.getElementById('chatContainer');
+    const optionsDiv = document.getElementById('options');
+    const inputSection = document.getElementById('inputSection');
+    const userInput = document.getElementById('userInput');
+
+    let currentOption = '';
+
+    function addMessage(text, sender='bot') {
+      const div = document.createElement('div');
+      div.className = `message ${sender} p-3 rounded-xl max-w-[80%] ${sender==='bot'?'bg-blue-100 self-start':'bg-gray-200 self-end'}`;
+      div.textContent = text;
+      chat.appendChild(div);
+      chat.scrollTop = chat.scrollHeight;
     }
 
-    function generateVisual() {
-      const input = document.getElementById('visualInput').value;
-      const img = document.getElementById('visualOutput');
-      if(input) {
-        img.src = 'https://via.placeholder.com/400x200?text=' + encodeURIComponent(input);
-      } else {
-        img.src = '';
-        img.alt = 'Describe an image above';
-      }
+    function selectOption(option) {
+      currentOption = option;
+      optionsDiv.classList.add('hidden');
+      inputSection.classList.remove('hidden');
+      let promptText = '';
+      if(option==='caption') promptText = "Great! What is the topic or theme for your caption?";
+      if(option==='visual') promptText = "Awesome! Describe the image you want to generate.";
+      if(option==='idea') promptText = "Cool! Tell me the idea or project you want to structure.";
+      addMessage(promptText);
+      userInput.placeholder = promptText;
+      userInput.value = '';
+      userInput.focus();
     }
 
-    function generateIdea() {
-      const input = document.getElementById('ideaInput').value;
-      const output = document.getElementById('ideaOutput');
-      output.textContent = input ? `Structured idea for "${input}" ready to go!` : "Enter an idea first!";
+    function submitInput() {
+      const text = userInput.value.trim();
+      if(!text) return;
+
+      addMessage(text, 'user');
+
+      // Mock AI response
+      let response = '';
+      if(currentOption==='caption') response = `"${text}" - Perfect caption for your post!`;
+      if(currentOption==='visual') response = `Here’s a visual for: ${text}`;
+      if(currentOption==='idea') response = `Structured idea ready for "${text}"!`;
+
+      addMessage(response);
+
+      // Reset for next interaction
+      optionsDiv.classList.remove('hidden');
+      inputSection.classList.add('hidden');
+      userInput.value = '';
     }
   </script>
 
