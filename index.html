@@ -9,54 +9,45 @@
 body {
   margin: 0;
   font-family: 'Segoe UI', Arial, sans-serif;
-  background: #0a0a0a;
-  color: #f4f4f4;
+  background: #ffffff;
+  color: #000000;
   scroll-behavior: smooth;
   overflow-x: hidden;
 }
 a { text-decoration: none; color: inherit; }
 .container { max-width: 1200px; margin: auto; padding: 0 20px; }
 h1,h2,h3 { margin: 0 0 20px; }
-section { padding: 80px 0; }
 
 /* ===== NAVBAR ===== */
 .navbar {
   position: sticky;
   top: 0;
   width: 100%;
-  background: #0a0a0a;
+  background: #ffffff;
   display: flex;
   justify-content: center;
   padding: 15px 0;
   z-index: 999;
-  box-shadow: 0 2px 15px rgba(0,0,0,0.5);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 .navbar a {
-  color: #0066ff;
+  color: #007BFF;
   margin: 0 20px;
   font-weight: bold;
   transition: color 0.2s;
 }
-.navbar a:hover { color: #0050cc; }
+.navbar a:hover { color: #0056b3; }
 
 /* ===== HERO ===== */
 .hero {
   position: relative;
   text-align: center;
   padding: 120px 20px 100px;
-  background: linear-gradient(135deg, #0a0a0a, #141414);
-  background-size: 200% 200%;
-  animation: gradientShift 15s ease infinite;
+  background: linear-gradient(135deg, #ffffff, #f0f0f0);
   overflow: hidden;
 }
-.hero h1 { font-size: 3em; line-height: 1.2; }
-.hero p { font-size: 1.2em; margin-bottom: 30px; color: #bbb; }
-@keyframes gradientShift {
-  0%{background-position:0% 50%;}
-  50%{background-position:100% 50%;}
-  100%{background-position:0% 50%;}
-}
-/* Hero particle circles */
+.hero h1 { font-size: 3em; line-height: 1.2; color: #000; }
+.hero p { font-size: 1.2em; margin-bottom: 30px; color: #444; }
 .hero canvas { position: absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; }
 
 /* ===== BUTTON ===== */
@@ -65,37 +56,37 @@ button {
   border: none;
   border-radius: 6px;
   padding: 12px 24px;
-  background: #0066ff;
+  background: #007BFF;
   color: #fff;
   font-weight: bold;
   transition: 0.3s;
 }
-button:hover { background: #0050cc; transform: scale(1.05); }
+button:hover { background: #0056b3; transform: scale(1.05); }
 
 /* ===== INPUT ===== */
 input {
   padding: 12px;
   border-radius: 6px;
-  border: 1px solid #333;
+  border: 1px solid #ccc;
   font-size: 1em;
-  background: #1a1a1a;
-  color: #f4f4f4;
+  background: #f8f8f8;
+  color: #000;
 }
 
 /* ===== EARLY ACCESS ===== */
 .early-access {
   text-align: center;
-  background: #111;
+  background: #f8f8f8;
   border-radius: 12px;
   padding: 60px 20px;
-  box-shadow: 0 5px 25px rgba(0,0,0,0.5);
+  box-shadow: 0 5px 25px rgba(0,0,0,0.05);
   position: relative;
 }
 #formSuccess {
   position: absolute;
   top: 10px; left: 50%;
   transform: translateX(-50%);
-  color: #00ffcc;
+  color: #00c4ff;
   font-weight: bold;
   opacity: 0;
   transition: opacity 0.5s;
@@ -104,10 +95,10 @@ input {
 /* ===== DEMO ===== */
 .demo-callout {
   text-align: center;
-  background: #111;
+  background: #f8f8f8;
   border-radius: 12px;
   padding: 60px 20px;
-  box-shadow: 0 5px 25px rgba(0,0,0,0.5);
+  box-shadow: 0 5px 25px rgba(0,0,0,0.05);
 }
 
 /* ===== FEATURES CAROUSEL ===== */
@@ -119,29 +110,29 @@ input {
 }
 .carousel-track {
   display: flex;
-  transition: transform 0.5s ease-in-out;
+  transition: transform 0.5s linear;
 }
 .feature-card {
   min-width: 300px;
   margin: 0 20px;
-  background: #1e1e1e;
+  background: #ffffff;
+  border: 1px solid #eee;
   border-radius: 12px;
   padding: 40px 20px;
   flex-shrink: 0;
   text-align: center;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-  transition: transform 0.3s, opacity 0.5s;
+  transition: transform 0.3s, box-shadow 0.3s;
 }
-.feature-card:hover { transform: translateY(-10px); }
-.feature-icon svg { width:50px;height:50px;margin-bottom:15px; fill:#0090ff; }
+.feature-card:hover { transform: translateY(-10px); box-shadow: 0 10px 25px rgba(0,0,0,0.1);}
+.feature-icon svg { width:50px;height:50px;margin-bottom:15px; fill:#007BFF; }
 
 /* ===== WHY CREATORS ===== */
 .why-creators {
-  background: #111;
+  background: #f8f8f8;
   border-radius: 12px;
   padding: 60px 20px;
   text-align: center;
-  box-shadow: 0 5px 25px rgba(0,0,0,0.5);
+  box-shadow: 0 5px 25px rgba(0,0,0,0.05);
   transform: translateY(50px);
   opacity: 0;
   transition: all 1s ease-out;
@@ -152,29 +143,29 @@ footer {
   text-align: center;
   padding: 40px 20px;
   font-size: 0.9em;
-  color: #aaa;
+  color: #444;
 }
-footer a { color: #0066ff; margin: 0 10px; }
+footer a { color: #007BFF; margin: 0 10px; }
 
 /* ===== STICKY DEMO BUTTON ===== */
 .sticky-demo-btn {
   position: fixed;
   bottom: 30px;
   right: 30px;
-  background: #0066ff;
+  background: #007BFF;
   color: #fff;
   padding: 15px 25px;
   border-radius: 50px;
   font-weight: bold;
   text-decoration: none;
-  box-shadow: 0 5px 25px rgba(0,0,0,0.5);
+  box-shadow: 0 5px 25px rgba(0,0,0,0.1);
   z-index: 1000;
   transform: translateY(100px);
   opacity: 0;
   transition: transform 0.5s, opacity 0.5s, background 0.3s;
 }
 .sticky-demo-btn.show { transform: translateY(0); opacity:1; }
-.sticky-demo-btn:hover { background: #0050cc; }
+.sticky-demo-btn:hover { background: #0056b3; }
 
 /* ===== MEDIA ===== */
 @media (max-width:768px){
@@ -220,6 +211,7 @@ footer a { color: #0066ff; margin: 0 10px; }
   <div class="demo-callout">
     <h2>Launch the Demo</h2>
     <p>Type a prompt to see Picao in action instantly.</p>
+    <div id="demoSkeleton" style="background:#e0e0e0; height:150px; border-radius:8px; margin:20px auto 0; width:80%;"></div>
     <a href="demo.html"><button>Launch Demo</button></a>
   </div>
 </section>
@@ -229,7 +221,7 @@ footer a { color: #0066ff; margin: 0 10px; }
   <h2 style="text-align:center; margin-bottom:40px;">Features</h2>
   <div class="carousel-container">
     <div class="carousel-track">
-      <!-- Example SVG icons -->
+      <!-- Original cards -->
       <div class="feature-card"><div class="feature-icon"><svg viewBox="0 0 64 64"><path d="M32 0 L64 64 H0 Z"/></svg></div><h3>Smart Captions</h3><p>Generate captions instantly.</p></div>
       <div class="feature-card"><div class="feature-icon"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="32"/></svg></div><h3>Visual Concepts</h3><p>Turn ideas into visuals quickly.</p></div>
       <div class="feature-card"><div class="feature-icon"><svg viewBox="0 0 64 64"><rect width="64" height="64"/></svg></div><h3>Idea Brainstorm</h3><p>Spark new project ideas.</p></div>
@@ -259,44 +251,24 @@ footer a { color: #0066ff; margin: 0 10px; }
 
 <!-- ===== SCRIPTS ===== -->
 <script>
-// ===== HERO PARTICLES =====
-const canvas = document.getElementById('heroCanvas');
-const ctx = canvas.getContext('2d');
-let width, height, particles=[];
-function resizeCanvas(){width=canvas.width=window.innerWidth;height=canvas.height=window.innerHeight; initParticles();}
+// HERO PARTICLES
+const canvas=document.getElementById('heroCanvas');
+const ctx=canvas.getContext('2d');
+let w,h,particles=[];
+function resizeCanvas(){w=canvas.width=window.innerWidth; h=canvas.height=window.innerHeight; initParticles();}
 window.addEventListener('resize',resizeCanvas);
+function initParticles(){particles=[]; for(let i=0;i<80;i++){particles.push({x:Math.random()*w,y:Math.random()*h,r:Math.random()*2+1,dx:(Math.random()-0.5)*0.3,dy:(Math.random()-0.5)*0.3});}}
+function drawParticles(){ctx.clearRect(0,0,w,h); ctx.fillStyle='rgba(0,123,255,0.5)'; particles.forEach(p=>{ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill(); p.x+=p.dx; p.y+=p.dy; if(p.x<0)p.x=w;if(p.x>w)p.x=0;if(p.y<0)p.y=h;if(p.y>h)p.y=0;}); requestAnimationFrame(drawParticles);}
+resizeCanvas(); drawParticles();
 
-function initParticles(){
-  particles=[];
-  for(let i=0;i<80;i++){
-    particles.push({x:Math.random()*width,y:Math.random()*height,r:Math.random()*2+1,dx:(Math.random()-0.5)*0.3,dy:(Math.random()-0.5)*0.3});
-  }
-}
-function drawParticles(){
-  ctx.clearRect(0,0,width,height);
-  ctx.fillStyle='rgba(0,102,255,0.5)';
-  particles.forEach(p=>{
-    ctx.beginPath();
-    ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-    ctx.fill();
-    p.x+=p.dx;p.y+=p.dy;
-    if(p.x<0)p.x=width;if(p.x>width)p.x=0;
-    if(p.y<0)p.y=height;if(p.y>height)p.y=0;
-  });
-  requestAnimationFrame(drawParticles);
-}
-resizeCanvas();
-drawParticles();
-
-// ===== EARLY ACCESS FORM =====
+// EARLY ACCESS FORM
 const form=document.getElementById('earlyAccessForm');
 const emailInput=document.getElementById('userEmail');
 const success=document.getElementById('formSuccess');
-
 form.addEventListener('submit',e=>{
   e.preventDefault();
   const email=emailInput.value.trim();
-  if(!email)return;
+  if(!email) return;
   const formId='1FAIpQLSfvy2ZL9P3bcFx24ck1W3hi0Q_8jG3-U-02AqEN09d_rLUSVA';
   const entryId='entry.505288260';
   const url=`https://docs.google.com/forms/d/e/${1FAIpQLSfvy2ZL9P3bcFx24ck1W3hi0Q_8jG3-U-02AqEN09d_rLUSVA}/formResponse`;
@@ -307,40 +279,46 @@ form.addEventListener('submit',e=>{
     .catch(()=>{alert("Oops! Something went wrong.")});
 });
 
-// ===== CAROUSEL =====
+// CAROUSEL - INFINITE LOOP + TOUCH
 const track=document.querySelector('.carousel-track');
-const cards=document.querySelectorAll('.feature-card');
-let index=0;
+let cards=document.querySelectorAll('.feature-card');
 const cardWidth=cards[0].offsetWidth+40;
-const total=cards.length;
-function autoSlide(){index++; if(index>total-3)index=0; track.style.transform=`translateX(-${index*cardWidth}px)`;}
-setInterval(autoSlide,3000);
+let index=0;
 
-// ===== SCROLL TRIGGERED =====
-const faders=document.querySelectorAll('.fade-in');
-const options={threshold:0.2};
+// Clone cards for seamless infinite effect
+cards.forEach(card=>{track.appendChild(card.cloneNode(true));});
+cards=document.querySelectorAll('.feature-card');
+
+function moveCarousel(){index++; track.style.transition='transform 0.5s linear'; track.style.transform=`translateX(-${index*cardWidth}px)`; if(index>=cards.length/2){setTimeout(()=>{track.style.transition='none'; track.style.transform='translateX(0)'; index=0;},510);}}
+let slideInterval=setInterval(moveCarousel,3000);
+
+// Touch support
+let startX=null;
+track.addEventListener('touchstart',e=>{startX=e.touches[0].clientX; clearInterval(slideInterval);});
+track.addEventListener('touchmove',e=>{
+  if(!startX) return;
+  const deltaX=e.touches[0].clientX-startX;
+  track.style.transform=`translateX(${-index*cardWidth+deltaX}px)`;
+});
+track.addEventListener('touchend',e=>{startX=null; slideInterval=setInterval(moveCarousel,3000);});
+
+// SCROLL TRIGGERED ANIMATIONS
+const faders=document.querySelectorAll('.feature-card, .why-creators');
+const appearOptions={threshold:0.2};
 const appearOnScroll=new IntersectionObserver(function(entries,observer){
-  entries.forEach(entry=>{
-    if(!entry.isIntersecting) return;
-    entry.target.classList.add('show');
-    observer.unobserve(entry.target);
-  });
-}, options);
-faders.forEach(fader=>appearOnScroll.observe(fader));
-
-const whySection=document.querySelector('.why-creators');
-const whyObserver=new IntersectionObserver(entries=>{
   entries.forEach(entry=>{
     if(entry.isIntersecting){
       entry.target.style.opacity=1;
       entry.target.style.transform='translateY(0)';
+      observer.unobserve(entry.target);
     }
   });
-},{threshold:0.2});
-whyObserver.observe(whySection);
+},appearOptions);
+faders.forEach(fader=>appearOnScroll.observe(fader));
 
-// ===== STICKY BUTTON ANIMATION =====
+// STICKY BUTTON ANIMATION
 window.addEventListener('load',()=>document.querySelector('.sticky-demo-btn').classList.add('show'));
 </script>
 </body>
 </html>
+
