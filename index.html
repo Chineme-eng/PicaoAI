@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Picao AI — AI for Creators</title>
+<title>Picao — Tools for Creators</title>
 <style>
   /* ===== GLOBAL STYLES ===== */
   body {
     margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f4f4f4;
-    color: #333;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #0a0a0a;
+    color: #f4f4f4;
     scroll-behavior: smooth;
   }
 
@@ -18,137 +18,146 @@
 
   .container { max-width: 1200px; margin: auto; padding: 0 20px; }
 
-  .fade-in {
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeIn 0.6s forwards;
-    animation-delay: 0.2s;
-  }
+  h1, h2, h3 { margin: 0 0 20px; }
 
-  @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
+  section { padding: 80px 0; }
 
   button {
     cursor: pointer;
     border: none;
     border-radius: 6px;
     padding: 12px 24px;
-    background: #0070f3;
-    color: white;
+    background: #f5a623;
+    color: #0a0a0a;
     font-weight: bold;
     transition: 0.2s;
   }
 
-  button:hover { background: #005bb5; }
+  button:hover { background: #e5941f; }
 
   input {
     padding: 12px;
     border-radius: 6px;
-    border: 1px solid #ddd;
+    border: 1px solid #333;
     font-size: 1em;
+    background: #1a1a1a;
+    color: #f4f4f4;
   }
 
-  section { padding: 80px 0; }
+  /* ===== FADE-IN ANIMATIONS ===== */
+  .fade-in { opacity: 0; transform: translateY(20px); animation: fadeIn 0.8s forwards; }
+  .fade-in-delay { opacity: 0; transform: translateY(20px); animation: fadeIn 0.8s forwards; animation-delay: 0.4s; }
 
-  h1, h2, h3 { margin: 0 0 20px; }
+  @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
 
   /* ===== HERO SECTION ===== */
   .hero {
-    background: #0070f3;
-    color: white;
     text-align: center;
     padding: 120px 20px 80px;
+    background: linear-gradient(135deg, #0a0a0a, #1a1a1a);
   }
 
   .hero h1 { font-size: 3em; line-height: 1.2; }
+  .hero p { font-size: 1.2em; margin-bottom: 30px; color: #ccc; }
 
-  .hero p { font-size: 1.2em; margin-bottom: 30px; }
-
-  .cta-btn { font-size: 1.1em; }
-
-  /* ===== EARLY ACCESS / ENTRY FORM ===== */
+  /* ===== EARLY ACCESS ===== */
   .early-access {
     text-align: center;
-    background: white;
+    background: #1a1a1a;
     border-radius: 12px;
     padding: 60px 20px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    transition: transform 0.3s;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.5);
   }
-
-  .early-access:hover { transform: translateY(-5px); }
 
   .early-access input { width: 60%; margin-right: 10px; }
 
   /* ===== DEMO CALLOUT ===== */
   .demo-callout {
     text-align: center;
-    background: white;
+    background: #1a1a1a;
     border-radius: 12px;
     padding: 60px 20px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    transition: transform 0.3s;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.5);
   }
 
-  .demo-callout:hover { transform: translateY(-5px); }
+  /* ===== FEATURES CAROUSEL ===== */
+  .carousel-container {
+    overflow: hidden;
+    position: relative;
+    margin: 0 auto;
+    max-width: 1000px;
+  }
 
-  /* ===== FEATURES SECTION ===== */
-  .features {
+  .carousel-track {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    gap: 40px;
-    text-align: center;
+    transition: transform 0.5s ease-in-out;
   }
 
   .feature-card {
-    background: white;
+    min-width: 300px;
+    margin: 0 20px;
+    background: #222;
     border-radius: 12px;
     padding: 40px 20px;
-    flex: 1 1 250px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-    transition: transform 0.3s;
+    flex-shrink: 0;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    transition: transform 0.3s, opacity 0.5s;
+    opacity: 0;
+    animation: slideIn 0.8s forwards;
   }
 
-  .feature-card:hover { transform: translateY(-5px); }
+  .feature-card:hover { transform: translateY(-10px); }
 
-  .feature-card h3 { margin-top: 20px; }
+  .feature-icon { font-size: 3em; margin-bottom: 15px; }
 
-  .feature-icon { font-size: 3em; }
+  @keyframes slideIn { to { opacity: 1; } }
+
+  /* ===== WHY CREATORS NEED PICAO ===== */
+  .why-creators {
+    background: #111;
+    border-radius: 12px;
+    padding: 60px 20px;
+    text-align: center;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.5);
+    opacity: 0;
+    animation: fadeIn 1s forwards;
+    animation-delay: 0.6s;
+  }
+
+  .why-creators h2 { margin-bottom: 40px; }
+  .why-creators p { color: #ccc; margin-bottom: 20px; }
 
   /* ===== FOOTER ===== */
   footer {
     text-align: center;
     padding: 40px 20px;
     font-size: 0.9em;
-    color: #555;
+    color: #aaa;
   }
 
-  footer a { color: #0070f3; margin: 0 10px; }
+  footer a { color: #f5a623; margin: 0 10px; }
 
   /* ===== STICKY DEMO BUTTON ===== */
   .sticky-demo-btn {
     position: fixed;
     bottom: 30px;
     right: 30px;
-    background: #0070f3;
-    color: white;
+    background: #f5a623;
+    color: #0a0a0a;
     padding: 15px 25px;
     border-radius: 50px;
     font-weight: bold;
     text-decoration: none;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-    transition: transform 0.2s, background 0.2s;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.5);
     z-index: 1000;
+    transition: transform 0.2s, background 0.2s;
   }
 
-  .sticky-demo-btn:hover {
-    background: #005bb5;
-    transform: scale(1.05);
-  }
+  .sticky-demo-btn:hover { background: #e5941f; transform: scale(1.05); }
 
-  /* ===== RESPONSIVE ===== */
   @media (max-width: 768px) {
-    .features { flex-direction: column; gap: 30px; }
+    .feature-card { min-width: 250px; margin: 0 10px; }
     .early-access input { width: 100%; margin-bottom: 10px; }
     .early-access button { width: 100%; }
     .sticky-demo-btn { bottom: 20px; right: 20px; padding: 12px 20px; }
@@ -159,64 +168,60 @@
 
 <!-- HERO SECTION -->
 <section class="hero fade-in">
-  <h1>Picao AI — Bring Your Ideas to Life</h1>
-  <p>Generate captions, visuals, or new ideas instantly — for creators, founders, and businesses.</p>
-  <a href="demo.html"><button class="cta-btn">Try the Demo</button></a>
+  <h1>Picao — Your Creative Companion</h1>
+  <p>Generate captions, visuals, and ideas instantly, so you can focus on creating.</p>
+  <a href="demo.html"><button>Try the Demo</button></a>
 </section>
 
 <!-- EARLY ACCESS / GOOGLE FORM ENTRY -->
-<section class="container fade-in" style="animation-delay:0.4s;">
+<section class="container fade-in-delay">
   <div class="early-access">
     <h2>Join Early Access</h2>
-    <p>Enter your email to try Picao AI first.</p>
+    <p>Enter your email to get early access to Picao.</p>
     <form id="earlyAccessForm">
       <input type="email" id="userEmail" placeholder="Enter your email" required />
       <button type="submit">Join Now</button>
     </form>
-    <p id="formMessage" style="margin-top:10px; color:#0070f3;"></p>
+    <p id="formMessage" style="margin-top:10px; color:#f5a623;"></p>
   </div>
 </section>
 
 <!-- DEMO CALLOUT -->
-<section class="container fade-in" style="animation-delay:0.6s;">
+<section class="container fade-in-delay">
   <div class="demo-callout">
-    <h2>See Picao AI in Action</h2>
-    <p>Choose a mode, type your prompt, and watch the AI generate instantly.</p>
+    <h2>See Picao in Action</h2>
+    <p>Type a prompt and watch your ideas come alive instantly.</p>
     <a href="demo.html"><button>Launch Demo</button></a>
   </div>
 </section>
 
-<!-- FEATURES SECTION -->
-<section class="container fade-in" style="animation-delay:0.8s;">
-  <h2 style="text-align:center; margin-bottom:60px;">Features</h2>
-  <div class="features">
-    <div class="feature-card">
-      <div class="feature-icon">💬</div>
-      <h3>Caption AI</h3>
-      <p>Generate creative captions for photos, social media posts, and content instantly.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">🎨</div>
-      <h3>Visual AI</h3>
-      <p>Turn ideas into visual concepts, sketches, or inspirations in seconds.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">💡</div>
-      <h3>Idea AI</h3>
-      <p>Brainstorm new ideas for projects, campaigns, or creative endeavors with AI guidance.</p>
+<!-- FEATURES CAROUSEL -->
+<section class="container fade-in-delay">
+  <h2 style="text-align:center; margin-bottom:40px;">Features</h2>
+  <div class="carousel-container">
+    <div class="carousel-track">
+      <div class="feature-card"><div class="feature-icon">💬</div><h3>Captions</h3><p>Generate captions for photos and posts in seconds.</p></div>
+      <div class="feature-card"><div class="feature-icon">🎨</div><h3>Visual Concepts</h3><p>Transform ideas into visuals and sketches quickly.</p></div>
+      <div class="feature-card"><div class="feature-icon">💡</div><h3>Idea Brainstorm</h3><p>Brainstorm new project or campaign ideas instantly.</p></div>
+      <div class="feature-card"><div class="feature-icon">📈</div><h3>Marketing Prompts</h3><p>Create content prompts for marketing and social media.</p></div>
     </div>
   </div>
 </section>
 
+<!-- WHY CREATORS NEED PICAO -->
+<section class="container">
+  <div class="why-creators">
+    <h2>Why Creators Need Picao</h2>
+    <p>Save hours brainstorming and content creation by generating captions, visuals, and ideas instantly.</p>
+    <p>Focus on what matters: bringing your vision to life, while Picao handles repetitive tasks.</p>
+    <p>Works seamlessly with your workflow — no technical skills required.</p>
+  </div>
+</section>
+
 <!-- FOOTER -->
-<footer class="fade-in" style="animation-delay:1s;">
-  <p>© 2026 Picao AI. All rights reserved.</p>
-  <p>
-    <a href="demo.html">Demo</a> | 
-    <a href="https://github.com/your-username/picao-vercel-backend">GitHub</a> | 
-    <a href="mailto:contact@picaoai.com">Contact</a>
-  </p>
-  <p>Your prompts are private and secure.</p>
+<footer>
+  <p>© 2026 Picao. All rights reserved.</p>
+  <p><a href="demo.html">Demo</a> | <a href="https://github.com/your-username/picao-vercel-backend">GitHub</a> | <a href="mailto:contact@picaoai.com">Contact</a></p>
 </footer>
 
 <!-- STICKY DEMO BUTTON -->
@@ -233,15 +238,13 @@
     const email = emailInput.value.trim();
     if (!email) return;
 
-    // Google Form info — replace these with your actual form details
     const formId = '1FAIpQLSfvy2ZL9P3bcFx24ck1W3hi0Q_8jG3-U-02AqEN09d_rLUSVA';
-    const entryId = 'entry.505288260'; // e.g., entry.1234567890
+    const entryId = 'entry.505288260';
 
     const url = `https://docs.google.com/forms/d/e/${1FAIpQLSfvy2ZL9P3bcFx24ck1W3hi0Q_8jG3-U-02AqEN09d_rLUSVA}/formResponse`;
     const data = new FormData();
     data.append(entryId, email);
 
-    // Submit without redirecting
     fetch(url, { method: 'POST', mode: 'no-cors', body: data })
       .then(() => {
         message.innerText = "Thanks! We’ve received your entry.";
@@ -253,7 +256,27 @@
   });
 </script>
 
+<!-- ===== FEATURES CAROUSEL SCRIPT ===== -->
+<script>
+  const track = document.querySelector('.carousel-track');
+  const cards = document.querySelectorAll('.feature-card');
+  let index = 0;
+  const cardWidth = cards[0].offsetWidth + 40; // width + margin
+  const total = cards.length;
+
+  function autoSlide() {
+    index++;
+    if (index > total - 3) index = 0; // show 3 at a time
+    track.style.transform = `translateX(-${index * cardWidth}px)`;
+  }
+
+  // Animate initial cards fade-in
+  cards.forEach((card, i) => {
+    card.style.animationDelay = `${0.3 + i*0.2}s`;
+  });
+
+  setInterval(autoSlide, 3000); // slide every 3 seconds
+</script>
+
 </body>
 </html>
-
- 
