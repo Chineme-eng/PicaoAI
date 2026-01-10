@@ -5,278 +5,342 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Picao — Tools for Creators</title>
 <style>
-  /* ===== GLOBAL STYLES ===== */
-  body {
-    margin: 0;
-    font-family: 'Segoe UI', Arial, sans-serif;
-    background: #0a0a0a;
-    color: #f4f4f4;
-    scroll-behavior: smooth;
-  }
+/* ===== GLOBAL ===== */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #0a0a0a;
+  color: #f4f4f4;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+a { text-decoration: none; color: inherit; }
+.container { max-width: 1200px; margin: auto; padding: 0 20px; }
+h1,h2,h3 { margin: 0 0 20px; }
+section { padding: 80px 0; }
 
-  a { text-decoration: none; color: inherit; }
+/* ===== NAVBAR ===== */
+.navbar {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  background: #0a0a0a;
+  display: flex;
+  justify-content: center;
+  padding: 15px 0;
+  z-index: 999;
+  box-shadow: 0 2px 15px rgba(0,0,0,0.5);
+}
+.navbar a {
+  color: #0066ff;
+  margin: 0 20px;
+  font-weight: bold;
+  transition: color 0.2s;
+}
+.navbar a:hover { color: #0050cc; }
 
-  .container { max-width: 1200px; margin: auto; padding: 0 20px; }
+/* ===== HERO ===== */
+.hero {
+  position: relative;
+  text-align: center;
+  padding: 120px 20px 100px;
+  background: linear-gradient(135deg, #0a0a0a, #141414);
+  background-size: 200% 200%;
+  animation: gradientShift 15s ease infinite;
+  overflow: hidden;
+}
+.hero h1 { font-size: 3em; line-height: 1.2; }
+.hero p { font-size: 1.2em; margin-bottom: 30px; color: #bbb; }
+@keyframes gradientShift {
+  0%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+  100%{background-position:0% 50%;}
+}
+/* Hero particle circles */
+.hero canvas { position: absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; }
 
-  h1, h2, h3 { margin: 0 0 20px; }
+/* ===== BUTTON ===== */
+button {
+  cursor: pointer;
+  border: none;
+  border-radius: 6px;
+  padding: 12px 24px;
+  background: #0066ff;
+  color: #fff;
+  font-weight: bold;
+  transition: 0.3s;
+}
+button:hover { background: #0050cc; transform: scale(1.05); }
 
-  section { padding: 80px 0; }
+/* ===== INPUT ===== */
+input {
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #333;
+  font-size: 1em;
+  background: #1a1a1a;
+  color: #f4f4f4;
+}
 
-  button {
-    cursor: pointer;
-    border: none;
-    border-radius: 6px;
-    padding: 12px 24px;
-    background: #f5a623;
-    color: #0a0a0a;
-    font-weight: bold;
-    transition: 0.2s;
-  }
+/* ===== EARLY ACCESS ===== */
+.early-access {
+  text-align: center;
+  background: #111;
+  border-radius: 12px;
+  padding: 60px 20px;
+  box-shadow: 0 5px 25px rgba(0,0,0,0.5);
+  position: relative;
+}
+#formSuccess {
+  position: absolute;
+  top: 10px; left: 50%;
+  transform: translateX(-50%);
+  color: #00ffcc;
+  font-weight: bold;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
 
-  button:hover { background: #e5941f; }
+/* ===== DEMO ===== */
+.demo-callout {
+  text-align: center;
+  background: #111;
+  border-radius: 12px;
+  padding: 60px 20px;
+  box-shadow: 0 5px 25px rgba(0,0,0,0.5);
+}
 
-  input {
-    padding: 12px;
-    border-radius: 6px;
-    border: 1px solid #333;
-    font-size: 1em;
-    background: #1a1a1a;
-    color: #f4f4f4;
-  }
+/* ===== FEATURES CAROUSEL ===== */
+.carousel-container {
+  overflow: hidden;
+  position: relative;
+  margin: 0 auto;
+  max-width: 1000px;
+}
+.carousel-track {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+.feature-card {
+  min-width: 300px;
+  margin: 0 20px;
+  background: #1e1e1e;
+  border-radius: 12px;
+  padding: 40px 20px;
+  flex-shrink: 0;
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+  transition: transform 0.3s, opacity 0.5s;
+}
+.feature-card:hover { transform: translateY(-10px); }
+.feature-icon svg { width:50px;height:50px;margin-bottom:15px; fill:#0090ff; }
 
-  /* ===== FADE-IN ANIMATIONS ===== */
-  .fade-in { opacity: 0; transform: translateY(20px); animation: fadeIn 0.8s forwards; }
-  .fade-in-delay { opacity: 0; transform: translateY(20px); animation: fadeIn 0.8s forwards; animation-delay: 0.4s; }
+/* ===== WHY CREATORS ===== */
+.why-creators {
+  background: #111;
+  border-radius: 12px;
+  padding: 60px 20px;
+  text-align: center;
+  box-shadow: 0 5px 25px rgba(0,0,0,0.5);
+  transform: translateY(50px);
+  opacity: 0;
+  transition: all 1s ease-out;
+}
 
-  @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
+/* ===== FOOTER ===== */
+footer {
+  text-align: center;
+  padding: 40px 20px;
+  font-size: 0.9em;
+  color: #aaa;
+}
+footer a { color: #0066ff; margin: 0 10px; }
 
-  /* ===== HERO SECTION ===== */
-  .hero {
-    text-align: center;
-    padding: 120px 20px 80px;
-    background: linear-gradient(135deg, #0a0a0a, #1a1a1a);
-  }
+/* ===== STICKY DEMO BUTTON ===== */
+.sticky-demo-btn {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: #0066ff;
+  color: #fff;
+  padding: 15px 25px;
+  border-radius: 50px;
+  font-weight: bold;
+  text-decoration: none;
+  box-shadow: 0 5px 25px rgba(0,0,0,0.5);
+  z-index: 1000;
+  transform: translateY(100px);
+  opacity: 0;
+  transition: transform 0.5s, opacity 0.5s, background 0.3s;
+}
+.sticky-demo-btn.show { transform: translateY(0); opacity:1; }
+.sticky-demo-btn:hover { background: #0050cc; }
 
-  .hero h1 { font-size: 3em; line-height: 1.2; }
-  .hero p { font-size: 1.2em; margin-bottom: 30px; color: #ccc; }
-
-  /* ===== EARLY ACCESS ===== */
-  .early-access {
-    text-align: center;
-    background: #1a1a1a;
-    border-radius: 12px;
-    padding: 60px 20px;
-    box-shadow: 0 5px 25px rgba(0,0,0,0.5);
-  }
-
-  .early-access input { width: 60%; margin-right: 10px; }
-
-  /* ===== DEMO CALLOUT ===== */
-  .demo-callout {
-    text-align: center;
-    background: #1a1a1a;
-    border-radius: 12px;
-    padding: 60px 20px;
-    box-shadow: 0 5px 25px rgba(0,0,0,0.5);
-  }
-
-  /* ===== FEATURES CAROUSEL ===== */
-  .carousel-container {
-    overflow: hidden;
-    position: relative;
-    margin: 0 auto;
-    max-width: 1000px;
-  }
-
-  .carousel-track {
-    display: flex;
-    transition: transform 0.5s ease-in-out;
-  }
-
-  .feature-card {
-    min-width: 300px;
-    margin: 0 20px;
-    background: #222;
-    border-radius: 12px;
-    padding: 40px 20px;
-    flex-shrink: 0;
-    text-align: center;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-    transition: transform 0.3s, opacity 0.5s;
-    opacity: 0;
-    animation: slideIn 0.8s forwards;
-  }
-
-  .feature-card:hover { transform: translateY(-10px); }
-
-  .feature-icon { font-size: 3em; margin-bottom: 15px; }
-
-  @keyframes slideIn { to { opacity: 1; } }
-
-  /* ===== WHY CREATORS NEED PICAO ===== */
-  .why-creators {
-    background: #111;
-    border-radius: 12px;
-    padding: 60px 20px;
-    text-align: center;
-    box-shadow: 0 5px 25px rgba(0,0,0,0.5);
-    opacity: 0;
-    animation: fadeIn 1s forwards;
-    animation-delay: 0.6s;
-  }
-
-  .why-creators h2 { margin-bottom: 40px; }
-  .why-creators p { color: #ccc; margin-bottom: 20px; }
-
-  /* ===== FOOTER ===== */
-  footer {
-    text-align: center;
-    padding: 40px 20px;
-    font-size: 0.9em;
-    color: #aaa;
-  }
-
-  footer a { color: #f5a623; margin: 0 10px; }
-
-  /* ===== STICKY DEMO BUTTON ===== */
-  .sticky-demo-btn {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    background: #f5a623;
-    color: #0a0a0a;
-    padding: 15px 25px;
-    border-radius: 50px;
-    font-weight: bold;
-    text-decoration: none;
-    box-shadow: 0 5px 25px rgba(0,0,0,0.5);
-    z-index: 1000;
-    transition: transform 0.2s, background 0.2s;
-  }
-
-  .sticky-demo-btn:hover { background: #e5941f; transform: scale(1.05); }
-
-  @media (max-width: 768px) {
-    .feature-card { min-width: 250px; margin: 0 10px; }
-    .early-access input { width: 100%; margin-bottom: 10px; }
-    .early-access button { width: 100%; }
-    .sticky-demo-btn { bottom: 20px; right: 20px; padding: 12px 20px; }
-  }
+/* ===== MEDIA ===== */
+@media (max-width:768px){
+  .feature-card { min-width:250px; margin:0 10px;}
+  .early-access input { width:100%; margin-bottom:10px;}
+  .early-access button { width:100%;}
+  .sticky-demo-btn{bottom:20px;right:20px;padding:12px 20px;}
+}
 </style>
 </head>
 <body>
 
-<!-- HERO SECTION -->
-<section class="hero fade-in">
-  <h1>Picao — Your Creative Companion</h1>
-  <p>Generate captions, visuals, and ideas instantly, so you can focus on creating.</p>
-  <a href="demo.html"><button>Try the Demo</button></a>
+<!-- NAV -->
+<div class="navbar">
+  <a href="#features">Features</a>
+  <a href="#why">Why Picao</a>
+  <a href="#demo">Demo</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <canvas id="heroCanvas"></canvas>
+  <h1>Picao — Tools for Creators</h1>
+  <p>Generate captions, visuals, and fresh ideas instantly.</p>
+  <a href="#demo"><button>Try the Demo</button></a>
 </section>
 
-<!-- EARLY ACCESS / GOOGLE FORM ENTRY -->
-<section class="container fade-in-delay">
+<!-- EARLY ACCESS -->
+<section class="container" id="early-access">
   <div class="early-access">
-    <h2>Join Early Access</h2>
-    <p>Enter your email to get early access to Picao.</p>
+    <div id="formSuccess">✓ Thanks! We’ve received your entry.</div>
+    <h2>Get Early Access</h2>
+    <p>Enter your email to be among the first to try Picao.</p>
     <form id="earlyAccessForm">
       <input type="email" id="userEmail" placeholder="Enter your email" required />
       <button type="submit">Join Now</button>
     </form>
-    <p id="formMessage" style="margin-top:10px; color:#f5a623;"></p>
   </div>
 </section>
 
-<!-- DEMO CALLOUT -->
-<section class="container fade-in-delay">
+<!-- DEMO -->
+<section class="container" id="demo">
   <div class="demo-callout">
-    <h2>See Picao in Action</h2>
-    <p>Type a prompt and watch your ideas come alive instantly.</p>
+    <h2>Launch the Demo</h2>
+    <p>Type a prompt to see Picao in action instantly.</p>
     <a href="demo.html"><button>Launch Demo</button></a>
   </div>
 </section>
 
 <!-- FEATURES CAROUSEL -->
-<section class="container fade-in-delay">
+<section class="container" id="features">
   <h2 style="text-align:center; margin-bottom:40px;">Features</h2>
   <div class="carousel-container">
     <div class="carousel-track">
-      <div class="feature-card"><div class="feature-icon">💬</div><h3>Captions</h3><p>Generate captions for photos and posts in seconds.</p></div>
-      <div class="feature-card"><div class="feature-icon">🎨</div><h3>Visual Concepts</h3><p>Transform ideas into visuals and sketches quickly.</p></div>
-      <div class="feature-card"><div class="feature-icon">💡</div><h3>Idea Brainstorm</h3><p>Brainstorm new project or campaign ideas instantly.</p></div>
-      <div class="feature-card"><div class="feature-icon">📈</div><h3>Marketing Prompts</h3><p>Create content prompts for marketing and social media.</p></div>
+      <!-- Example SVG icons -->
+      <div class="feature-card"><div class="feature-icon"><svg viewBox="0 0 64 64"><path d="M32 0 L64 64 H0 Z"/></svg></div><h3>Smart Captions</h3><p>Generate captions instantly.</p></div>
+      <div class="feature-card"><div class="feature-icon"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="32"/></svg></div><h3>Visual Concepts</h3><p>Turn ideas into visuals quickly.</p></div>
+      <div class="feature-card"><div class="feature-icon"><svg viewBox="0 0 64 64"><rect width="64" height="64"/></svg></div><h3>Idea Brainstorm</h3><p>Spark new project ideas.</p></div>
+      <div class="feature-card"><div class="feature-icon"><svg viewBox="0 0 64 64"><polygon points="32,0 64,64 0,64"/></svg></div><h3>Marketing Prompts</h3><p>Create social & marketing prompts.</p></div>
     </div>
   </div>
 </section>
 
-<!-- WHY CREATORS NEED PICAO -->
-<section class="container">
+<!-- WHY CREATORS -->
+<section class="container" id="why">
   <div class="why-creators">
     <h2>Why Creators Need Picao</h2>
-    <p>Save hours brainstorming and content creation by generating captions, visuals, and ideas instantly.</p>
-    <p>Focus on what matters: bringing your vision to life, while Picao handles repetitive tasks.</p>
-    <p>Works seamlessly with your workflow — no technical skills required.</p>
+    <p>Save hours on brainstorming and repetitive tasks so you can focus on creating.</p>
+    <p>Picao integrates seamlessly into your workflow and helps produce high-quality content faster.</p>
+    <p>Perfect for creators, marketers, and founders looking to scale output efficiently.</p>
   </div>
 </section>
 
 <!-- FOOTER -->
 <footer>
   <p>© 2026 Picao. All rights reserved.</p>
-  <p><a href="demo.html">Demo</a> | <a href="https://github.com/your-username/picao-vercel-backend">GitHub</a> | <a href="mailto:contact@picaoai.com">Contact</a></p>
+  <p><a href="#demo">Demo</a> | <a href="https://github.com/your-username/picao-vercel-backend">GitHub</a> | <a href="mailto:contact@picaoai.com">Contact</a></p>
 </footer>
 
 <!-- STICKY DEMO BUTTON -->
-<a href="demo.html" class="sticky-demo-btn">Try Demo</a>
+<a href="#demo" class="sticky-demo-btn">Try Demo</a>
 
-<!-- ===== GOOGLE FORM SUBMISSION SCRIPT ===== -->
+<!-- ===== SCRIPTS ===== -->
 <script>
-  const form = document.getElementById('earlyAccessForm');
-  const emailInput = document.getElementById('userEmail');
-  const message = document.getElementById('formMessage');
+// ===== HERO PARTICLES =====
+const canvas = document.getElementById('heroCanvas');
+const ctx = canvas.getContext('2d');
+let width, height, particles=[];
+function resizeCanvas(){width=canvas.width=window.innerWidth;height=canvas.height=window.innerHeight; initParticles();}
+window.addEventListener('resize',resizeCanvas);
 
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const email = emailInput.value.trim();
-    if (!email) return;
-
-    const formId = '1FAIpQLSfvy2ZL9P3bcFx24ck1W3hi0Q_8jG3-U-02AqEN09d_rLUSVA';
-    const entryId = 'entry.505288260';
-
-    const url = `https://docs.google.com/forms/d/e/${1FAIpQLSfvy2ZL9P3bcFx24ck1W3hi0Q_8jG3-U-02AqEN09d_rLUSVA}/formResponse`;
-    const data = new FormData();
-    data.append(entryId, email);
-
-    fetch(url, { method: 'POST', mode: 'no-cors', body: data })
-      .then(() => {
-        message.innerText = "Thanks! We’ve received your entry.";
-        emailInput.value = '';
-      })
-      .catch(() => {
-        message.innerText = "Oops! Something went wrong. Try again.";
-      });
-  });
-</script>
-
-<!-- ===== FEATURES CAROUSEL SCRIPT ===== -->
-<script>
-  const track = document.querySelector('.carousel-track');
-  const cards = document.querySelectorAll('.feature-card');
-  let index = 0;
-  const cardWidth = cards[0].offsetWidth + 40; // width + margin
-  const total = cards.length;
-
-  function autoSlide() {
-    index++;
-    if (index > total - 3) index = 0; // show 3 at a time
-    track.style.transform = `translateX(-${index * cardWidth}px)`;
+function initParticles(){
+  particles=[];
+  for(let i=0;i<80;i++){
+    particles.push({x:Math.random()*width,y:Math.random()*height,r:Math.random()*2+1,dx:(Math.random()-0.5)*0.3,dy:(Math.random()-0.5)*0.3});
   }
-
-  // Animate initial cards fade-in
-  cards.forEach((card, i) => {
-    card.style.animationDelay = `${0.3 + i*0.2}s`;
+}
+function drawParticles(){
+  ctx.clearRect(0,0,width,height);
+  ctx.fillStyle='rgba(0,102,255,0.5)';
+  particles.forEach(p=>{
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fill();
+    p.x+=p.dx;p.y+=p.dy;
+    if(p.x<0)p.x=width;if(p.x>width)p.x=0;
+    if(p.y<0)p.y=height;if(p.y>height)p.y=0;
   });
+  requestAnimationFrame(drawParticles);
+}
+resizeCanvas();
+drawParticles();
 
-  setInterval(autoSlide, 3000); // slide every 3 seconds
+// ===== EARLY ACCESS FORM =====
+const form=document.getElementById('earlyAccessForm');
+const emailInput=document.getElementById('userEmail');
+const success=document.getElementById('formSuccess');
+
+form.addEventListener('submit',e=>{
+  e.preventDefault();
+  const email=emailInput.value.trim();
+  if(!email)return;
+  const formId='1FAIpQLSfvy2ZL9P3bcFx24ck1W3hi0Q_8jG3-U-02AqEN09d_rLUSVA';
+  const entryId='entry.505288260';
+  const url=`https://docs.google.com/forms/d/e/${1FAIpQLSfvy2ZL9P3bcFx24ck1W3hi0Q_8jG3-U-02AqEN09d_rLUSVA}/formResponse`;
+  const data=new FormData();
+  data.append(entryId,email);
+  fetch(url,{method:'POST',mode:'no-cors',body:data})
+    .then(()=>{success.style.opacity=1; setTimeout(()=>success.style.opacity=0,2500); emailInput.value='';})
+    .catch(()=>{alert("Oops! Something went wrong.")});
+});
+
+// ===== CAROUSEL =====
+const track=document.querySelector('.carousel-track');
+const cards=document.querySelectorAll('.feature-card');
+let index=0;
+const cardWidth=cards[0].offsetWidth+40;
+const total=cards.length;
+function autoSlide(){index++; if(index>total-3)index=0; track.style.transform=`translateX(-${index*cardWidth}px)`;}
+setInterval(autoSlide,3000);
+
+// ===== SCROLL TRIGGERED =====
+const faders=document.querySelectorAll('.fade-in');
+const options={threshold:0.2};
+const appearOnScroll=new IntersectionObserver(function(entries,observer){
+  entries.forEach(entry=>{
+    if(!entry.isIntersecting) return;
+    entry.target.classList.add('show');
+    observer.unobserve(entry.target);
+  });
+}, options);
+faders.forEach(fader=>appearOnScroll.observe(fader));
+
+const whySection=document.querySelector('.why-creators');
+const whyObserver=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      entry.target.style.opacity=1;
+      entry.target.style.transform='translateY(0)';
+    }
+  });
+},{threshold:0.2});
+whyObserver.observe(whySection);
+
+// ===== STICKY BUTTON ANIMATION =====
+window.addEventListener('load',()=>document.querySelector('.sticky-demo-btn').classList.add('show'));
 </script>
-
 </body>
 </html>
