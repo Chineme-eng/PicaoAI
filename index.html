@@ -31,6 +31,10 @@
         }
 
         .glass-nav { background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(10px); }
+
+        /* Typewriter Cursor */
+        .cursor { display: inline-block; width: 3px; background-color: #3b82f6; margin-left: 4px; animation: blink 1s infinite; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
     </style>
 </head>
 <body>
@@ -42,8 +46,8 @@
                 <span class="text-xl font-black tracking-tighter text-black uppercase">PICAO AI</span>
             </div>
             <div class="hidden md:flex gap-8 text-[10px] font-bold uppercase tracking-[0.2em] text-gray-500">
-                <a href="#vision" class="hover:text-blue-600 transition">Vision</a>
                 <a href="#product" class="hover:text-blue-600 transition">Product</a>
+                <a href="#testimonials" class="hover:text-blue-600 transition">Proof</a>
                 <a href="#waitlist" class="hover:text-blue-600 transition">Waitlist</a>
             </div>
             <button onclick="document.getElementById('waitlist').scrollIntoView()" class="bg-blue-600 text-white px-6 py-2 rounded-full font-bold text-sm hover:bg-black transition">Request Demo</button>
@@ -57,61 +61,72 @@
             </video>
         </div>
         <h1 class="text-6xl md:text-9xl font-black tracking-tighter mb-6 leading-none">
-            VOICE TO <br><span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">MAGIC.</span>
+            VOICE TO <br><span id="typewriter" class="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500"></span><span class="cursor">|</span>
         </h1>
         <p class="text-gray-400 max-w-xl text-lg mb-10 leading-relaxed">
-            The #1 AI Creator Assistant. We turn rough ideas into viral content. No more context switching. Just creation.
+            The #1 AI Creator Assistant. Picao AI helps creators and builders ideate, create, and launch faster by combining multiple powerful AI tools into one unified workspace.
         </p>
     </section>
 
-    <section id="product" class="py-24 px-6 max-w-7xl mx-auto">
+    <section id="product" class="py-24 px-6 max-w-7xl mx-auto border-t border-white/5">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div class="md:col-span-2 bento-item p-10 rounded-[3rem] relative overflow-hidden h-[400px]">
                 <div class="relative z-10">
-                    <span class="text-blue-500 font-bold text-xs uppercase tracking-widest">Dashboard v1.0</span>
-                    <h3 class="text-4xl font-bold mt-4 mb-4">Unified Creator OS</h3>
-                    <p class="text-gray-400 max-w-xs">Every tool you need, floating in one workspace. From script to voiceover in 60 seconds.</p>
+                    <span class="text-blue-500 font-bold text-xs uppercase tracking-widest">Unified OS</span>
+                    <h3 class="text-4xl font-bold mt-4 mb-4">The Creator Workflow, Solved.</h3>
+                    <p class="text-gray-400 max-w-xs">Stop wasting hours on scripts and edits. Turn a rough idea or voice memo into ready-to-post content.</p>
                 </div>
                 <div class="absolute -right-20 -bottom-20 w-80 h-80 bg-blue-600/20 blur-[100px] rounded-full"></div>
-                <div class="absolute right-10 bottom-10 w-64 h-40 bg-white/5 border border-white/10 rounded-2xl floating"></div>
             </div>
-
-            <div class="bento-item p-8 rounded-[3rem] flex flex-col justify-between">
-                <i data-lucide="mic" class="text-purple-500 w-10 h-10"></i>
-                <div>
-                    <h4 class="text-xl font-bold mb-2">Voice Input</h4>
-                    <p class="text-gray-400 text-sm">Just speak. We handle the formatting.</p>
-                </div>
-            </div>
-
             <div class="bento-item p-8 rounded-[3rem] flex flex-col justify-between">
                 <i data-lucide="zap" class="text-yellow-500 w-10 h-10"></i>
                 <div>
                     <h4 class="text-xl font-bold mb-2">75% Faster</h4>
-                    <p class="text-gray-400 text-sm">Kill the administrative lag.</p>
+                    <p class="text-gray-400 text-sm">Automate the tedious parts of the process.</p>
                 </div>
             </div>
+        </div>
+    </section>
 
-            <div class="md:col-span-2 bento-item p-10 rounded-[3rem] flex items-center justify-between overflow-hidden">
-                <div class="max-w-xs">
-                    <h4 class="text-2xl font-bold mb-2">Multi-Platform Export</h4>
-                    <p class="text-gray-400 text-sm">TikTok, Reels, Shorts. One click to rule them all.</p>
+    <section id="testimonials" class="py-24 px-6 bg-slate-900/50">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-4xl font-black text-center mb-16 uppercase tracking-tight">Trusted by Builders</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bento-item p-8 rounded-[2.5rem]">
+                    <div class="flex gap-1 mb-4 text-yellow-500"><i data-lucide="star" class="fill-current w-4 h-4"></i><i data-lucide="star" class="fill-current w-4 h-4"></i><i data-lucide="star" class="fill-current w-4 h-4"></i><i data-lucide="star" class="fill-current w-4 h-4"></i><i data-lucide="star" class="fill-current w-4 h-4"></i></div>
+                    <p class="text-gray-300 italic mb-6">"Picao AI literally saved me 10 hours a week on script writing. It's like having a full-time producer for $19."</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-blue-500"></div>
+                        <div><p class="font-bold text-sm">Alex Rivera</p><p class="text-xs text-gray-500">Tech Content Creator</p></div>
+                    </div>
                 </div>
-                <div class="flex gap-2">
-                    <div class="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center"><i data-lucide="instagram" class="w-5 h-5"></i></div>
-                    <div class="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center"><i data-lucide="youtube" class="w-5 h-5"></i></div>
+                <div class="bento-item p-8 rounded-[2.5rem]">
+                    <div class="flex gap-1 mb-4 text-yellow-500"><i data-lucide="star" class="fill-current w-4 h-4"></i><i data-lucide="star" class="fill-current w-4 h-4"></i><i data-lucide="star" class="fill-current w-4 h-4"></i><i data-lucide="star" class="fill-current w-4 h-4"></i><i data-lucide="star" class="fill-current w-4 h-4"></i></div>
+                    <p class="text-gray-300 italic mb-6">"The voice-to-script feature is a game changer for faceless creators. Best investment I've made this year."</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-purple-500"></div>
+                        <div><p class="font-bold text-sm">Sarah Chen</p><p class="text-xs text-gray-500">YouTube Automator</p></div>
+                    </div>
+                </div>
+                <div class="bento-item p-8 rounded-[2.5rem]">
+                    <div class="flex gap-1 mb-4 text-yellow-500"><i data-lucide="star" class="fill-current w-4 h-4"></i><i data-lucide="star" class="fill-current w-4 h-4"></i><i data-lucide="star" class="fill-current w-4 h-4"></i><i data-lucide="star" class="fill-current w-4 h-4"></i><i data-lucide="star" class="fill-current w-4 h-4"></i></div>
+                    <p class="text-gray-300 italic mb-6">"Finally, an AI tool that understands the actual chaos of creating content and fixes it."</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-green-500"></div>
+                        <div><p class="font-bold text-sm">Jordan Lee</p><p class="text-xs text-gray-500">Growth Marketer</p></div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <section id="waitlist" class="py-32 px-6">
-        <div class="max-w-4xl mx-auto bg-white p-16 rounded-[4rem] text-center text-black shadow-[0_0_100px_rgba(59,130,246,0.2)]">
-            <h2 class="text-5xl font-black mb-6">Ready to launch?</h2>
-            <p class="text-gray-500 mb-10">Join 2,400+ creators waiting for the Picao private beta.</p>
-            <form class="flex flex-col md:flex-row gap-3 max-w-md mx-auto">
-                <input type="email" placeholder="Email address" class="flex-1 px-6 py-4 rounded-2xl bg-gray-100 border-none outline-none focus:ring-2 ring-blue-500 transition">
-                <button class="bg-black text-white px-8 py-4 rounded-2xl font-bold hover:scale-105 transition">Join Now</button>
+        <div class="max-w-4xl mx-auto bg-white p-16 rounded-[4rem] text-center text-black shadow-2xl">
+            <h2 class="text-5xl font-black mb-6">Secure Your Early Access</h2>
+            <p class="text-gray-500 mb-10">Join the next cohort of creators automating their success.</p>
+            <form onsubmit="event.preventDefault(); alert('Joined Waitlist!')" class="flex flex-col md:flex-row gap-3 max-w-md mx-auto">
+                <input type="email" placeholder="Email address" class="flex-1 px-6 py-4 rounded-2xl bg-gray-100 border-none outline-none">
+                <button class="bg-blue-600 text-white px-8 py-4 rounded-2xl font-bold hover:scale-105 transition">Join Now</button>
             </form>
         </div>
     </section>
@@ -122,6 +137,26 @@
 
     <script>
         lucide.createIcons();
+
+        // Typewriter Effect
+        const words = ["MAGIC.", "REELS.", "SHORTS.", "VIRAL."];
+        let i = 0; let j = 0; let currentWord = ""; let isDeleting = false;
+        const typeTarget = document.getElementById("typewriter");
+
+        function type() {
+            currentWord = words[i];
+            if (isDeleting) {
+                typeTarget.textContent = currentWord.substring(0, j - 1);
+                j--;
+                if (j === 0) { isDeleting = false; i = (i + 1) % words.length; }
+            } else {
+                typeTarget.textContent = currentWord.substring(0, j + 1);
+                j++;
+                if (j === currentWord.length) { isDeleting = true; setTimeout(type, 2000); return; }
+            }
+            setTimeout(type, isDeleting ? 100 : 200);
+        }
+        type();
     </script>
 </body>
 </html>
