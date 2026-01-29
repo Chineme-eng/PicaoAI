@@ -3,123 +3,156 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Picao AI | Intelligence Terminal</title>
+    <title>Picao AI | Neural Terminal</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root { --bg: #020617; --text: #ffffff; --accent: #3b82f6; --card: rgba(255, 255, 255, 0.03); }
         .light-theme { --bg: #f8fafc; --text: #0f172a; --accent: #2563eb; --card: #ffffff; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--bg); color: var(--text); min-height: 100vh; transition: 0.5s; overflow-x: hidden; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--bg); color: var(--text); min-height: 100vh; transition: 0.5s; overflow: hidden; }
+        
         .glass-panel { background: var(--card); backdrop-filter: blur(40px); border: 1px solid rgba(255, 255, 255, 0.08); }
         
-        /* THE STEPPER */
-        .step-pill { padding: 6px 16px; border-radius: 99px; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; border: 1px solid rgba(255,255,255,0.1); opacity: 0.3; transition: 0.5s; }
-        .step-active { opacity: 1; border-color: var(--accent); color: var(--accent); box-shadow: 0 0 15px rgba(59,130,246,0.2); }
+        /* WAVEFORM ANIMATION */
+        .wave-container { display: flex; align-items: center; gap: 3px; height: 60px; }
+        .wave-bar { width: 4px; height: 10px; background: var(--accent); border-radius: 99px; }
+        .wave-active .wave-bar { animation: wave 1s ease-in-out infinite; }
+        @keyframes wave { 0%, 100% { height: 10px; } 50% { height: 50px; } }
 
-        /* MOCKUPS */
-        .phone-mockup { width: 260px; height: 500px; border: 10px solid #1e293b; border-radius: 3rem; position: relative; overflow: hidden; background: #000; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); }
-        .desktop-mockup { width: 100%; max-width: 500px; height: 320px; border: 10px solid #1e293b; border-radius: 1.5rem; overflow: hidden; background: #fff; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); }
+        /* HUD METRICS */
+        .metric-glow { text-shadow: 0 0 10px var(--accent); }
         
-        @keyframes pulse-mic { 0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.5); } 70% { box-shadow: 0 0 0 20px rgba(59, 130, 246, 0); } 100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); } }
-        .mic-active { animation: pulse-mic 2s infinite; }
+        /* MOCKUP SWITCHER */
+        .preview-container { perspective: 1000px; transition: transform 0.6s; }
+        .view-viral #tiktok-mock { display: block; }
+        .view-viral #linkedin-mock { display: none; }
+        .view-pro #tiktok-mock { display: none; }
+        .view-pro #linkedin-mock { display: block; }
         
-        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
+        .mode-btn.active { background: var(--accent); color: white; border-color: var(--accent); box-shadow: 0 0 20px rgba(59, 130, 246, 0.4); }
     </style>
 </head>
-<body id="demo-body" class="p-4 md:p-10 flex items-center justify-center">
+<body id="demo-body" class="p-6 flex items-center justify-center">
 
-    <div class="w-full max-w-7xl glass-panel rounded-[4rem] p-8 md:p-12 flex flex-col relative min-h-[85vh]">
+    <div class="w-full max-w-7xl h-[90vh] glass-panel rounded-[4rem] p-8 flex flex-col relative">
         
-        <div class="flex justify-between items-center mb-12">
+        <div class="flex justify-between items-center mb-10 border-b border-white/5 pb-6">
             <div class="flex items-center gap-4">
                 <img src="Picao-Logo.png" class="w-10 h-10">
                 <div>
-                    <h1 class="text-sm font-black tracking-tighter">PICAO TERMINAL</h1>
-                    <p class="text-[9px] opacity-40 uppercase tracking-widest">Neural Link: Active</p>
+                    <h1 class="text-xs font-black tracking-widest uppercase">Neural Terminal v2.0</h1>
+                    <div class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div><p class="text-[9px] opacity-40 font-bold">FOUNDER CHANNEL ENCRYPTED</p></div>
                 </div>
             </div>
-            <div class="flex gap-4">
-                <div id="step-1" class="step-pill step-active">Input</div>
-                <div id="step-2" class="step-pill">Refract</div>
-                <div id="step-3" class="step-pill">Deploy</div>
-                <button onclick="toggleTheme()" class="ml-4 p-2 glass-panel rounded-full"><i id="theme-icon" data-lucide="sun" class="w-4 h-4"></i></button>
+            
+            <div class="flex items-center gap-8">
+                <div class="text-right">
+                    <p class="text-[9px] font-black opacity-30 uppercase tracking-[0.2em]">Efficiency Rating</p>
+                    <p class="text-lg font-black metric-glow">98.4%</p>
+                </div>
+                <button onclick="toggleTheme()" class="p-3 glass-panel rounded-2xl hover:scale-110 transition"><i id="theme-icon" data-lucide="sun" class="w-5 h-5"></i></button>
             </div>
         </div>
 
-        <div id="main-stage" class="flex-1 flex flex-col items-center justify-center">
+        <div id="demo-content" class="flex-1 flex flex-col items-center justify-center">
             
-            <div id="view-capture" class="text-center max-w-xl">
-                <h2 class="text-5xl font-black mb-6 italic leading-tight">Speak your <span class="text-blue-500">vision.</span></h2>
-                <p class="opacity-40 text-sm mb-12 leading-relaxed font-medium">Test the "Founder's Blend" logic: Our engine will process thoughts on the 40-hour week, the Context Tax, and 15x Content Velocity.</p>
+            <div id="state-start" class="text-center max-w-2xl">
+                <h2 class="text-6xl font-black italic mb-6 leading-tight">Test the <span class="text-blue-500">Refraction.</span></h2>
+                <p class="text-sm opacity-40 mb-12 font-medium">Click to simulate the "Founder's Blend" voice memo: A 2-minute thought on the 40-hour week and Context Tax.</p>
                 
-                <button onclick="startProcessing()" id="action-btn" class="w-32 h-32 bg-blue-600 rounded-full flex items-center justify-center mic-active hover:scale-105 transition shadow-2xl">
-                    <i data-lucide="mic" class="w-12 h-12 text-white"></i>
+                <div class="wave-container mb-12 justify-center" id="wave">
+                    </div>
+
+                <button onclick="startRefraction()" id="main-action" class="group relative inline-flex items-center justify-center p-8 bg-blue-600 rounded-full shadow-2xl hover:scale-110 transition">
+                    <i data-lucide="mic" class="w-12 h-12 text-white group-hover:animate-pulse"></i>
                 </button>
-                <p class="mt-8 text-[10px] font-black uppercase tracking-[0.3em] opacity-30">Press to Begin Transmission</p>
             </div>
 
-            <div id="view-neural" class="hidden w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                <div class="relative h-64 flex items-center justify-center">
-                    <div class="absolute w-48 h-48 border-2 border-blue-500/20 rounded-full animate-ping"></div>
-                    <div class="absolute w-32 h-32 border-2 border-blue-500/40 rounded-full animate-pulse"></div>
-                    <i data-lucide="brain-circuit" class="w-16 h-16 text-blue-500 relative z-10"></i>
-                </div>
-                <div class="space-y-6">
-                    <div id="log-container" class="font-mono text-[11px] space-y-2 opacity-60">
-                        <p class="text-blue-400">> ANALYZING VOICE METRICS...</p>
-                        <p class="text-white">> TRANSCRIPT: "The 40-hour week is dead... Context Tax... 15x output..."</p>
-                        <p class="text-blue-400">> DETECTING THEMATIC CLUSTERS: [TIME ECONOMICS], [SYSTEMS], [OUTPUT VELOCITY]</p>
-                        <p class="text-white">> REFRACTING INTO 5 PLATFORM ARCHETYPES...</p>
+            <div id="state-processing" class="hidden w-full max-w-4xl">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                    <div class="space-y-4 font-mono text-xs">
+                        <div id="stream-text" class="p-6 glass-panel rounded-3xl min-h-[150px] border-l-4 border-blue-500 bg-blue-500/5 leading-relaxed">
+                            </div>
+                        <div class="flex items-center gap-3 px-4"><div class="neural-pulse"></div><p class="opacity-40 uppercase text-[9px] font-bold tracking-widest">Logic Mapping in Progress...</p></div>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <i data-lucide="split" class="w-20 h-20 text-blue-500 animate-pulse mb-6"></i>
+                        <p class="text-center text-sm opacity-60">Picao is identifying 12 unique "Context Anchors" to refract your thought across the ecosystem.</p>
                     </div>
                 </div>
             </div>
 
-            <div id="view-deploy" class="hidden w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-                
-                <div class="flex flex-col items-center gap-6">
-                    <span class="text-[10px] font-black uppercase tracking-widest opacity-40">Short-Form Refraction</span>
-                    <div class="phone-mockup">
-                        <div class="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/90 p-6 flex flex-col justify-end">
-                            <div class="flex items-center gap-2 mb-4">
-                                <div class="w-8 h-8 rounded-full bg-blue-600 border border-white/20"></div>
-                                <p class="text-[11px] font-bold text-white">Founder @ Picao</p>
+            <div id="state-results" class="hidden w-full h-full flex flex-col">
+                <div class="flex justify-center gap-4 mb-10">
+                    <button onclick="switchMode('viral')" id="btn-viral" class="mode-btn active px-8 py-3 rounded-full border border-white/10 text-[10px] font-black uppercase tracking-widest transition-all">Viral (TikTok/Reels)</button>
+                    <button onclick="switchMode('pro')" id="btn-pro" class="mode-btn px-8 py-3 rounded-full border border-white/10 text-[10px] font-black uppercase tracking-widest transition-all">Professional (LinkedIn)</button>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+                    <div class="glass-panel p-8 rounded-[3rem] space-y-8 order-2 lg:order-1">
+                        <div>
+                            <p class="text-[10px] font-black uppercase opacity-30 mb-2">Time Reclaimed</p>
+                            <p class="text-4xl font-black text-green-500 tracking-tighter">+4.2 hrs</p>
+                        </div>
+                        <div class="h-px bg-white/5"></div>
+                        <div>
+                            <p class="text-[10px] font-black uppercase opacity-30 mb-4">Content Refraction Density</p>
+                            <div class="space-y-3">
+                                <div class="flex justify-between text-[10px] font-bold"><span>Short-form</span><span>95%</span></div>
+                                <div class="w-full bg-white/5 h-1 rounded-full"><div class="bg-blue-500 h-full w-[95%]"></div></div>
+                                <div class="flex justify-between text-[10px] font-bold"><span>Professional</span><span>88%</span></div>
+                                <div class="w-full bg-white/5 h-1 rounded-full"><div class="bg-blue-500 h-full w-[88%]"></div></div>
                             </div>
-                            <p class="text-white text-sm font-bold leading-snug mb-4">"You're not lazy. You're just paying the Context Tax. 💸 Switching from 'Creator' to 'Admin' takes 23 mins to recover. Here's how I used Picao to reclaim my 40-hour week..."</p>
-                            <div class="flex gap-2">
-                                <span class="bg-blue-600/50 backdrop-blur-md px-2 py-1 rounded text-[8px] font-bold uppercase">#Systems</span>
-                                <span class="bg-white/10 backdrop-blur-md px-2 py-1 rounded text-[8px] font-bold uppercase">#YC2026</span>
+                        </div>
+                        <a href="index.html" class="block text-center bg-white text-black py-4 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-blue-600 hover:text-white transition">Claim March Slot</a>
+                    </div>
+
+                    <div class="lg:col-span-2 flex justify-center order-1 lg:order-2" id="preview-wrapper">
+                        <div id="tiktok-mock" class="fade-in">
+                            <div class="w-[300px] h-[580px] border-[12px] border-slate-900 rounded-[3rem] bg-black relative overflow-hidden shadow-2xl">
+                                <div class="absolute inset-0 bg-gradient-to-b from-black/20 to-black/90 p-8 flex flex-col justify-end">
+                                    <div class="flex items-center gap-3 mb-4">
+                                        <div class="w-10 h-10 rounded-full bg-blue-600 border-2 border-white/20"></div>
+                                        <p class="font-black text-sm text-white">Founder @ Picao</p>
+                                    </div>
+                                    <p class="text-white text-base font-bold leading-tight mb-6">"The 40-hour week is a legacy system. 🛑 You're losing 23 mins every time you switch apps. That's the Context Tax. Reclaim your time with Refraction."</p>
+                                    <div class="flex gap-2">
+                                        <span class="bg-white/10 backdrop-blur-md px-3 py-1.5 rounded-full text-[9px] font-black uppercase">#ContextTax</span>
+                                        <span class="bg-blue-600 px-3 py-1.5 rounded-full text-[9px] font-black uppercase">#2026Shift</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="linkedin-mock" class="hidden fade-in w-full max-w-xl">
+                            <div class="glass-panel p-10 rounded-[3rem] border-white/10 shadow-2xl">
+                                <div class="flex items-center gap-4 mb-8">
+                                    <div class="w-14 h-14 rounded-2xl bg-blue-600"></div>
+                                    <div><p class="font-black text-xl text-slate-900 dark:text-white">Picao Intelligence</p><p class="text-xs opacity-40 font-bold uppercase">Series A Founder Strategy</p></div>
+                                </div>
+                                <h3 class="text-2xl font-black mb-6 leading-tight italic">Why Your Creative Output Has Plateaued.</h3>
+                                <p class="text-base opacity-70 leading-relaxed mb-8">We've audited 500+ founder workflows. The bottleneck isn't talent; it's the <strong>Administrative Context Tax</strong>. To scale in 2026, you must stop "creating" and start "refracting." One 2-minute thought, distributed across every platform.</p>
+                                <div class="flex gap-4"><div class="h-10 w-24 bg-blue-600/10 rounded-xl"></div><div class="h-10 w-24 bg-blue-600/10 rounded-xl"></div></div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <div class="flex flex-col items-center gap-6">
-                    <span class="text-[10px] font-black uppercase tracking-widest opacity-40">Professional Refraction</span>
-                    <div class="desktop-mockup p-8 flex flex-col">
-                        <div class="flex items-center gap-3 mb-6">
-                            <div class="w-10 h-10 rounded-lg bg-blue-600"></div>
-                            <div><p class="text-xs font-black text-slate-900">Founder @ Picao AI</p><p class="text-[9px] text-slate-400 uppercase">34,102 followers</p></div>
-                        </div>
-                        <h3 class="text-slate-900 font-bold text-sm mb-3">The "Context Tax" is the silent killer of Series A startups.</h3>
-                        <p class="text-[11px] text-slate-600 leading-relaxed mb-4">We've analyzed 500+ creator workflows. The data is clear: the 40-hour work week is a legacy system. Modern velocity requires **Refraction Logic**—turning 1 thought into 15 assets. That's why we built Picao.</p>
-                        <div class="mt-auto flex gap-4"><div class="h-6 w-16 bg-slate-100 rounded-md"></div><div class="h-6 w-16 bg-slate-100 rounded-md"></div></div>
-                    </div>
-                    
-                    <div class="w-full max-w-md glass-panel p-6 rounded-3xl mt-4">
-                        <p class="text-[10px] font-black uppercase tracking-widest text-blue-500 mb-2">Waitlist Utility</p>
-                        <p class="text-xs opacity-60 leading-relaxed">This refraction saved you **4.2 hours** of manual scripting. Ready to automate your entire March roadmap?</p>
-                        <a href="index.html" class="mt-4 block text-center bg-blue-600 text-white py-3 rounded-xl font-bold text-xs uppercase tracking-widest">Claim March Slot</a>
-                    </div>
-                </div>
-
             </div>
         </div>
     </div>
 
     <script>
         lucide.createIcons();
+        
+        // Generate Wave Bars
+        const wave = document.getElementById('wave');
+        for(let i=0; i<20; i++) {
+            const bar = document.createElement('div');
+            bar.className = 'wave-bar';
+            bar.style.animationDelay = (i * 0.1) + 's';
+            wave.appendChild(bar);
+        }
+
         function toggleTheme() {
             document.getElementById('demo-body').classList.toggle('light-theme');
             const icon = document.getElementById('theme-icon');
@@ -127,26 +160,48 @@
             lucide.createIcons();
         }
 
-        function startProcessing() {
-            const btn = document.getElementById('action-btn');
-            btn.classList.remove('mic-active');
-            btn.innerHTML = `<i data-lucide="loader" class="w-10 h-10 text-white animate-spin"></i>`;
+        function startRefraction() {
+            document.getElementById('wave').classList.add('wave-active');
+            document.getElementById('main-action').innerHTML = `<i data-lucide="loader" class="w-12 h-12 text-white animate-spin"></i>`;
             lucide.createIcons();
 
             setTimeout(() => {
-                document.getElementById('step-1').classList.remove('step-active');
-                document.getElementById('step-2').classList.add('step-active');
-                document.getElementById('view-capture').classList.add('hidden');
-                document.getElementById('view-neural').classList.remove('hidden');
-                
-                // Final reveal after "Refraction"
-                setTimeout(() => {
-                    document.getElementById('step-2').classList.remove('step-active');
-                    document.getElementById('step-3').classList.add('step-active');
-                    document.getElementById('view-neural').classList.add('hidden');
-                    document.getElementById('view-deploy').classList.remove('hidden');
-                }, 4000);
+                document.getElementById('state-start').classList.add('hidden');
+                document.getElementById('state-processing').classList.remove('hidden');
+                streamText();
             }, 1500);
+        }
+
+        function streamText() {
+            const fullText = "THE 40-HOUR WEEK IS A RELIC. EVERY TIME YOU SWITCH FROM CREATIVE FOCUS TO ADMINISTRATIVE LAG, YOU ARE PAYING THE CONTEXT TAX. PICAO IDENTIFIES THESE LEAKAGES AND REFRACTS YOUR CORE THOUGHTS INTO A MULTI-PLATFORM ECOSYSTEM AUTOMATICALLY.";
+            const target = document.getElementById('stream-text');
+            let i = 0;
+            const timer = setInterval(() => {
+                target.innerText += fullText[i];
+                i++;
+                if(i === fullText.length) {
+                    clearInterval(timer);
+                    setTimeout(() => {
+                        document.getElementById('state-processing').classList.add('hidden');
+                        document.getElementById('state-results').classList.remove('hidden');
+                    }, 1000);
+                }
+            }, 20);
+        }
+
+        function switchMode(mode) {
+            const vBtn = document.getElementById('btn-viral');
+            const pBtn = document.getElementById('btn-pro');
+            const tik = document.getElementById('tiktok-mock');
+            const lin = document.getElementById('linkedin-mock');
+
+            if(mode === 'viral') {
+                vBtn.classList.add('active'); pBtn.classList.remove('active');
+                tik.classList.remove('hidden'); lin.classList.add('hidden');
+            } else {
+                pBtn.classList.add('active'); vBtn.classList.remove('active');
+                lin.classList.remove('hidden'); tik.classList.add('hidden');
+            }
         }
     </script>
 </body>
