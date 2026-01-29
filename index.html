@@ -3,41 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Picao AI | Voice to Content</title>
+    <title>Picao AI | The Creator OS for 2026</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <style>
+        :root { --picao-blue: #3b82f6; }
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #020617; color: #ffffff; overflow-x: hidden; }
         
-        /* Floating Animation */
-        @keyframes float { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-20px) rotate(2deg); } }
-        .floating { animation: float 6s ease-in-out infinite; }
+        /* PARALLAX MOUSE GLOW */
+        #cursor-glow {
+            position: fixed; top: 0; left: 0; width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 70%);
+            border-radius: 50%; pointer-events: none; transform: translate(-50%, -50%);
+            z-index: 0; transition: transform 0.1s ease-out;
+        }
 
-        /* Remove Box / Add Glow */
-        .no-box { border: none !important; background: transparent !important; box-shadow: none !important; }
-        .logo-glow { filter: drop-shadow(0 0 30px rgba(59, 130, 246, 0.4)); }
+        /* MAGIC WAVEFORM ANIMATION */
+        .waveform { display: flex; align-items: center; gap: 3px; height: 30px; }
+        .bar { width: 3px; background: var(--picao-blue); border-radius: 10px; animation: bounce 1s ease-in-out infinite; }
+        @keyframes bounce { 0%, 100% { height: 10px; } 50% { height: 30px; } }
+        .bar:nth-child(2) { animation-delay: 0.1s; }
+        .bar:nth-child(3) { animation-delay: 0.2s; }
+        .bar:nth-child(4) { animation-delay: 0.3s; }
 
-        /* Fun Product Section - Floating Elements */
+        /* BENTO INTERACTION */
         .bento-item { 
             background: rgba(255, 255, 255, 0.03); 
-            border: 1px solid rgba(255, 255, 255, 0.1); 
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08); 
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         .bento-item:hover { 
-            background: rgba(255, 255, 255, 0.08); 
-            transform: scale(1.05) translateY(-10px); 
-            border-color: #3b82f6;
+            background: rgba(255, 255, 255, 0.95); 
+            color: #000; transform: translateY(-12px) scale(1.02); 
+            box-shadow: 0 40px 80px rgba(0,0,0,0.6);
         }
+        .bento-item:hover p, .bento-item:hover h3, .bento-item:hover h4 { color: #000; }
 
-        .glass-nav { background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(10px); }
+        /* MAGNETIC BUTTON */
+        .magnetic-btn { transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1); }
 
-        /* Typewriter Cursor */
-        .cursor { display: inline-block; width: 3px; background-color: #3b82f6; margin-left: 4px; animation: blink 1s infinite; }
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+        .glass-nav { background: rgba(255, 255, 255, 1); border-bottom: 1px solid rgba(0,0,0,0.1); }
+        .typewriter-gradient { background: linear-gradient(to right, #60a5fa, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
     </style>
 </head>
 <body>
+
+    <div id="cursor-glow"></div>
 
     <nav class="fixed w-full z-50 top-0 glass-nav py-4">
         <div class="max-w-7xl mx-auto flex justify-between items-center px-6">
@@ -45,104 +58,140 @@
                 <img src="Picao-Logo.png" alt="Picao" class="w-8 h-8 object-contain">
                 <span class="text-xl font-black tracking-tighter text-black uppercase">PICAO AI</span>
             </div>
-            <div class="hidden md:flex gap-8 text-[10px] font-bold uppercase tracking-[0.2em] text-gray-500">
-                <a href="#product" class="hover:text-blue-600 transition">Product</a>
-                <a href="#testimonials" class="hover:text-blue-600 transition">Proof</a>
-                <a href="#waitlist" class="hover:text-blue-600 transition">Waitlist</a>
+            <div class="hidden md:flex gap-8 text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400">
+                <a href="#vision" class="hover:text-blue-600">Context Tax</a>
+                <a href="#product" class="hover:text-blue-600">OS v1.0</a>
+                <a href="#testimonials" class="hover:text-blue-600">Velocity</a>
             </div>
-            <button onclick="document.getElementById('waitlist').scrollIntoView()" class="bg-blue-600 text-white px-6 py-2 rounded-full font-bold text-sm hover:bg-black transition">Request Demo</button>
+            <button class="magnetic-btn bg-blue-600 text-white px-8 py-2.5 rounded-full font-bold text-sm hover:shadow-2xl">Request Demo</button>
         </div>
     </nav>
 
-    <section class="min-h-screen flex flex-col items-center justify-center pt-32 px-6 text-center">
-        <div class="mb-10 relative floating">
-            <video autoplay loop muted playsinline class="w-56 h-56 no-box logo-glow">
+    <section class="min-h-screen flex flex-col items-center justify-center pt-32 px-6 text-center relative z-10">
+        <div class="mb-10 relative">
+            <video autoplay loop muted playsinline class="w-64 h-64 filter drop-shadow-[0_0_40px_rgba(59,130,246,0.5)]">
                 <source src="Picao-Logo-Animation.mp4" type="video/mp4">
             </video>
         </div>
-        <h1 class="text-6xl md:text-9xl font-black tracking-tighter mb-6 leading-none">
-            VOICE TO <br><span id="typewriter" class="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500"></span><span class="cursor">|</span>
+        
+        <div class="flex items-center gap-4 mb-6 opacity-80">
+            <div class="waveform"><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>
+            <span class="text-[10px] font-black uppercase tracking-widest text-blue-400">AI Processing: Voice → Viral</span>
+        </div>
+
+        <h1 class="text-6xl md:text-9xl font-black tracking-tighter mb-8 leading-[0.85]">
+            VOICE TO <br><span id="typewriter" class="typewriter-gradient"></span><span class="cursor text-blue-500">|</span>
         </h1>
-        <p class="text-gray-400 max-w-xl text-lg mb-10 leading-relaxed">
-            The #1 AI Creator Assistant. Picao AI helps creators and builders ideate, create, and launch faster by combining multiple powerful AI tools into one unified workspace.
+        
+        <p class="text-gray-400 max-w-2xl text-lg mb-12 leading-relaxed">
+            Eliminate the <span class="text-white">Context Switching Tax.</span> Picao AI is the all-in-one platform built for 2026 creator workflows—unifying ideation, scripting, and production into a single stream.
         </p>
+
+        <div class="flex flex-wrap gap-4 justify-center">
+            <button class="magnetic-btn bg-blue-600 px-10 py-5 rounded-[2rem] font-black text-lg hover:scale-105 transition">Deploy Your AI Agent</button>
+            <div class="flex items-center gap-2 px-6 text-xs text-gray-500 font-bold uppercase tracking-widest border-l border-white/10 ml-4">
+                <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                24,310+ tokens generated this hour
+            </div>
+        </div>
     </section>
 
-    <section id="product" class="py-24 px-6 max-w-7xl mx-auto border-t border-white/5">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="md:col-span-2 bento-item p-10 rounded-[3rem] relative overflow-hidden h-[400px]">
+    <section id="vision" class="py-32 px-6 max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-20 items-center">
+            <div>
+                <h2 class="text-5xl font-black mb-8 italic">The $342B Creator Opportunity is drowning in lag.</h2>
+                <p class="text-gray-400 text-xl leading-relaxed">
+                    The average builder loses <span class="text-white font-bold">23 minutes of deep focus</span> every time they switch from a voice memo to a script doc. Picao AI reclaims that time, increasing <span class="text-blue-400">Viral Velocity by 4x.</span>
+                </p>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="bento-item p-8 rounded-[2rem] text-center">
+                    <div class="text-4xl font-black mb-1">75%</div>
+                    <div class="text-[10px] uppercase font-bold tracking-widest opacity-50">Time-to-Post Reduction</div>
+                </div>
+                <div class="bento-item p-8 rounded-[2rem] text-center">
+                    <div class="text-4xl font-black mb-1">4.2x</div>
+                    <div class="text-[10px] uppercase font-bold tracking-widest opacity-50">Content Throughput</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="product" class="py-24 px-6 max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+            <div class="md:col-span-8 bento-item p-12 rounded-[3.5rem] relative overflow-hidden group h-[450px]">
                 <div class="relative z-10">
-                    <span class="text-blue-500 font-bold text-xs uppercase tracking-widest">Unified OS</span>
-                    <h3 class="text-4xl font-bold mt-4 mb-4">The Creator Workflow, Solved.</h3>
-                    <p class="text-gray-400 max-w-xs">Stop wasting hours on scripts and edits. Turn a rough idea or voice memo into ready-to-post content.</p>
+                    <h3 class="text-4xl font-black mb-4">Unified Creator OS</h3>
+                    <p class="text-gray-400 max-w-sm">Every tool floating in one high-velocity workspace. From raw voice to viral shorts in 60 seconds.</p>
                 </div>
-                <div class="absolute -right-20 -bottom-20 w-80 h-80 bg-blue-600/20 blur-[100px] rounded-full"></div>
+                <div class="absolute right-[-10%] bottom-[-10%] w-[400px] h-[300px] bg-blue-600/10 border border-white/5 rounded-3xl group-hover:rotate-3 transition-transform"></div>
             </div>
-            <div class="bento-item p-8 rounded-[3rem] flex flex-col justify-between">
-                <i data-lucide="zap" class="text-yellow-500 w-10 h-10"></i>
-                <div>
-                    <h4 class="text-xl font-bold mb-2">75% Faster</h4>
-                    <p class="text-gray-400 text-sm">Automate the tedious parts of the process.</p>
-                </div>
+            <div class="md:col-span-4 bento-item p-10 rounded-[3.5rem] flex flex-col justify-end">
+                <i data-lucide="mic-2" class="w-12 h-12 text-blue-500 mb-8"></i>
+                <h4 class="text-2xl font-bold">Voice-First Architecture</h4>
+                <p class="text-gray-400 mt-2 text-sm">Engineered for the mobile-first builder.</p>
             </div>
         </div>
     </section>
 
-    <section id="testimonials" class="py-24 px-6 bg-slate-900/50">
-        <div class="max-w-7xl mx-auto">
-            <h2 class="text-4xl font-black text-center mb-16 uppercase tracking-tight">Trusted by Builders</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="bento-item p-8 rounded-[2.5rem]">
-                    <div class="flex gap-1 mb-4 text-yellow-500"><i data-lucide="star" class="fill-current w-4 h-4"></i><i data-lucide="star" class="fill-current w-4 h-4"></i><i data-lucide="star" class="fill-current w-4 h-4"></i><i data-lucide="star" class="fill-current w-4 h-4"></i><i data-lucide="star" class="fill-current w-4 h-4"></i></div>
-                    <p class="text-gray-300 italic mb-6">"Picao AI literally saved me 10 hours a week on script writing. It's like having a full-time producer for $19."</p>
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-full bg-blue-500"></div>
-                        <div><p class="font-bold text-sm">Alex Rivera</p><p class="text-xs text-gray-500">Tech Content Creator</p></div>
-                    </div>
-                </div>
-                <div class="bento-item p-8 rounded-[2.5rem]">
-                    <div class="flex gap-1 mb-4 text-yellow-500"><i data-lucide="star" class="fill-current w-4 h-4"></i><i data-lucide="star" class="fill-current w-4 h-4"></i><i data-lucide="star" class="fill-current w-4 h-4"></i><i data-lucide="star" class="fill-current w-4 h-4"></i><i data-lucide="star" class="fill-current w-4 h-4"></i></div>
-                    <p class="text-gray-300 italic mb-6">"The voice-to-script feature is a game changer for faceless creators. Best investment I've made this year."</p>
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-full bg-purple-500"></div>
-                        <div><p class="font-bold text-sm">Sarah Chen</p><p class="text-xs text-gray-500">YouTube Automator</p></div>
-                    </div>
-                </div>
-                <div class="bento-item p-8 rounded-[2.5rem]">
-                    <div class="flex gap-1 mb-4 text-yellow-500"><i data-lucide="star" class="fill-current w-4 h-4"></i><i data-lucide="star" class="fill-current w-4 h-4"></i><i data-lucide="star" class="fill-current w-4 h-4"></i><i data-lucide="star" class="fill-current w-4 h-4"></i><i data-lucide="star" class="fill-current w-4 h-4"></i></div>
-                    <p class="text-gray-300 italic mb-6">"Finally, an AI tool that understands the actual chaos of creating content and fixes it."</p>
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-full bg-green-500"></div>
-                        <div><p class="font-bold text-sm">Jordan Lee</p><p class="text-xs text-gray-500">Growth Marketer</p></div>
-                    </div>
-                </div>
+    <section id="testimonials" class="py-32 px-6">
+        <h2 class="text-center text-4xl font-black mb-20 uppercase">Market Validation</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
+            <div class="bento-item p-10 rounded-[3rem]">
+                <p class="text-lg italic opacity-80 mb-8">"Picao AI isn't just a tool; it's a multiplier. My time-to-post went from 4 hours to 45 minutes."</p>
+                <div class="font-bold">Alex Rivera</div>
+                <div class="text-xs text-blue-500 uppercase tracking-widest">Tech Creator</div>
+            </div>
+            <div class="bento-item p-10 rounded-[3rem] border-blue-600/30">
+                <p class="text-lg italic opacity-80 mb-8">"The only platform that understands the actual administrative chaos creators face daily."</p>
+                <div class="font-bold">Sarah Chen</div>
+                <div class="text-xs text-blue-500 uppercase tracking-widest">Growth Lead</div>
+            </div>
+            <div class="bento-item p-10 rounded-[3rem]">
+                <p class="text-lg italic opacity-80 mb-8">"YC-level engineering. This is the first AI tool I actually open every single morning."</p>
+                <div class="font-bold">Jordan Lee</div>
+                <div class="text-xs text-blue-500 uppercase tracking-widest">Independent Builder</div>
             </div>
         </div>
     </section>
 
-    <section id="waitlist" class="py-32 px-6">
-        <div class="max-w-4xl mx-auto bg-white p-16 rounded-[4rem] text-center text-black shadow-2xl">
-            <h2 class="text-5xl font-black mb-6">Secure Your Early Access</h2>
-            <p class="text-gray-500 mb-10">Join the next cohort of creators automating their success.</p>
-            <form onsubmit="event.preventDefault(); alert('Joined Waitlist!')" class="flex flex-col md:flex-row gap-3 max-w-md mx-auto">
-                <input type="email" placeholder="Email address" class="flex-1 px-6 py-4 rounded-2xl bg-gray-100 border-none outline-none">
-                <button class="bg-blue-600 text-white px-8 py-4 rounded-2xl font-bold hover:scale-105 transition">Join Now</button>
-            </form>
+    <footer class="py-20 text-center border-t border-white/5">
+        <div class="text-gray-500 text-[10px] tracking-[0.5em] font-black uppercase mb-4">© 2026 Picao AI • Secure Creator Intelligence</div>
+        <div class="flex justify-center gap-8 text-xs font-bold text-gray-400">
+            <a href="#" class="hover:text-white transition">Twitter / X</a>
+            <a href="#" class="hover:text-white transition">Docs</a>
+            <a href="#" class="hover:text-white transition">Github</a>
         </div>
-    </section>
-
-    <footer class="py-12 text-center text-gray-600 text-[10px] tracking-[0.5em] uppercase">
-        © 2026 Picao AI • All Rights Reserved
     </footer>
 
     <script>
         lucide.createIcons();
 
-        // Typewriter Effect
-        const words = ["MAGIC.", "REELS.", "SHORTS.", "VIRAL."];
+        // PARALLAX MOUSE GLOW
+        const glow = document.getElementById('cursor-glow');
+        window.addEventListener('mousemove', (e) => {
+            glow.style.left = e.clientX + 'px';
+            glow.style.top = e.clientY + 'px';
+        });
+
+        // MAGNETIC BUTTON EFFECT
+        const btns = document.querySelectorAll('.magnetic-btn');
+        btns.forEach(btn => {
+            btn.addEventListener('mousemove', (e) => {
+                const position = btn.getBoundingClientRect();
+                const x = e.pageX - position.left - position.width / 2;
+                const y = e.pageY - position.top - position.height / 2;
+                btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+            });
+            btn.addEventListener('mouseout', () => {
+                btn.style.transform = `translate(0px, 0px)`;
+            });
+        });
+
+        // TYPEWRITER ENGINE
+        const words = ["MAGIC.", "VELOCITY.", "REELS.", "SHORTS."];
         let i = 0; let j = 0; let currentWord = ""; let isDeleting = false;
         const typeTarget = document.getElementById("typewriter");
-
         function type() {
             currentWord = words[i];
             if (isDeleting) {
@@ -154,7 +203,7 @@
                 j++;
                 if (j === currentWord.length) { isDeleting = true; setTimeout(type, 2000); return; }
             }
-            setTimeout(type, isDeleting ? 100 : 200);
+            setTimeout(type, isDeleting ? 80 : 150);
         }
         type();
     </script>
