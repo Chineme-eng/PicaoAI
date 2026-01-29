@@ -6,19 +6,18 @@
     <title>Picao AI | Voice to Content in One Flow</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        :root { --picao-blue: #3b82f6; --picao-purple: #8b5cf6; }
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #020617; color: #ffffff; overflow-x: hidden; }
         
-        /* Dynamic Glow Effects */
         .glow-mesh {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: radial-gradient(circle at 50% -20%, rgba(59, 130, 246, 0.15), transparent 80%);
             z-index: -1;
         }
 
-        /* Hover Inversion Style */
+        .glass-nav { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(0,0,0,0.1); }
+
         .interactive-card {
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -32,13 +31,12 @@
         }
         .interactive-card:hover p, .interactive-card:hover h3 { color: #000; }
 
-        /* Animation for Centerpiece */
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
-        .picao-gif { animation: float 6s ease-in-out infinite; border-radius: 50%; box-shadow: 0 0 50px rgba(59, 130, 246, 0.3); }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+        .picao-video { animation: float 6s ease-in-out infinite; border-radius: 2rem; box-shadow: 0 0 40px rgba(59, 130, 246, 0.2); }
 
-        .glass-nav { background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
-        .btn-gradient { background: linear-gradient(90deg, #3b82f6, #8b5cf6); transition: 0.3s; }
-        .btn-gradient:hover { filter: brightness(1.1); transform: scale(1.05); }
+        /* Typewriter Cursor */
+        .cursor { display: inline-block; width: 3px; background-color: #3b82f6; margin-left: 4px; animation: blink 1s infinite; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
     </style>
 </head>
 <body>
@@ -49,155 +47,161 @@
         <div class="max-w-7xl mx-auto flex justify-between items-center px-6 py-4">
             <div class="flex items-center gap-3">
                 <img src="Picao-Logo.png" alt="Picao" class="w-9 h-9">
-                <span class="text-xl font-bold tracking-tighter">PICAO AI</span>
+                <span class="text-xl font-bold tracking-tighter text-black">PICAO AI</span>
             </div>
-            <div class="hidden md:flex gap-8 text-[10px] font-black uppercase tracking-[0.2em] text-gray-400">
-                <a href="#problem" class="hover:text-white transition">The Problem</a>
-                <a href="#workflow" class="hover:text-white transition">Workflow</a>
-                <a href="#market" class="hover:text-white transition">Market</a>
+            <div class="hidden md:flex gap-8 text-[10px] font-black uppercase tracking-[0.2em] text-gray-500">
+                <a href="#problem" class="hover:text-black transition">The Problem</a>
+                <a href="#workflow" class="hover:text-black transition">Workflow</a>
+                <a href="#market" class="hover:text-black transition">Market</a>
             </div>
-            <button onclick="document.getElementById('waitlist').scrollIntoView()" class="bg-white text-black px-6 py-2 rounded-full font-bold text-sm hover:shadow-xl transition">Apply for Beta</button>
+            <button onclick="document.getElementById('waitlist').scrollIntoView()" class="bg-black text-white px-6 py-2 rounded-full font-bold text-sm hover:scale-105 transition">Apply for Beta</button>
         </div>
     </nav>
 
-    <section class="min-h-screen flex flex-col items-center justify-center pt-24 px-6 text-center">
+    <section class="min-h-screen flex flex-col items-center justify-center pt-32 px-6 text-center">
         <div class="mb-12 relative">
-            <img src="Picao-Animation.gif" class="w-40 h-40 picao-gif relative z-10" alt="Picao AI Logo Animation">
+            <video autoplay loop muted playsinline class="w-48 h-48 picao-video relative z-10">
+                <source src="Picao-Logo-Animation.mp4" type="video/mp4">
+                <img src="Picao-Logo.png" alt="Picao Logo">
+            </video>
             <div class="absolute inset-0 bg-blue-500 blur-[100px] opacity-20"></div>
         </div>
         <h1 class="text-6xl md:text-9xl font-black tracking-tighter mb-6 leading-[0.9]">
-            VOICE TO <br><span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">CONTENT.</span>
+            VOICE TO <br>
+            <span id="typewriter" class="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500"></span><span class="cursor">|</span>
         </h1>
         <p class="text-xl text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed">
-            The #1 AI Creator Assistant that unifies brainstorming, scripting, and voiceovers into one seamless workflow. Stop switching apps, start building consistency.
+            The #1 AI Creator Assistant. We turn rough ideas and voice memos into ready-to-post viral content in seconds.
         </p>
         <div class="flex flex-wrap gap-4 justify-center">
-            <button onclick="document.getElementById('waitlist').scrollIntoView()" class="btn-gradient px-10 py-4 rounded-2xl font-bold text-lg">Join the Waitlist</button>
+            <button onclick="document.getElementById('waitlist').scrollIntoView()" class="bg-blue-600 px-10 py-4 rounded-2xl font-bold text-lg hover:shadow-[0_0_30px_rgba(59,130,246,0.4)] transition">Join the Waitlist</button>
             <button onclick="document.getElementById('workflow').scrollIntoView()" class="bg-white/5 border border-white/10 px-10 py-4 rounded-2xl font-bold text-lg hover:bg-white/10 transition">The App Flow</button>
         </div>
     </section>
 
     <section id="problem" class="py-32 px-6">
-        <div class="max-w-7xl mx-auto">
-            <h2 class="text-4xl md:text-6xl font-bold mb-16">Fragmentation is killing <br><span class="text-gray-500">creator momentum.</span></h2>
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <div class="interactive-card p-8 rounded-3xl">
-                    <i data-lucide="cloud-lightning" class="text-blue-500 mb-4"></i>
-                    <h3 class="font-bold text-xl mb-2">Lost Ideas</h3>
-                    <p class="text-sm opacity-60">Scattered notes and forgotten voice memos never make it to the feed.</p>
+        <div class="max-w-7xl mx-auto text-center md:text-left">
+            <h2 class="text-4xl md:text-6xl font-bold mb-16 italic">Fragmentation is killing your reach.</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="interactive-card p-10 rounded-[2.5rem]">
+                    <h3 class="text-2xl font-bold mb-4">65% Admin Time</h3>
+                    <p class="opacity-60 leading-relaxed">Creators waste most of their day switching between apps, scripts, and editing tools.</p>
                 </div>
-                <div class="interactive-card p-8 rounded-3xl">
-                    <i data-lucide="mic-2" class="text-purple-500 mb-4"></i>
-                    <h3 class="font-bold text-xl mb-2">Voiceover Lag</h3>
-                    <p class="text-sm opacity-60">Hours wasted recording and re-taking audio for faceless content.</p>
+                <div class="interactive-card p-10 rounded-[2.5rem]">
+                    <h3 class="text-2xl font-bold mb-4">Lost Momentum</h3>
+                    <p class="opacity-60 leading-relaxed">Great ideas die because the path from "Voice Memo" to "Finished Video" is too long.</p>
                 </div>
-                <div class="interactive-card p-8 rounded-3xl">
-                    <i data-lucide="layers" class="text-pink-500 mb-4"></i>
-                    <h3 class="font-bold text-xl mb-2">Too Many Apps</h3>
-                    <p class="text-sm opacity-60">Switching between Docs, TikTok, and AI tools wastes 65% of your time.</p>
-                </div>
-                <div class="interactive-card p-8 rounded-3xl">
-                    <i data-lucide="trending-down" class="text-red-500 mb-4"></i>
-                    <h3 class="font-bold text-xl mb-2">Consistency Kill</h3>
-                    <p class="text-sm opacity-60">Complexity leads to burnout and abandoned channels.</p>
+                <div class="interactive-card p-10 rounded-[2.5rem]">
+                    <h3 class="text-2xl font-bold mb-4">High Burnout</h3>
+                    <p class="opacity-60 leading-relaxed">Maintaining consistency across TikTok, Reels, and YouTube is impossible without automation.</p>
                 </div>
             </div>
         </div>
     </section>
 
     <section id="workflow" class="py-32 bg-white text-black">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="flex flex-col md:flex-row gap-20 items-center">
-                <div class="flex-1">
-                    <span class="text-blue-600 font-bold uppercase tracking-widest text-xs">Picao OS v1.0</span>
-                    <h2 class="text-5xl font-black mb-8">Speak it into existence.</h2>
-                    <ul class="space-y-8">
-                        <li class="flex gap-6">
-                            <span class="text-3xl font-black text-gray-200">01</span>
-                            <div>
-                                <h4 class="font-bold text-xl">Voice → Script</h4>
-                                <p class="text-gray-500">AI turns your rough thoughts into viral scripts for TikTok, Reels, or YouTube.</p>
-                            </div>
-                        </li>
-                        <li class="flex gap-6">
-                            <span class="text-3xl font-black text-gray-200">02</span>
-                            <div>
-                                <h4 class="font-bold text-xl">AI Voiceover Engine</h4>
-                                <p class="text-gray-500">Generate energetic, motivational, or educational voiceovers in one click.</p>
-                            </div>
-                        </li>
-                        <li class="flex gap-6">
-                            <span class="text-3xl font-black text-gray-200">03</span>
-                            <div>
-                                <h4 class="font-bold text-xl">One-Click Export</h4>
-                                <p class="text-gray-500">Get your bundle: Script, Voiceover, Captions, and Hooks ready for CapCut.</p>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-                <div class="flex-1 w-full">
-                    <div class="bg-gray-100 rounded-[3rem] p-6 border-4 border-black shadow-2xl rotate-2 hover:rotate-0 transition-transform duration-500 overflow-hidden">
-                        <img src="Picao-Logo.png" class="w-full h-80 object-cover rounded-[2rem] opacity-10" alt="UI Teaser">
-                        <div class="absolute inset-0 flex flex-col items-center justify-center p-12 text-center">
-                            <i data-lucide="play-circle" class="w-16 h-16 text-blue-600 mb-4"></i>
-                            <h4 class="text-2xl font-bold">Preview Picao AI</h4>
-                            <p class="text-sm text-gray-500">Request demo to see the full UI</p>
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-20 items-center">
+            <div>
+                <h2 class="text-5xl font-black mb-10">One Flow. Total Control.</h2>
+                <div class="space-y-12">
+                    <div class="flex gap-6">
+                        <div class="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold shrink-0">1</div>
+                        <div>
+                            <h4 class="text-xl font-bold mb-2">Speak or Type</h4>
+                            <p class="text-gray-500">Record a raw thought. Our AI analyzes the hook potential immediately.</p>
                         </div>
                     </div>
+                    <div class="flex gap-6">
+                        <div class="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold shrink-0">2</div>
+                        <div>
+                            <h4 class="text-xl font-bold mb-2">AI Script & Voiceover</h4>
+                            <p class="text-gray-500">Select your tone and platform. Get a viral script and professional AI audio instantly.</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-6">
+                        <div class="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold shrink-0">3</div>
+                        <div>
+                            <h4 class="text-xl font-bold mb-2">Ready to Post</h4>
+                            <p class="text-gray-500">Download the full bundle with captions and hashtags. Ready for TikTok & Reels.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-gray-50 p-4 rounded-[3rem] border border-gray-200 shadow-2xl">
+                <div class="bg-black rounded-[2rem] h-96 flex items-center justify-center overflow-hidden">
+                    <p class="text-xs font-mono text-blue-400 opacity-50 uppercase tracking-widest">Picao Dashboard v1.0 Preview</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="market" class="py-32 px-6 bg-slate-950">
-        <div class="max-w-5xl mx-auto text-center">
-            <h2 class="text-4xl font-bold mb-12">Built for the $342B Economy.</h2>
+    <section id="market" class="py-32 px-6 text-center">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-4xl font-bold mb-16">The $342B Creator Economy Opportunity</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
                 <div>
                     <div class="text-6xl font-black text-blue-500 mb-2">75%</div>
-                    <p class="text-sm uppercase tracking-widest text-gray-500">Time Saved per Video</p>
+                    <p class="text-xs uppercase tracking-[0.2em] text-gray-500">Efficiency Gain</p>
                 </div>
                 <div>
                     <div class="text-6xl font-black text-purple-500 mb-2">1M+</div>
-                    <p class="text-sm uppercase tracking-widest text-gray-500">Target Creators</p>
+                    <p class="text-xs uppercase tracking-[0.2em] text-gray-500">Target Users</p>
                 </div>
                 <div>
-                    <div class="text-6xl font-black text-pink-500 mb-2">$19</div>
-                    <p class="text-sm uppercase tracking-widest text-gray-500">Pro Subscription</p>
+                    <div class="text-6xl font-black text-pink-500 mb-2">$1,200</div>
+                    <p class="text-xs uppercase tracking-[0.2em] text-gray-500">Avg. Annual Tool Savings</p>
                 </div>
             </div>
         </div>
     </section>
 
     <section id="waitlist" class="py-40 px-6">
-        <div class="max-w-4xl mx-auto bg-gradient-to-br from-blue-600 to-purple-700 p-16 rounded-[4rem] text-center shadow-2xl relative overflow-hidden">
-            <div id="form-content">
-                <h2 class="text-5xl font-black mb-6">Stop dreaming. <br>Start launching.</h2>
-                <p class="mb-10 text-blue-100 opacity-80">Be part of the private beta for faceless creators and podcasters.</p>
-                <form onsubmit="handleForm(event)" class="flex flex-col md:flex-row gap-3">
-                    <input type="email" required placeholder="Email Address" class="flex-1 px-8 py-5 rounded-2xl bg-white/10 border border-white/20 text-white placeholder:text-blue-200 outline-none focus:bg-white/20 transition">
-                    <button type="submit" class="bg-white text-blue-600 px-10 py-5 rounded-2xl font-bold hover:scale-105 transition">Apply for Access</button>
+        <div class="max-w-4xl mx-auto bg-gradient-to-br from-blue-700 to-purple-800 p-16 rounded-[4rem] text-center shadow-2xl relative">
+            <div id="form-container">
+                <h2 class="text-5xl font-black mb-6">Built for the <br>next billion creators.</h2>
+                <p class="text-blue-100 mb-10 opacity-80">Join the private beta to start automating your creative workflow.</p>
+                <form onsubmit="handleForm(event)" class="flex flex-col md:flex-row gap-3 max-w-lg mx-auto">
+                    <input type="email" required placeholder="Email address" class="flex-1 px-8 py-5 rounded-2xl bg-white/10 border border-white/20 text-white outline-none focus:bg-white/20 transition">
+                    <button type="submit" class="bg-white text-blue-700 px-10 py-5 rounded-2xl font-bold hover:scale-105 transition">Get Access</button>
                 </form>
             </div>
-            
-            <div id="thank-you" class="hidden">
-                <i data-lucide="check-circle" class="w-20 h-20 text-white mx-auto mb-6"></i>
-                <h3 class="text-4xl font-bold mb-2">You're in.</h3>
-                <p class="text-blue-100">Welcome to the future of content production.</p>
-                <button onclick="location.reload()" class="mt-8 text-white/60 hover:text-white underline text-sm">Return Home</button>
+            <div id="thank-you" class="hidden animate-pulse">
+                <h2 class="text-5xl font-black mb-4">Welcome to Picao.</h2>
+                <p class="text-blue-100">Check your inbox for founder updates.</p>
             </div>
         </div>
     </section>
 
-    <footer class="py-12 border-t border-white/5 text-center text-gray-500 text-[10px] tracking-[0.4em] uppercase">
+    <footer class="py-12 border-t border-white/5 text-center text-gray-600 text-[10px] tracking-[0.5em] uppercase">
         © 2026 Picao AI • All Rights Reserved
     </footer>
 
     <script>
         lucide.createIcons();
+
+        // Typewriter Effect Logic
+        const words = ["CONTENT.", "REELS.", "SCRIPTS.", "SHORTS."];
+        let i = 0; let j = 0; let currentWord = ""; let isDeleting = false;
+        const typeTarget = document.getElementById("typewriter");
+
+        function type() {
+            currentWord = words[i];
+            if (isDeleting) {
+                typeTarget.textContent = currentWord.substring(0, j - 1);
+                j--;
+                if (j === 0) { isDeleting = false; i = (i + 1) % words.length; }
+            } else {
+                typeTarget.textContent = currentWord.substring(0, j + 1);
+                j++;
+                if (j === currentWord.length) { isDeleting = true; setTimeout(type, 2000); return; }
+            }
+            setTimeout(type, isDeleting ? 100 : 200);
+        }
+        type();
+
         function handleForm(e) {
             e.preventDefault();
-            document.getElementById('form-content').classList.add('hidden');
+            document.getElementById('form-container').classList.add('hidden');
             document.getElementById('thank-you').classList.remove('hidden');
         }
     </script>
