@@ -3,100 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Picao AI | Creator Terminal</title>
+    <title>Picao AI | Intelligence Terminal</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root { --bg: #020617; --text: #ffffff; --accent: #3b82f6; --card: rgba(255, 255, 255, 0.03); }
         .light-theme { --bg: #f8fafc; --text: #0f172a; --accent: #2563eb; --card: #ffffff; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--bg); color: var(--text); height: 100vh; overflow: hidden; transition: 0.5s; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--bg); color: var(--text); min-height: 100vh; transition: 0.5s; overflow-x: hidden; }
         .glass-panel { background: var(--card); backdrop-filter: blur(40px); border: 1px solid rgba(255, 255, 255, 0.08); }
         
-        /* NEURAL MAP ANIMATION */
-        .neural-node { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; position: absolute; box-shadow: 0 0 15px var(--accent); }
-        .neural-line { position: absolute; background: linear-gradient(90deg, var(--accent), transparent); height: 1px; transform-origin: left; opacity: 0.2; }
-        @keyframes pulse-node { 0%, 100% { transform: scale(1); opacity: 0.5; } 50% { transform: scale(1.5); opacity: 1; } }
-        .node-active { animation: pulse-node 1.5s infinite; }
+        /* THE STEPPER */
+        .step-pill { padding: 6px 16px; border-radius: 99px; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; border: 1px solid rgba(255,255,255,0.1); opacity: 0.3; transition: 0.5s; }
+        .step-active { opacity: 1; border-color: var(--accent); color: var(--accent); box-shadow: 0 0 15px rgba(59,130,246,0.2); }
 
-        /* MOCKUP SCREENS */
-        .phone-mockup { width: 220px; height: 440px; border: 8px solid #1e293b; border-radius: 2.5rem; position: relative; overflow: hidden; background: #000; }
-        .desktop-mockup { width: 400px; height: 280px; border: 8px solid #1e293b; border-radius: 1rem; position: relative; overflow: hidden; background: #fff; }
+        /* MOCKUPS */
+        .phone-mockup { width: 260px; height: 500px; border: 10px solid #1e293b; border-radius: 3rem; position: relative; overflow: hidden; background: #000; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); }
+        .desktop-mockup { width: 100%; max-width: 500px; height: 320px; border: 10px solid #1e293b; border-radius: 1.5rem; overflow: hidden; background: #fff; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); }
         
-        /* WAVEFORM */
-        .wave-bar { width: 4px; background: var(--accent); border-radius: 10px; height: 8px; transition: 0.1s; }
-        .active-wave .wave-bar { animation: wave-grow 0.6s infinite alternate; }
-        @keyframes wave-grow { to { height: 50px; } }
-
-        .fade-in { opacity: 0; transform: translateY(20px); animation: fadeIn 0.6s forwards; }
-        @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
+        @keyframes pulse-mic { 0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.5); } 70% { box-shadow: 0 0 0 20px rgba(59, 130, 246, 0); } 100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); } }
+        .mic-active { animation: pulse-mic 2s infinite; }
+        
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
     </style>
 </head>
-<body id="demo-body" class="flex items-center justify-center p-4">
+<body id="demo-body" class="p-4 md:p-10 flex items-center justify-center">
 
-    <div class="w-full max-w-6xl h-[90vh] glass-panel rounded-[3.5rem] p-10 flex flex-col relative z-10">
+    <div class="w-full max-w-7xl glass-panel rounded-[4rem] p-8 md:p-12 flex flex-col relative min-h-[85vh]">
         
-        <div class="flex justify-between items-center mb-8 border-b border-white/5 pb-6">
-            <div class="flex items-center gap-3">
-                <img src="Picao-Logo.png" class="w-8 h-8">
-                <span class="text-[10px] font-black uppercase tracking-[0.3em] opacity-40">Intelligence Terminal v1.0</span>
+        <div class="flex justify-between items-center mb-12">
+            <div class="flex items-center gap-4">
+                <img src="Picao-Logo.png" class="w-10 h-10">
+                <div>
+                    <h1 class="text-sm font-black tracking-tighter">PICAO TERMINAL</h1>
+                    <p class="text-[9px] opacity-40 uppercase tracking-widest">Neural Link: Active</p>
+                </div>
             </div>
-            <button onclick="toggleTheme()" class="p-2 glass-panel rounded-xl"><i id="theme-icon" data-lucide="sun" class="w-4 h-4"></i></button>
+            <div class="flex gap-4">
+                <div id="step-1" class="step-pill step-active">Input</div>
+                <div id="step-2" class="step-pill">Refract</div>
+                <div id="step-3" class="step-pill">Deploy</div>
+                <button onclick="toggleTheme()" class="ml-4 p-2 glass-panel rounded-full"><i id="theme-icon" data-lucide="sun" class="w-4 h-4"></i></button>
+            </div>
         </div>
 
-        <div id="stage-area" class="flex-1 flex flex-col items-center justify-center">
+        <div id="main-stage" class="flex-1 flex flex-col items-center justify-center">
             
-            <div id="input-view" class="text-center">
-                <h2 class="text-4xl font-extrabold mb-10 italic">Capture Your Thought.</h2>
-                <div id="wave-box" class="flex items-center justify-center gap-2 h-20 mb-12">
-                    <div class="wave-bar"></div><div class="wave-bar" style="animation-delay: 0.1s"></div><div class="wave-bar" style="animation-delay: 0.2s"></div><div class="wave-bar" style="animation-delay: 0.3s"></div><div class="wave-bar" style="animation-delay: 0.4s"></div>
-                </div>
-                <button onclick="processInput()" id="mic-btn" class="bg-blue-600 w-24 h-24 rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition pulse-active">
-                    <i data-lucide="mic" class="w-10 h-10 text-white"></i>
+            <div id="view-capture" class="text-center max-w-xl">
+                <h2 class="text-5xl font-black mb-6 italic leading-tight">Speak your <span class="text-blue-500">vision.</span></h2>
+                <p class="opacity-40 text-sm mb-12 leading-relaxed font-medium">Test the "Founder's Blend" logic: Our engine will process thoughts on the 40-hour week, the Context Tax, and 15x Content Velocity.</p>
+                
+                <button onclick="startProcessing()" id="action-btn" class="w-32 h-32 bg-blue-600 rounded-full flex items-center justify-center mic-active hover:scale-105 transition shadow-2xl">
+                    <i data-lucide="mic" class="w-12 h-12 text-white"></i>
                 </button>
-                <p class="mt-6 text-[10px] font-bold opacity-30 uppercase tracking-widest">Tap to begin refraction</p>
+                <p class="mt-8 text-[10px] font-black uppercase tracking-[0.3em] opacity-30">Press to Begin Transmission</p>
             </div>
 
-            <div id="neural-view" class="hidden w-full h-full flex flex-col items-center justify-center relative">
-                <div class="relative w-96 h-96">
-                    <div class="neural-node node-active" style="top: 50%; left: 50%;"></div>
-                    <div class="neural-node" style="top: 20%; left: 30%;"></div>
-                    <div class="neural-node" style="top: 80%; left: 70%;"></div>
-                    <div class="neural-node" style="top: 30%; left: 80%;"></div>
-                    <div class="neural-line" style="top: 51%; left: 51%; width: 100px; rotate: -45deg;"></div>
-                    <div class="neural-line" style="top: 51%; left: 51%; width: 120px; rotate: 120deg;"></div>
+            <div id="view-neural" class="hidden w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div class="relative h-64 flex items-center justify-center">
+                    <div class="absolute w-48 h-48 border-2 border-blue-500/20 rounded-full animate-ping"></div>
+                    <div class="absolute w-32 h-32 border-2 border-blue-500/40 rounded-full animate-pulse"></div>
+                    <i data-lucide="brain-circuit" class="w-16 h-16 text-blue-500 relative z-10"></i>
                 </div>
-                <div class="text-center mt-8">
-                    <p id="process-text" class="font-mono text-xs text-blue-400">ISOLATING CORE VALUE PROPOSITIONS...</p>
-                </div>
-            </div>
-
-            <div id="output-view" class="hidden w-full flex flex-col md:flex-row items-center justify-center gap-12 fade-in">
-                <div class="phone-mockup shadow-2xl">
-                    <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black/80 flex flex-col justify-end p-6">
-                        <p class="text-white text-xs font-bold mb-2">@PicaoCreator</p>
-                        <p class="text-white text-[10px] leading-relaxed mb-4">"The Context Tax is stealing your followers. Here is how we fix it..."</p>
-                        <div class="flex gap-2"><span class="bg-pink-500 px-2 py-1 rounded text-[8px] font-bold">#CreatorEconomy</span></div>
+                <div class="space-y-6">
+                    <div id="log-container" class="font-mono text-[11px] space-y-2 opacity-60">
+                        <p class="text-blue-400">> ANALYZING VOICE METRICS...</p>
+                        <p class="text-white">> TRANSCRIPT: "The 40-hour week is dead... Context Tax... 15x output..."</p>
+                        <p class="text-blue-400">> DETECTING THEMATIC CLUSTERS: [TIME ECONOMICS], [SYSTEMS], [OUTPUT VELOCITY]</p>
+                        <p class="text-white">> REFRACTING INTO 5 PLATFORM ARCHETYPES...</p>
                     </div>
                 </div>
-                <div class="desktop-mockup shadow-2xl bg-slate-50 p-6 flex flex-col">
-                    <div class="flex items-center gap-2 mb-4">
-                        <div class="w-8 h-8 rounded-full bg-blue-600"></div>
-                        <div class="h-2 w-24 bg-slate-200 rounded"></div>
-                    </div>
-                    <p class="text-[11px] text-slate-800 font-bold mb-2">Systems Over Hustle: The 2026 Shift</p>
-                    <p class="text-[9px] text-slate-500 leading-relaxed mb-4">I've spent the last month analyzing why some creators scale and others plateau. The answer isn't "more content"—it's a refraction strategy...</p>
-                    <div class="mt-auto border-t pt-2 flex justify-between"><div class="h-2 w-12 bg-slate-200 rounded"></div><div class="h-2 w-8 bg-blue-100 rounded"></div></div>
-                </div>
             </div>
-        </div>
 
-        <div id="demo-footer" class="hidden border-t border-white/5 pt-8 flex justify-between items-center">
-            <div>
-                <p class="text-sm font-bold italic">Strategy Bundle Ready.</p>
-                <p class="text-[10px] opacity-40 uppercase tracking-widest">March 2026 Cohort: 65% Full</p>
+            <div id="view-deploy" class="hidden w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+                
+                <div class="flex flex-col items-center gap-6">
+                    <span class="text-[10px] font-black uppercase tracking-widest opacity-40">Short-Form Refraction</span>
+                    <div class="phone-mockup">
+                        <div class="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/90 p-6 flex flex-col justify-end">
+                            <div class="flex items-center gap-2 mb-4">
+                                <div class="w-8 h-8 rounded-full bg-blue-600 border border-white/20"></div>
+                                <p class="text-[11px] font-bold text-white">Founder @ Picao</p>
+                            </div>
+                            <p class="text-white text-sm font-bold leading-snug mb-4">"You're not lazy. You're just paying the Context Tax. 💸 Switching from 'Creator' to 'Admin' takes 23 mins to recover. Here's how I used Picao to reclaim my 40-hour week..."</p>
+                            <div class="flex gap-2">
+                                <span class="bg-blue-600/50 backdrop-blur-md px-2 py-1 rounded text-[8px] font-bold uppercase">#Systems</span>
+                                <span class="bg-white/10 backdrop-blur-md px-2 py-1 rounded text-[8px] font-bold uppercase">#YC2026</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col items-center gap-6">
+                    <span class="text-[10px] font-black uppercase tracking-widest opacity-40">Professional Refraction</span>
+                    <div class="desktop-mockup p-8 flex flex-col">
+                        <div class="flex items-center gap-3 mb-6">
+                            <div class="w-10 h-10 rounded-lg bg-blue-600"></div>
+                            <div><p class="text-xs font-black text-slate-900">Founder @ Picao AI</p><p class="text-[9px] text-slate-400 uppercase">34,102 followers</p></div>
+                        </div>
+                        <h3 class="text-slate-900 font-bold text-sm mb-3">The "Context Tax" is the silent killer of Series A startups.</h3>
+                        <p class="text-[11px] text-slate-600 leading-relaxed mb-4">We've analyzed 500+ creator workflows. The data is clear: the 40-hour work week is a legacy system. Modern velocity requires **Refraction Logic**—turning 1 thought into 15 assets. That's why we built Picao.</p>
+                        <div class="mt-auto flex gap-4"><div class="h-6 w-16 bg-slate-100 rounded-md"></div><div class="h-6 w-16 bg-slate-100 rounded-md"></div></div>
+                    </div>
+                    
+                    <div class="w-full max-w-md glass-panel p-6 rounded-3xl mt-4">
+                        <p class="text-[10px] font-black uppercase tracking-widest text-blue-500 mb-2">Waitlist Utility</p>
+                        <p class="text-xs opacity-60 leading-relaxed">This refraction saved you **4.2 hours** of manual scripting. Ready to automate your entire March roadmap?</p>
+                        <a href="index.html" class="mt-4 block text-center bg-blue-600 text-white py-3 rounded-xl font-bold text-xs uppercase tracking-widest">Claim March Slot</a>
+                    </div>
+                </div>
+
             </div>
-            <a href="index.html" class="bg-white text-black px-8 py-3 rounded-full font-black text-xs uppercase tracking-widest hover:bg-blue-600 hover:text-white transition">Claim Your Slot</a>
         </div>
     </div>
 
@@ -104,40 +122,31 @@
         lucide.createIcons();
         function toggleTheme() {
             document.getElementById('demo-body').classList.toggle('light-theme');
-            const isLight = document.getElementById('demo-body').classList.contains('light-theme');
-            document.getElementById('theme-icon').setAttribute('data-lucide', isLight ? 'moon' : 'sun');
+            const icon = document.getElementById('theme-icon');
+            icon.setAttribute('data-lucide', document.getElementById('demo-body').classList.contains('light-theme') ? 'moon' : 'sun');
             lucide.createIcons();
         }
 
-        function processInput() {
-            document.getElementById('wave-box').classList.add('active-wave');
-            document.getElementById('mic-btn').innerHTML = "<i data-lucide='loader' class='animate-spin text-white w-10 h-10'></i>";
+        function startProcessing() {
+            const btn = document.getElementById('action-btn');
+            btn.classList.remove('mic-active');
+            btn.innerHTML = `<i data-lucide="loader" class="w-10 h-10 text-white animate-spin"></i>`;
             lucide.createIcons();
 
             setTimeout(() => {
-                document.getElementById('input-view').classList.add('hidden');
-                document.getElementById('neural-view').classList.remove('hidden');
-                runNeuralSteps();
-            }, 2500);
-        }
-
-        function runNeuralSteps() {
-            const steps = ["MAPPING HOOK VELOCITY...", "IDENTIFYING VALUE PILLARS...", "OPTIMIZING FOR MOBILE FEED...", "GENERATING LinkedIn THREAD...", "BUNDLE SYNTHESIZED."];
-            let i = 0;
-            const interval = setInterval(() => {
-                document.getElementById('process-text').innerText = steps[i];
-                i++;
-                if(i === steps.length) {
-                    clearInterval(interval);
-                    showFinal();
-                }
-            }, 1000);
-        }
-
-        function showFinal() {
-            document.getElementById('neural-view').classList.add('hidden');
-            document.getElementById('output-view').classList.remove('hidden');
-            document.getElementById('demo-footer').classList.remove('hidden');
+                document.getElementById('step-1').classList.remove('step-active');
+                document.getElementById('step-2').classList.add('step-active');
+                document.getElementById('view-capture').classList.add('hidden');
+                document.getElementById('view-neural').classList.remove('hidden');
+                
+                // Final reveal after "Refraction"
+                setTimeout(() => {
+                    document.getElementById('step-2').classList.remove('step-active');
+                    document.getElementById('step-3').classList.add('step-active');
+                    document.getElementById('view-neural').classList.add('hidden');
+                    document.getElementById('view-deploy').classList.remove('hidden');
+                }, 4000);
+            }, 1500);
         }
     </script>
 </body>
