@@ -3,255 +3,142 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Picao AI | Creator Terminal v1.0</title>
+    <title>Picao AI | Creator Terminal</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        :root { --bg: #020617; --text: #ffffff; --card: rgba(255, 255, 255, 0.03); --border: rgba(255, 255, 255, 0.08); --accent: #3b82f6; --glow: rgba(59, 130, 246, 0.4); }
-        .light-theme { --bg: #f8fafc; --text: #0f172a; --card: #ffffff; --border: rgba(0, 0, 0, 0.1); --accent: #2563eb; --glow: rgba(37, 99, 235, 0.2); }
-
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--bg); color: var(--text); transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        :root { --bg: #020617; --text: #ffffff; --accent: #3b82f6; --card: rgba(255, 255, 255, 0.03); }
+        .light-theme { --bg: #f8fafc; --text: #0f172a; --accent: #2563eb; --card: #ffffff; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--bg); color: var(--text); height: 100vh; overflow: hidden; transition: 0.5s; }
+        .glass-panel { background: var(--card); backdrop-filter: blur(40px); border: 1px solid rgba(255, 255, 255, 0.08); }
         
-        /* 3D GLASS PANEL */
-        .glass-panel { background: var(--card); backdrop-filter: blur(40px); border: 1px solid var(--border); box-shadow: 0 50px 100px -20px rgba(0, 0, 0, 0.7); }
+        /* NEURAL MAP ANIMATION */
+        .neural-node { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; position: absolute; box-shadow: 0 0 15px var(--accent); }
+        .neural-line { position: absolute; background: linear-gradient(90deg, var(--accent), transparent); height: 1px; transform-origin: left; opacity: 0.2; }
+        @keyframes pulse-node { 0%, 100% { transform: scale(1); opacity: 0.5; } 50% { transform: scale(1.5); opacity: 1; } }
+        .node-active { animation: pulse-node 1.5s infinite; }
+
+        /* MOCKUP SCREENS */
+        .phone-mockup { width: 220px; height: 440px; border: 8px solid #1e293b; border-radius: 2.5rem; position: relative; overflow: hidden; background: #000; }
+        .desktop-mockup { width: 400px; height: 280px; border: 8px solid #1e293b; border-radius: 1rem; position: relative; overflow: hidden; background: #fff; }
         
-        /* PULSING WAVEFORM */
-        .wave-bar { width: 5px; background: var(--accent); border-radius: 20px; height: 10px; transition: height 0.15s ease; box-shadow: 0 0 15px var(--accent); }
-        .active-wave .wave-bar { animation: wave-pulse 0.6s infinite alternate cubic-bezier(0.45, 0.05, 0.55, 0.95); }
-        @keyframes wave-pulse { 0% { height: 10px; opacity: 0.5; } 100% { height: 90px; opacity: 1; } }
+        /* WAVEFORM */
+        .wave-bar { width: 4px; background: var(--accent); border-radius: 10px; height: 8px; transition: 0.1s; }
+        .active-wave .wave-bar { animation: wave-grow 0.6s infinite alternate; }
+        @keyframes wave-grow { to { height: 50px; } }
 
-        /* CREATIVE FADE-IN */
-        .message { opacity: 0; transform: translateY(20px); animation: creativeIn 0.6s forwards cubic-bezier(0.23, 1, 0.32, 1); }
-        @keyframes creativeIn { to { opacity: 1; transform: translateY(0); } }
-
-        /* FLOATING ACTION CARDS */
-        .platform-card { transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: pointer; }
-        .platform-card:hover { transform: scale(1.05) translateY(-10px); border-color: var(--accent); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
-
-        /* DYNAMIC CURSOR GLOW */
-        #cursor-glow {
-            position: fixed; top: 0; left: 0; width: 800px; height: 800px;
-            background: radial-gradient(circle, var(--glow) 0%, transparent 70%);
-            border-radius: 50%; pointer-events: none; transform: translate(-50%, -50%); z-index: 0; mix-blend-mode: screen;
-        }
-
-        .typing-dot { width: 5px; height: 5px; background: var(--accent); border-radius: 50%; animation: dot-blink 1.4s infinite; }
-        @keyframes dot-blink { 0%, 100% { opacity: 0.2; transform: scale(1); } 50% { opacity: 1; transform: scale(1.3); } }
+        .fade-in { opacity: 0; transform: translateY(20px); animation: fadeIn 0.6s forwards; }
+        @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
-<body id="demo-body">
+<body id="demo-body" class="flex items-center justify-center p-4">
 
-    <div id="cursor-glow"></div>
-
-    <div class="w-full max-w-6xl h-[92vh] glass-panel rounded-[4rem] p-10 flex flex-col relative z-10 overflow-hidden border-white/10">
+    <div class="w-full max-w-6xl h-[90vh] glass-panel rounded-[3.5rem] p-10 flex flex-col relative z-10">
         
-        <div class="flex justify-between items-center mb-12 border-b border-white/5 pb-8">
-            <div class="flex items-center gap-4">
-                <div class="p-2 bg-blue-600 rounded-xl shadow-lg shadow-blue-500/30">
-                    <img src="Picao-Logo.png" alt="Picao" class="w-8 h-8">
-                </div>
-                <div>
-                    <h1 class="text-xs font-black tracking-[0.4em] uppercase opacity-40">Picao OS v1.0</h1>
-                    <p class="text-[9px] font-bold text-green-500 uppercase tracking-widest">● Core Intelligence Synced</p>
-                </div>
+        <div class="flex justify-between items-center mb-8 border-b border-white/5 pb-6">
+            <div class="flex items-center gap-3">
+                <img src="Picao-Logo.png" class="w-8 h-8">
+                <span class="text-[10px] font-black uppercase tracking-[0.3em] opacity-40">Intelligence Terminal v1.0</span>
             </div>
-            <div class="flex items-center gap-4">
-                <div class="hidden md:flex gap-4 mr-6">
-                    <div class="flex flex-col items-end"><span class="text-[8px] opacity-30 uppercase font-black">March Cohort</span><span class="text-[10px] font-bold">65% Prepared</span></div>
+            <button onclick="toggleTheme()" class="p-2 glass-panel rounded-xl"><i id="theme-icon" data-lucide="sun" class="w-4 h-4"></i></button>
+        </div>
+
+        <div id="stage-area" class="flex-1 flex flex-col items-center justify-center">
+            
+            <div id="input-view" class="text-center">
+                <h2 class="text-4xl font-extrabold mb-10 italic">Capture Your Thought.</h2>
+                <div id="wave-box" class="flex items-center justify-center gap-2 h-20 mb-12">
+                    <div class="wave-bar"></div><div class="wave-bar" style="animation-delay: 0.1s"></div><div class="wave-bar" style="animation-delay: 0.2s"></div><div class="wave-bar" style="animation-delay: 0.3s"></div><div class="wave-bar" style="animation-delay: 0.4s"></div>
                 </div>
-                <button onclick="toggleTheme()" class="p-3 glass-panel rounded-2xl hover:rotate-90 transition-transform duration-500">
-                    <i id="theme-icon" data-lucide="sun" class="w-5 h-5"></i>
+                <button onclick="processInput()" id="mic-btn" class="bg-blue-600 w-24 h-24 rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition pulse-active">
+                    <i data-lucide="mic" class="w-10 h-10 text-white"></i>
                 </button>
-                <a href="index.html" class="p-3 glass-panel rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-red-500/10 hover:text-red-500 transition">Exit</a>
+                <p class="mt-6 text-[10px] font-bold opacity-30 uppercase tracking-widest">Tap to begin refraction</p>
+            </div>
+
+            <div id="neural-view" class="hidden w-full h-full flex flex-col items-center justify-center relative">
+                <div class="relative w-96 h-96">
+                    <div class="neural-node node-active" style="top: 50%; left: 50%;"></div>
+                    <div class="neural-node" style="top: 20%; left: 30%;"></div>
+                    <div class="neural-node" style="top: 80%; left: 70%;"></div>
+                    <div class="neural-node" style="top: 30%; left: 80%;"></div>
+                    <div class="neural-line" style="top: 51%; left: 51%; width: 100px; rotate: -45deg;"></div>
+                    <div class="neural-line" style="top: 51%; left: 51%; width: 120px; rotate: 120deg;"></div>
+                </div>
+                <div class="text-center mt-8">
+                    <p id="process-text" class="font-mono text-xs text-blue-400">ISOLATING CORE VALUE PROPOSITIONS...</p>
+                </div>
+            </div>
+
+            <div id="output-view" class="hidden w-full flex flex-col md:flex-row items-center justify-center gap-12 fade-in">
+                <div class="phone-mockup shadow-2xl">
+                    <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black/80 flex flex-col justify-end p-6">
+                        <p class="text-white text-xs font-bold mb-2">@PicaoCreator</p>
+                        <p class="text-white text-[10px] leading-relaxed mb-4">"The Context Tax is stealing your followers. Here is how we fix it..."</p>
+                        <div class="flex gap-2"><span class="bg-pink-500 px-2 py-1 rounded text-[8px] font-bold">#CreatorEconomy</span></div>
+                    </div>
+                </div>
+                <div class="desktop-mockup shadow-2xl bg-slate-50 p-6 flex flex-col">
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="w-8 h-8 rounded-full bg-blue-600"></div>
+                        <div class="h-2 w-24 bg-slate-200 rounded"></div>
+                    </div>
+                    <p class="text-[11px] text-slate-800 font-bold mb-2">Systems Over Hustle: The 2026 Shift</p>
+                    <p class="text-[9px] text-slate-500 leading-relaxed mb-4">I've spent the last month analyzing why some creators scale and others plateau. The answer isn't "more content"—it's a refraction strategy...</p>
+                    <div class="mt-auto border-t pt-2 flex justify-between"><div class="h-2 w-12 bg-slate-200 rounded"></div><div class="h-2 w-8 bg-blue-100 rounded"></div></div>
+                </div>
             </div>
         </div>
 
-        <div id="demo-stage" class="flex-1 flex flex-col gap-8 overflow-y-auto px-4 custom-scrollbar">
-            <div class="message flex gap-6">
-                <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-700 flex-shrink-0 flex items-center justify-center shadow-2xl">
-                    <i data-lucide="cpu" class="w-6 h-6 text-white"></i>
-                </div>
-                <div class="glass-panel p-7 rounded-[2.5rem] rounded-tl-none max-w-xl">
-                    <p class="text-sm font-semibold leading-relaxed">Intelligence ready. I'm Picao, your creative architecture. <br><br>Drop a seed thought or a voice memo. I’ll handle the refraction into a multi-platform strategy.</p>
-                </div>
+        <div id="demo-footer" class="hidden border-t border-white/5 pt-8 flex justify-between items-center">
+            <div>
+                <p class="text-sm font-bold italic">Strategy Bundle Ready.</p>
+                <p class="text-[10px] opacity-40 uppercase tracking-widest">March 2026 Cohort: 65% Full</p>
             </div>
+            <a href="index.html" class="bg-white text-black px-8 py-3 rounded-full font-black text-xs uppercase tracking-widest hover:bg-blue-600 hover:text-white transition">Claim Your Slot</a>
         </div>
-
-        <div class="mt-8 pt-10 border-t border-white/5 bg-gradient-to-t from-white/5 to-transparent rounded-b-[4rem]">
-            <div id="input-zone" class="flex flex-col items-center pb-6">
-                <div id="wave-box" class="flex items-center gap-2 h-20 mb-8">
-                    <div class="wave-bar"></div><div class="wave-bar" style="animation-delay: 0.1s"></div><div class="wave-bar" style="animation-delay: 0.2s"></div><div class="wave-bar" style="animation-delay: 0.3s"></div><div class="wave-bar" style="animation-delay: 0.4s"></div><div class="wave-bar" style="animation-delay: 0.5s"></div>
-                </div>
-                
-                <div class="flex gap-4">
-                    <button id="main-action-btn" onclick="startSynthesis()" class="bg-blue-600 text-white px-14 py-5 rounded-full font-black text-xs uppercase tracking-[0.2em] hover:scale-105 transition shadow-[0_20px_40px_rgba(59,130,246,0.3)] flex items-center gap-3">
-                        <i data-lucide="mic" class="w-5 h-5"></i> Capture Idea
-                    </button>
-                    <button class="glass-panel px-8 py-5 rounded-full text-xs font-black uppercase tracking-widest opacity-40 hover:opacity-100 transition">
-                        Library
-                    </button>
-                </div>
-            </div>
-        </div>
-
     </div>
 
     <script>
         lucide.createIcons();
-
-        function addMessage(text, isUser = false, isTyping = false) {
-            const stage = document.getElementById('demo-stage');
-            const msgDiv = document.createElement('div');
-            msgDiv.className = `message flex gap-6 ${isUser ? 'flex-row-reverse self-end' : ''}`;
-            
-            const content = isTyping ? `
-                <div class="flex gap-2 py-2">
-                    <div class="typing-dot"></div><div class="typing-dot" style="animation-delay: 0.2s"></div><div class="typing-dot" style="animation-delay: 0.4s"></div>
-                </div>
-            ` : `<p class="text-sm font-semibold leading-relaxed">${text}</p>`;
-
-            msgDiv.innerHTML = `
-                <div class="w-12 h-12 rounded-2xl ${isUser ? 'bg-white text-black' : 'bg-gradient-to-br from-blue-600 to-indigo-700'} flex-shrink-0 flex items-center justify-center shadow-xl">
-                    <i data-lucide="${isUser ? 'user' : 'sparkles'}" class="w-6 h-6"></i>
-                </div>
-                <div class="glass-panel p-7 rounded-[2.5rem] ${isUser ? 'rounded-tr-none bg-white/5' : 'rounded-tl-none'} max-w-xl">
-                    ${content}
-                </div>
-            `;
-            stage.appendChild(msgDiv);
+        function toggleTheme() {
+            document.getElementById('demo-body').classList.toggle('light-theme');
+            const isLight = document.getElementById('demo-body').classList.contains('light-theme');
+            document.getElementById('theme-icon').setAttribute('data-lucide', isLight ? 'moon' : 'sun');
             lucide.createIcons();
-            stage.scrollTop = stage.scrollHeight;
-            return msgDiv;
         }
 
-        async function startSynthesis() {
-            const btn = document.getElementById('main-action-btn');
-            const wave = document.getElementById('wave-box');
-            btn.disabled = true;
-            btn.innerHTML = "Capturing...";
-            wave.classList.add('active-wave');
-
-            setTimeout(() => {
-                wave.classList.remove('active-wave');
-                addMessage("I want to break down why creators struggle to hit 100k followers—it's not the algorithm, it's the friction of their workflow.", true);
-                btn.innerHTML = "Processing...";
-                runIntelligence();
-            }, 3000);
-        }
-
-        function runIntelligence() {
-            setTimeout(() => {
-                const typing = addMessage("", false, true);
-                setTimeout(() => {
-                    typing.remove();
-                    addMessage("Analysis complete. I've detected a high-value 'Workflow Friction' narrative. <br><br>How should we style the refraction?");
-                    showStyleControls();
-                }, 2000);
-            }, 1000);
-        }
-
-        function showStyleControls() {
-            const stage = document.getElementById('demo-stage');
-            const ctrls = document.createElement('div');
-            ctrls.className = "message flex flex-wrap gap-3 mt-4";
-            ctrls.innerHTML = `
-                <button onclick="renderFinal('Viral')" class="glass-panel px-6 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-blue-600 transition">Viral Hook Mode</button>
-                <button onclick="renderFinal('Authority')" class="glass-panel px-6 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-purple-600 transition">Thought Leader Mode</button>
-                <button onclick="renderFinal('Story')" class="glass-panel px-6 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-green-600 transition">Storyteller Mode</button>
-            `;
-            stage.appendChild(ctrls);
-            stage.scrollTop = stage.scrollHeight;
-        }
-
-        function renderFinal(mode) {
-            addMessage(`Apply ${mode} optimization.`, true);
-            setTimeout(() => {
-                const typing = addMessage("", false, true);
-                setTimeout(() => {
-                    typing.remove();
-                    addMessage(`Synthesis successful. Your ${mode}-optimized Content Bundle is ready for March 2026 distribution.`);
-                    displayResults();
-                }, 1500);
-            }, 800);
-        }
-
-        function displayResults() {
-            const stage = document.getElementById('demo-stage');
-            const res = document.createElement('div');
-            res.className = "message w-full mt-8 pb-10";
-            res.innerHTML = `
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-                    <div class="platform-card glass-panel p-8 rounded-[2.5rem] border-t-4 border-pink-500">
-                        <div class="flex justify-between items-center mb-6">
-                            <i data-lucide="video" class="text-pink-500"></i>
-                            <span class="text-[9px] font-black bg-pink-500/10 px-3 py-1 rounded-full text-pink-500 uppercase tracking-widest">98 Score</span>
-                        </div>
-                        <p class="text-[11px] font-bold opacity-40 uppercase mb-2">TikTok Hook</p>
-                        <p class="text-sm font-semibold italic">"The algorithm isn't your enemy. Your dashboard is. Here's why..."</p>
-                    </div>
-                    <div class="platform-card glass-panel p-8 rounded-[2.5rem] border-t-4 border-blue-500">
-                        <div class="flex justify-between items-center mb-6">
-                            <i data-lucide="linkedin" class="text-blue-500"></i>
-                            <span class="text-[9px] font-black bg-blue-500/10 px-3 py-1 rounded-full text-blue-500 uppercase tracking-widest">High Reach</span>
-                        </div>
-                        <p class="text-[11px] font-bold opacity-40 uppercase mb-2">LinkedIn Lead</p>
-                        <p class="text-sm font-semibold">"Most creators fail at 50k. The survivors all have one thing in common: Systems over Hustle."</p>
-                    </div>
-                    <div class="platform-card glass-panel p-8 rounded-[2.5rem] border-t-4 border-yellow-500">
-                        <div class="flex justify-between items-center mb-6">
-                            <i data-lucide="twitter" class="text-yellow-500"></i>
-                            <span class="text-[9px] font-black bg-yellow-500/10 px-3 py-1 rounded-full text-yellow-500 uppercase tracking-widest">Viral Thread</span>
-                        </div>
-                        <p class="text-[11px] font-bold opacity-40 uppercase mb-2">X / Thread</p>
-                        <p class="text-sm font-semibold italic">"1/10 Your workflow is leaking followers. Let's fix it. [Thread]"</p>
-                    </div>
-                </div>
-                
-                <div class="glass-panel p-10 rounded-[3.5rem] bg-gradient-to-br from-blue-600/10 to-transparent border-blue-500/30 flex flex-col md:flex-row items-center justify-between gap-8">
-                    <div class="text-left">
-                        <h4 class="text-2xl font-black mb-2 italic">March 2026 Bundle</h4>
-                        <p class="text-xs opacity-50 font-bold uppercase tracking-widest">Ready for deployment</p>
-                    </div>
-                    <div class="flex gap-6">
-                        <div class="flex flex-col items-center gap-2"><i data-lucide="file-audio" class="text-blue-400"></i><span class="text-[8px] font-black uppercase opacity-30">Voice.mp3</span></div>
-                        <div class="flex flex-col items-center gap-2"><i data-lucide="file-text" class="text-purple-400"></i><span class="text-[8px] font-black uppercase opacity-30">Scripts.txt</span></div>
-                        <div class="flex flex-col items-center gap-2"><i data-lucide="hash" class="text-green-400"></i><span class="text-[8px] font-black uppercase opacity-30">Data.json</span></div>
-                    </div>
-                    <button id="final-btn" onclick="simFinal()" class="bg-white text-black px-12 py-5 rounded-full font-black text-xs uppercase tracking-widest hover:bg-blue-600 hover:text-white transition shadow-2xl">
-                        Export Bundle
-                    </button>
-                </div>
-            `;
-            stage.appendChild(res);
+        function processInput() {
+            document.getElementById('wave-box').classList.add('active-wave');
+            document.getElementById('mic-btn').innerHTML = "<i data-lucide='loader' class='animate-spin text-white w-10 h-10'></i>";
             lucide.createIcons();
-            stage.scrollTop = stage.scrollHeight;
-            document.getElementById('input-zone').style.display = 'none';
-        }
 
-        function simFinal() {
-            const btn = document.getElementById('final-btn');
-            btn.innerHTML = "<i data-lucide='refresh-cw' class='animate-spin w-4 h-4'></i> Syncing...";
-            lucide.createIcons();
             setTimeout(() => {
-                btn.innerHTML = "Bundle Authenticated. See you in March.";
-                alert("This simulation proves the Picao workflow. This user is now 'Warm' for the March cohort.");
+                document.getElementById('input-view').classList.add('hidden');
+                document.getElementById('neural-view').classList.remove('hidden');
+                runNeuralSteps();
             }, 2500);
         }
 
-        function toggleTheme() {
-            const body = document.getElementById('demo-body');
-            body.classList.toggle('light-theme');
-            const icon = document.getElementById('theme-icon');
-            icon.setAttribute('data-lucide', body.classList.contains('light-theme') ? 'moon' : 'sun');
-            lucide.createIcons();
+        function runNeuralSteps() {
+            const steps = ["MAPPING HOOK VELOCITY...", "IDENTIFYING VALUE PILLARS...", "OPTIMIZING FOR MOBILE FEED...", "GENERATING LinkedIn THREAD...", "BUNDLE SYNTHESIZED."];
+            let i = 0;
+            const interval = setInterval(() => {
+                document.getElementById('process-text').innerText = steps[i];
+                i++;
+                if(i === steps.length) {
+                    clearInterval(interval);
+                    showFinal();
+                }
+            }, 1000);
         }
 
-        const glow = document.getElementById('cursor-glow');
-        window.addEventListener('mousemove', (e) => {
-            glow.style.left = e.clientX + 'px';
-            glow.style.top = e.clientY + 'px';
-        });
+        function showFinal() {
+            document.getElementById('neural-view').classList.add('hidden');
+            document.getElementById('output-view').classList.remove('hidden');
+            document.getElementById('demo-footer').classList.remove('hidden');
+        }
     </script>
 </body>
 </html>
