@@ -1,131 +1,91 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Picao AI | 2-Min Voice to 12 Posts</title>
-
-    <link rel="icon" type="image/png" href="Picao-Logo.png">
-    <meta property="og:title" content="Picao AI | 2-Min Voice to 12 Authority Posts">
-    <meta property="og:description" content="One thought, refracted into TikTok, LinkedIn, and X. Reclaim 20 hours a week. Join the Alpha.">
-    <meta property="og:image" content="https://picaoai.com/Picao-Logo.png">
-    <meta property="og:url" content="https://picaoai.com">
-    <meta property="og:type" content="website">
-    <meta name="twitter:card" content="summary_large_image">
-
+    <title>Picao AI | Voice to Content for Solopreneurs</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
-    
     <style>
-        :root { --bg: #020617; --text: #ffffff; --accent: #3b82f6; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--bg); color: var(--text); overflow-x: hidden; margin: 0; padding: 0; }
-        .glass-panel { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.05); transition: all 0.3s ease; }
-        .info-card:hover { border-color: rgba(59, 130, 246, 0.3); background: rgba(59, 130, 246, 0.02); }
-        .metric-label { font-size: 10px; font-weight: 800; opacity: 0.4; letter-spacing: 0.1em; text-transform: uppercase; }
+        .gradient-text {
+            background: linear-gradient(90deg, #6366f1, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
     </style>
 </head>
-<body>
+<body class="bg-slate-50 text-slate-900 font-sans antialiased">
 
-    <nav class="fixed w-full z-50 top-0 border-b border-white/5 backdrop-blur-md">
-        <div class="max-w-7xl mx-auto flex justify-between items-center px-6 py-4">
-            <div class="flex items-center gap-3">
-                <img src="Picao-Logo.png" class="w-8 h-8" alt="Picao Logo">
-                <span class="text-sm font-black tracking-tighter">Picao AI</span>
-            </div>
-            <div class="flex items-center gap-6">
-                <span class="text-[9px] font-bold uppercase tracking-[0.2em] opacity-30 hidden md:block">Alpha Access v1.0.4</span>
-                <a href="demo.html" class="bg-white/5 border border-white/10 text-white px-5 py-2 rounded-full font-bold text-[10px] uppercase tracking-widest hover:bg-blue-600 transition">View Preview</a>
-            </div>
+    <nav class="max-w-5xl mx-auto px-6 py-8 flex justify-between items-center">
+        <div class="text-2xl font-bold tracking-tight">Picao<span class="text-indigo-600">AI</span></div>
+        <div class="text-sm font-medium bg-indigo-50 text-indigo-700 px-3 py-1 rounded-full ring-1 ring-indigo-700/10">
+            Early Alpha: 5 Slots Open
         </div>
     </nav>
 
-    <section class="min-h-screen flex flex-col items-center justify-center pt-20 px-6 text-center">
-        <div class="mb-8">
-            <span class="text-[10px] font-black uppercase tracking-[0.3em] text-blue-500 bg-blue-500/10 px-4 py-2 rounded-full border border-blue-500/20">
-                Early Alpha: 5 Slots Open
-            </span>
-        </div>
-        
-        <h1 class="text-6xl md:text-8xl font-extrabold tracking-tighter mb-8 leading-none max-w-5xl">
-            Turn a 2-minute voice note into <span class="text-blue-500 italic">12 ready posts.</span>
+    <header class="max-w-4xl mx-auto px-6 pt-16 pb-24 text-center">
+        <h1 class="text-5xl md:text-6xl font-extrabold mb-6 tracking-tight">
+            Turn a 2-minute voice note into <br>
+            <span class="gradient-text">3 platform-ready posts + hooks.</span>
         </h1>
-        
-        <p class="opacity-50 max-w-2xl text-lg md:text-xl mb-12 font-medium leading-relaxed">
-            Record a raw thought. We deliver a complete content refraction to your inbox within 24 hours. 
-            <span class="text-white block mt-4 font-bold">Ready to copy/paste (Scheduling coming soon).</span>
+        <p class="text-xl text-slate-600 mb-10 max-w-2xl mx-auto">
+            The content workflow for LinkedIn solopreneurs. We take your raw ideas and deliver 24-hour drafts that actually sound like you.
         </p>
-
-        <div class="flex flex-col items-center gap-6 mb-20">
-            <a href="demo.html" class="bg-blue-600 text-white px-10 py-4 rounded-full font-black text-xs uppercase tracking-widest hover:scale-105 transition shadow-2xl">Product Preview (Simulated)</a>
-            <p class="text-[10px] font-bold opacity-30 uppercase tracking-widest italic">Want the real thing? Request alpha access below.</p>
-        </div>
-    </section>
-
-    <section id="how-it-works" class="py-32 px-6 border-y border-white/5 bg-white/[0.01]">
-        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="info-card glass-panel p-10 rounded-[2.5rem] border-l-4 border-l-blue-600">
-                <div class="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center text-xs font-black mb-6">1</div>
-                <h3 class="text-xl font-bold mb-4 italic">You Submit</h3>
-                <p class="opacity-40 text-sm leading-relaxed">Send 1 voice note or rough transcript + your niche + your content goal (Grow, Recruit, or Sell).</p>
-            </div>
-            <div class="info-card glass-panel p-10 rounded-[2.5rem] border-l-4 border-l-blue-600">
-                <div class="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center text-xs font-black mb-6">2</div>
-                <h3 class="text-xl font-bold mb-4 italic">Picao Refracts</h3>
-                <p class="opacity-40 text-sm leading-relaxed">We deliver 3 platform-ready drafts + 5 hooks + a weekly posting plan to your inbox within 24h.</p>
-            </div>
-            <div class="info-card glass-panel p-10 rounded-[2.5rem] border-l-4 border-l-blue-600">
-                <div class="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center text-xs font-black mb-6">3</div>
-                <h3 class="text-xl font-bold mb-4 italic">Final Delivery</h3>
-                <p class="opacity-40 text-sm leading-relaxed">Review the drafts. One manual revision is included to ensure the final copy sounds exactly like you.</p>
+        
+        <div class="bg-white p-2 rounded-xl shadow-xl ring-1 ring-slate-200 max-w-md mx-auto">
+            <div class="flex flex-col space-y-2">
+                <button onclick="window.location.href='#signup'" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-4 rounded-lg transition-all">
+                    Claim 1 of 5 Alpha Slots
+                </button>
             </div>
         </div>
-    </section>
+        <p class="mt-4 text-sm text-slate-400 italic">No credit card required. 24h delivery guaranteed.</p>
+    </header>
 
-    <section class="py-32 px-6 max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12">
-        <div class="glass-panel p-12 rounded-[3.5rem]">
-            <p class="metric-label mb-2">Alpha Testing // n=5 Creators</p>
-            <h4 class="text-7xl font-black mb-4 tracking-tighter">15+ hrs</h4>
-            <p class="opacity-50 font-bold uppercase text-[10px] tracking-widest leading-relaxed">Average weekly time saved on multi-platform content production.</p>
-        </div>
-        <div class="glass-panel p-12 rounded-[3.5rem]">
-            <p class="metric-label mb-2">Alpha Testing // 14-Day Sprint</p>
-            <h4 class="text-7xl font-black mb-4 tracking-tighter">4x</h4>
-            <p class="opacity-50 font-bold uppercase text-[10px] tracking-widest leading-relaxed">Increase in posting frequency for LinkedIn Solopreneurs.</p>
-        </div>
-    </section>
-
-    <section class="py-32 px-6 bg-blue-600/5">
-        <div class="max-w-4xl mx-auto flex flex-col items-center text-center">
-            <h2 class="text-4xl md:text-5xl font-black italic mb-8">Alpha Spots Open (5)</h2>
-            <p class="opacity-50 text-lg mb-12 max-w-xl">
-                We are onboarding 5 LinkedIn Solopreneurs this week to battle-test the Refraction Engine. 
-                Get authority-driven content without the administrative lag.
-            </p>
-            
-            <div class="flex flex-col md:flex-row gap-4 mb-12">
-                <div class="flex items-center gap-2 px-4 py-2 glass-panel rounded-full text-[10px] font-black uppercase tracking-widest opacity-60">
-                    <i data-lucide="check" class="w-3 h-3 text-green-500"></i> No Automated Fluff
+    <section class="bg-white border-y border-slate-200 py-20">
+        <div class="max-w-5xl mx-auto px-6">
+            <div class="grid md:grid-cols-3 gap-12">
+                <div>
+                    <h3 class="font-bold text-lg mb-2">1. Record</h3>
+                    <p class="text-slate-600">Dump your insights into a 2-minute voice note. No script, no polish, just raw expertise.</p>
                 </div>
-                <div class="flex items-center gap-2 px-4 py-2 glass-panel rounded-full text-[10px] font-black uppercase tracking-widest opacity-60">
-                    <i data-lucide="check" class="w-3 h-3 text-green-500"></i> Direct Founder Onboarding
+                <div>
+                    <h3 class="font-bold text-lg mb-2">2. Refract</h3>
+                    <p class="text-slate-600">Our AI identifies the "hooks" and "value nuggets." Founder-reviewed for quality insurance.</p>
+                </div>
+                <div>
+                    <h3 class="font-bold text-lg mb-2">3. Post</h3>
+                    <p class="text-slate-600">Receive 3 distinct drafts optimized for LinkedIn within 24 hours. Copy, paste, and win.</p>
                 </div>
             </div>
-
-            <a href="mailto:founder@picaoai.com?subject=Alpha%20Access%20Request" class="bg-blue-600 text-white px-12 py-5 rounded-full font-black text-xs uppercase tracking-widest hover:scale-105 transition shadow-2xl">
-                Request a Slot
-            </a>
-            <p class="mt-8 text-[9px] font-bold opacity-20 uppercase tracking-[0.3em]">Join the builder's circle // v1.0.4</p>
         </div>
     </section>
 
-    <footer class="py-20 px-6 border-t border-white/5 text-center">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
-            <div class="text-[10px] font-black tracking-widest uppercase opacity-20 italic">New York, NY // Build 2026</div>
-            <div class="text-[10px] font-black tracking-[0.4em] uppercase opacity-20">© 2026 Picao Intelligence</div>
+    <section class="max-w-4xl mx-auto px-6 py-20 text-center">
+        <h2 class="text-2xl font-bold mb-12 text-slate-800">Early Alpha Signals (n=5)</h2>
+        <div class="grid grid-cols-2 md:grid-cols-2 gap-8">
+            <div class="p-6">
+                <div class="text-4xl font-bold text-indigo-600 mb-1">4x</div>
+                <div class="text-slate-500 uppercase tracking-wide text-xs font-semibold">Self-reported posting frequency</div>
+            </div>
+            <div class="p-6">
+                <div class="text-4xl font-bold text-indigo-600 mb-1">15+ hrs</div>
+                <div class="text-slate-500 uppercase tracking-wide text-xs font-semibold">Estimated monthly time saved</div>
+            </div>
         </div>
+        <div class="mt-12 bg-slate-100 rounded-lg p-6 inline-block">
+            <p class="text-slate-700 italic">"The first AI tool that didn't make me sound like a corporate robot."</p>
+            <p class="text-sm font-bold mt-2 text-slate-500">— Alpha Tester #2</p>
+        </div>
+    </section>
+
+    <footer id="signup" class="max-w-2xl mx-auto px-6 py-24 text-center">
+        <h2 class="text-3xl font-bold mb-4">Ready to ideate and launch?</h2>
+        <p class="text-slate-600 mb-8">We are manually onboarding 5 solopreneurs this week to ensure 24h delivery quality.</p>
+        <a href="mailto:founder@picaoai.com?subject=Alpha%20Access%20Request" class="inline-block bg-slate-900 text-white px-8 py-4 rounded-lg font-bold hover:bg-slate-800">
+            Email for Alpha Access
+        </a>
+        <p class="mt-4 text-xs text-slate-400 underline">Coming soon: Full self-serve workspace</p>
     </footer>
 
-    <script>lucide.createIcons();</script>
 </body>
 </html>
