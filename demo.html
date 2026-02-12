@@ -3,138 +3,178 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Picao AI | Mobile Workspace Demo</title>
+    <title>Picao AI | Creator Command Center</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root { --picao-indigo: #6366f1; --picao-purple: #a855f7; }
+        :root { --picao-indigo: #6366f1; --picao-purple: #a855f7; --canva-blue: #00C4CC; }
         body { font-family: 'Inter', sans-serif; background: #050505; color: white; min-height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
         
-        /* --- PHONE FRAME (REGULAR SIZE) --- */
+        /* --- AMBIENT DESIGN --- */
+        .glow-orb { position: absolute; width: 600px; height: 600px; border-radius: 50%; filter: blur(140px); opacity: 0.15; z-index: -1; animation: drift 20s infinite alternate ease-in-out; }
+        .orb-1 { top: -10%; left: -10%; background: var(--picao-indigo); }
+        .orb-2 { bottom: -10%; right: -10%; background: var(--picao-purple); animation-delay: -5s; }
+        @keyframes drift { from { transform: translate(0, 0) scale(1); } to { transform: translate(100px, 50px) scale(1.1); } }
+
+        /* --- LAYOUT WRAPPER --- */
+        .workspace-wrapper { display: flex; align-items: center; gap: 50px; transform: scale(0.85); transition: all 1s ease; }
+
+        /* --- PREMIUM SIDE PANELS --- */
+        .side-panel {
+            width: 280px; height: 680px; background: rgba(255, 255, 255, 0.015);
+            border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 3rem;
+            backdrop-filter: blur(40px); padding: 2.5rem; display: flex; flex-direction: column;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.5);
+        }
+        .panel-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--picao-indigo); font-weight: 800; text-transform: uppercase; letter-spacing: 0.3em; margin-bottom: 2rem; }
+
+        /* --- PHONE FRAME (CENTRAL HUB) --- */
         .phone-frame {
-            width: 375px; height: 750px; background: #080808; border: 10px solid #1a1a1a; border-radius: 3.5rem;
-            position: relative; box-shadow: 0 50px 100px rgba(0,0,0,0.9), 0 0 40px rgba(99, 102, 241, 0.1);
-            display: flex; flex-direction: column; overflow: hidden;
+            width: 380px; height: 780px; background: #080808; border: 12px solid #1a1a1a; border-radius: 4rem;
+            position: relative; box-shadow: 0 60px 120px rgba(0,0,0,0.9), 0 0 60px rgba(99, 102, 241, 0.15);
+            display: flex; flex-direction: column; overflow: hidden; z-index: 10;
         }
 
-        /* --- DYNAMIC MIC WITH MOTION LINES --- */
-        .mic-container { position: relative; width: 90px; height: 90px; margin: 0 auto; cursor: pointer; }
-        .mic-button { 
-            width: 100%; height: 100%; background: var(--picao-indigo); border-radius: 50%; 
-            display: flex; align-items: center; justify-content: center; position: relative; z-index: 10;
-        }
-        .motion-line {
-            position: absolute; background: var(--picao-indigo); border-radius: 10px;
-            opacity: 0; animation: radiate 2s infinite ease-out;
-        }
-        /* Positions for motion lines */
-        .l-top { width: 3px; height: 20px; top: -30px; left: 50%; transform: translateX(-50%); }
-        .l-bottom { width: 3px; height: 20px; bottom: -30px; left: 50%; transform: translateX(-50%); }
-        .l-left { width: 20px; height: 3px; left: -30px; top: 50%; transform: translateY(-50%); }
-        .l-right { width: 20px; height: 3px; right: -30px; top: 50%; transform: translateY(-50%); }
+        /* --- ANIMATED MIC HUB --- */
+        .mic-container { position: relative; width: 100px; height: 100px; margin: 0 auto; cursor: pointer; }
+        .mic-button { width: 100%; height: 100%; background: var(--picao-indigo); border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 10; position: relative; transition: transform 0.3s ease; }
+        .mic-button:hover { transform: scale(1.05); }
+        .motion-line { position: absolute; background: var(--picao-indigo); border-radius: 10px; opacity: 0; animation: radiate 2s infinite ease-out; }
+        .l-top { width: 3px; height: 25px; top: -35px; left: 50%; transform: translateX(-50%); }
+        .l-bottom { width: 3px; height: 25px; bottom: -35px; left: 50%; transform: translateX(-50%); }
+        .l-left { width: 25px; height: 3px; left: -35px; top: 50%; transform: translateY(-50%); }
+        .l-right { width: 25px; height: 3px; right: -35px; top: 50%; transform: translateY(-50%); }
+        @keyframes radiate { 0% { transform: scale(0.5); opacity: 0; } 50% { opacity: 0.8; } 100% { transform: scale(1.6); opacity: 0; } }
 
-        @keyframes radiate {
-            0% { transform: scale(0.5); opacity: 0; }
-            50% { opacity: 0.8; }
-            100% { transform: scale(1.5); opacity: 0; }
-        }
+        /* --- CHAT BUBBLES --- */
+        .bubble { max-width: 88%; padding: 1.3rem; border-radius: 1.8rem; font-size: 13px; line-height: 1.5; margin-bottom: 1.5rem; opacity: 0; transform: translateY(20px); transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1); }
+        .bubble-user { background: #181818; align-self: flex-end; border-bottom-right-radius: 0.3rem; color: #d1d1d1; border: 1px solid rgba(255,255,255,0.03); }
+        .bubble-picao { background: linear-gradient(135deg, var(--picao-indigo), var(--picao-purple)); align-self: flex-start; border-bottom-left-radius: 0.3rem; font-weight: 600; box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3); }
+        .show { opacity: 1; transform: translateY(0); }
 
-        /* --- CHAT DYNAMICS --- */
-        .bubble { max-width: 85%; padding: 1.2rem; border-radius: 1.5rem; font-size: 13px; line-height: 1.5; margin-bottom: 1.2rem; opacity: 0; transform: translateY(15px); }
-        .bubble-user { background: #1a1a1a; align-self: flex-end; border-bottom-right-radius: 0.2rem; color: #eee; }
-        .bubble-picao { background: var(--picao-indigo); align-self: flex-start; border-bottom-left-radius: 0.2rem; font-weight: 600; box-shadow: 0 10px 20px rgba(99, 102, 241, 0.2); }
-        .show { opacity: 1; transform: translateY(0); transition: all 0.6s cubic-bezier(0.2, 1, 0.3, 1); }
-
-        /* --- REFRACTION CARDS --- */
-        .card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 1.8rem; padding: 1.5rem; margin-bottom: 1rem; opacity: 0; transform: scale(0.95); transition: 0.5s ease; }
+        /* --- PLATFORM CARDS --- */
+        .card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 2rem; padding: 1.8rem; margin-bottom: 1.2rem; opacity: 0; transform: scale(0.96); transition: all 0.5s ease; }
         .card.active { opacity: 1; transform: scale(1); }
-        
-        .platform-tag { font-family: 'JetBrains Mono', monospace; font-size: 9px; font-bold; text-transform: uppercase; letter-spacing: 0.1em; color: var(--picao-indigo); }
-        
+        .platform-tag { font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 800; text-transform: uppercase; color: var(--picao-indigo); }
+
+        /* --- CANVA BRANDING --- */
+        .btn-canva { background: var(--canva-blue); transition: all 0.3s ease; box-shadow: 0 0 20px rgba(0, 196, 204, 0.2); }
+        .btn-canva:hover { filter: brightness(1.1); transform: translateY(-2px); }
+
         .scroll-v::-webkit-scrollbar { width: 0px; }
     </style>
 </head>
 <body>
 
-    <div class="phone-frame">
-        <div class="px-8 pt-5 pb-3 flex justify-between items-center opacity-30">
-            <span class="text-[10px] font-bold">12:18</span>
-            <div class="flex gap-1.5"><i data-lucide="signal" class="w-3 h-3"></i><i data-lucide="battery" class="w-3 h-3"></i></div>
-        </div>
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
 
-        <div class="px-6 py-4 border-b border-white/5 flex items-center justify-between bg-black/40 backdrop-blur-md sticky top-0 z-50">
-            <div class="flex items-center gap-3">
-                <div class="w-7 h-7 bg-indigo-600 rounded-md flex items-center justify-center"><img src="Picao-Logo.png" class="w-4 h-4 invert"></div>
-                <h1 class="text-[10px] font-black uppercase tracking-widest">Picao Workspace</h1>
+    <div class="workspace-wrapper">
+        
+        <div class="side-panel hidden xl:flex">
+            <p class="panel-label">Idea_Vault</p>
+            <div class="space-y-5">
+                <div class="p-5 bg-white/[0.03] rounded-3xl border border-white/10 hover:bg-white/[0.05] transition cursor-pointer">
+                    <p class="text-[9px] font-black text-indigo-400 mb-2 uppercase tracking-widest">Thought_Draft // 2.12.26</p>
+                    <p class="text-[11px] leading-relaxed opacity-60">"Idea for IG: How reading 50 books a year is actually an R&D department."</p>
+                </div>
+                <div class="p-5 bg-white/[0.01] rounded-3xl border border-white/5 opacity-40">
+                    <p class="text-[9px] font-black text-slate-500 mb-2 uppercase tracking-widest">2.10.26</p>
+                    <p class="text-[11px] leading-relaxed italic">"Voice note on context-switching tax for founders..."</p>
+                </div>
+                <button class="w-full py-4 border border-dashed border-white/10 rounded-3xl text-[9px] uppercase font-black opacity-30 hover:opacity-100 transition mt-4">+ New Inspiration</button>
             </div>
-            <a href="index.html" class="text-[8px] font-black uppercase opacity-40 hover:opacity-100 transition">Exit</a>
+            
+            <p class="panel-label mt-16">Ecosystem_Sync</p>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="p-4 bg-white/5 rounded-2xl flex flex-col items-center gap-2 opacity-60 hover:opacity-100 transition cursor-pointer border border-white/5">
+                    <i data-lucide="notion" class="w-5 h-5 text-white"></i>
+                    <span class="text-[8px] font-black uppercase">Notion</span>
+                </div>
+                <div class="p-4 bg-white/5 rounded-2xl flex flex-col items-center gap-2 opacity-60 hover:opacity-100 transition cursor-pointer border border-white/5">
+                    <i data-lucide="slack" class="w-5 h-5 text-purple-400"></i>
+                    <span class="text-[8px] font-black uppercase">Slack</span>
+                </div>
+            </div>
         </div>
 
-        <div id="demo-scroll" class="flex-1 overflow-y-auto p-6 flex flex-col scroll-v">
-            
-            <div id="mic-stage" class="flex-1 flex flex-col items-center justify-center text-center py-20">
-                <div class="mic-container mb-10" onclick="startFlow()">
-                    <div class="motion-line l-top"></div>
-                    <div class="motion-line l-bottom"></div>
-                    <div class="motion-line l-left"></div>
-                    <div class="motion-line l-right"></div>
-                    <div class="mic-button">
-                        <i data-lucide="mic" class="w-9 h-9 text-white"></i>
+        <div class="phone-frame">
+            <div class="px-8 pt-6 pb-2 flex justify-between items-center opacity-30">
+                <span class="text-[10px] font-bold">12:27</span>
+                <div class="flex gap-2"><i data-lucide="signal" class="w-3 h-3"></i><i data-lucide="battery" class="w-3 h-3"></i></div>
+            </div>
+
+            <div class="px-8 py-5 border-b border-white/5 flex items-center justify-between bg-black/60 backdrop-blur-xl sticky top-0 z-50">
+                <div class="flex items-center gap-4">
+                    <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center shadow-lg"><img src="Picao-Logo.png" class="w-5 h-5 invert"></div>
+                    <div>
+                        <h1 class="text-[11px] font-black uppercase tracking-widest">Picao AI</h1>
+                        <p class="text-[7px] font-bold text-indigo-400 uppercase tracking-[0.2em]">Flow_Active</p>
                     </div>
                 </div>
-                <h2 class="text-xl font-extrabold italic mb-3">Record Idea</h2>
-                <p class="text-[11px] opacity-40 px-8 leading-relaxed">Tap the mic to simulate the "Kat" workflow.</p>
+                <a href="index.html" class="text-[9px] font-black uppercase opacity-30 hover:opacity-100 transition tracking-widest">Close</a>
             </div>
 
-            <div id="chat-stage" class="hidden flex flex-col pb-10">
-                <div id="msg-1" class="bubble bubble-user">
-                    "Hey Picao, I’ve been thinking about making content on IG but I’m not sure what to post, I like reading and writing but I’m not sure anyone would be interested in that."
-                </div>
-                <div id="msg-2" class="bubble bubble-picao">
-                    "Hey Kat, there are so many people that would be interested in your content, you could make a series of you rating books you’ve read or you could give tips on how to improve writing, you could even do both!"
-                </div>
-            </div>
-
-            <div id="refraction-stage" class="hidden flex flex-col space-y-4 pb-20">
-                <div class="flex items-center gap-2 mb-4">
-                    <div class="h-px flex-1 bg-white/5"></div>
-                    <span class="text-[9px] font-bold opacity-30 uppercase tracking-[0.3em]">Refraction Ready</span>
-                    <div class="h-px flex-1 bg-white/5"></div>
+            <div id="demo-scroll" class="flex-1 overflow-y-auto p-8 flex flex-col scroll-v">
+                <div id="mic-stage" class="flex-1 flex flex-col items-center justify-center text-center py-24">
+                    <div class="mic-container mb-12" onclick="startFlow()">
+                        <div class="motion-line l-top"></div><div class="motion-line l-bottom"></div><div class="motion-line l-left"></div><div class="motion-line l-right"></div>
+                        <div class="mic-button shadow-2xl"><i data-lucide="mic" class="w-10 h-10 text-white"></i></div>
+                    </div>
+                    <h2 class="text-2xl font-extrabold italic mb-4">Start Ideating</h2>
+                    <p class="text-xs opacity-40 px-6 leading-relaxed">Tap to simulate Kat's "Expertise to Empire" journey.</p>
                 </div>
 
-                <div class="card" style="transition-delay: 0.1s;">
-                    <div class="flex items-center gap-2 mb-3"><i data-lucide="linkedin" class="w-4 h-4 text-blue-500"></i><span class="platform-tag">LinkedIn Authority</span></div>
-                    <p class="text-[11px] opacity-80 leading-relaxed italic">"Reading isn't a hobby, it's an R&D department for your personal brand. Here is how I turn 1 book into 10 strategies..."</p>
-                    <p class="text-[9px] text-indigo-400 mt-3 font-bold">#FounderMindset #BuildingFlow</p>
+                <div id="chat-stage" class="hidden flex flex-col pb-12">
+                    <div id="msg-1" class="bubble bubble-user">"Hey Picao, I’ve been thinking about making content on IG but I’m not sure what to post, I like reading and writing but I’m not sure anyone would be interested in that."</div>
+                    <div id="msg-2" class="bubble bubble-picao">"Hey Kat, there are so many people that would be interested in your content, you could make series of you rating books you’ve read or you could give tips on how to improve writing, you could even do both!"</div>
                 </div>
 
-                <div class="card" style="transition-delay: 0.2s;">
-                    <div class="flex items-center gap-2 mb-3"><i data-lucide="video" class="w-4 h-4 text-pink-500"></i><span class="platform-tag">TikTok Script</span></div>
-                    <p class="text-[11px] font-bold mb-2">Caption: How I fix my writer's block. 📚</p>
-                    <p class="text-[10px] opacity-60">"Hard cut from my bookshelf to my keyboard. I explain why rating books is the best way to find your voice..."</p>
+                <div id="refraction-stage" class="hidden flex flex-col space-y-5 pb-24">
+                    <p class="text-[10px] font-black opacity-30 uppercase tracking-[0.4em] text-center mb-6">Refraction_Success // Analysis_Complete</p>
+                    <div class="card"><div class="flex items-center gap-3 mb-4"><i data-lucide="linkedin" class="w-4 h-4 text-blue-500"></i><span class="platform-tag">LinkedIn Authority</span></div><p class="text-xs italic opacity-80 leading-relaxed">"Reading isn't a hobby. It's a leverage tool for founders. Here is how I turn 1 book into 10 strategies..."</p></div>
+                    <div class="card"><div class="flex items-center gap-3 mb-4"><i data-lucide="video" class="w-4 h-4 text-pink-500"></i><span class="platform-tag">TikTok Script</span></div><p class="text-xs font-bold mb-1 italic">Caption: Why I read 50 books a year. 📚</p><p class="text-[11px] opacity-60">"Split screen: Me reading vs. Me launching projects."</p></div>
+                    <div class="card"><div class="flex items-center gap-3 mb-4"><i data-lucide="youtube" class="w-4 h-4 text-red-500"></i><span class="platform-tag">YouTube Short</span></div><p class="text-xs italic font-black mb-1">Hook: "You are consuming, not creating."</p></div>
+                    <div class="card"><div class="flex items-center gap-3 mb-4"><i data-lucide="at-sign" class="w-4 h-4 text-white"></i><span class="platform-tag">Threads Thread</span></div><p class="text-xs opacity-80 leading-relaxed">"Stop the administrative tax. 🧵 Here are 5 books that fixed my workflow:"</p></div>
+                    <div class="card"><div class="flex items-center gap-3 mb-4"><i data-lucide="mail" class="w-4 h-4 text-orange-400"></i><span class="platform-tag">Substack Draft</span></div><p class="text-xs font-bold italic mb-1">Title: The Refraction Engine</p></div>
+                    <button data-tally-open="9qQ7GV" class="w-full bg-white text-black py-5 rounded-3xl font-black text-[11px] uppercase tracking-widest mt-8 hover:bg-indigo-500 transition-colors">Start Alpha Launch</button>
                 </div>
-
-                <div class="card" style="transition-delay: 0.3s;">
-                    <div class="flex items-center gap-2 mb-3"><i data-lucide="youtube" class="w-4 h-4 text-red-500"></i><span class="platform-tag">YouTube Short</span></div>
-                    <p class="text-[11px] italic font-black mb-2">Hook: "You're reading the wrong books."</p>
-                    <p class="text-[10px] opacity-60">Brief breakdown of why reading/writing content is a massive niche in 2026.</p>
-                </div>
-
-                <div class="card" style="transition-delay: 0.4s;">
-                    <div class="flex items-center gap-2 mb-3"><i data-lucide="at-sign" class="w-4 h-4 text-white"></i><span class="platform-tag">Threads Thread</span></div>
-                    <p class="text-[11px] opacity-80 italic">"I was afraid to post about my library. Picao told me to go for it. Here are 3 writing tips from my favorite novel: 🧵"</p>
-                </div>
-
-                <div class="card" style="transition-delay: 0.5s;">
-                    <div class="flex items-center gap-2 mb-3"><i data-lucide="mail" class="w-4 h-4 text-orange-400"></i><span class="platform-tag">Substack Draft</span></div>
-                    <p class="text-[11px] font-bold mb-1">Title: The Refraction Manifesto</p>
-                    <p class="text-[10px] opacity-60 italic">"A long-form deep dive into why your quiet interests are your loudest competitive advantage."</p>
-                </div>
-
-                <button data-tally-open="9qQ7GV" class="w-full bg-white text-black py-4 rounded-2xl font-black text-[10px] uppercase tracking-widest mt-6">Apply to Launch</button>
             </div>
         </div>
+
+        <div class="side-panel hidden xl:flex">
+            <p class="panel-label">Timeline_Active</p>
+            <div class="space-y-5">
+                <div class="p-5 border-l-4 border-indigo-500 bg-indigo-500/5 rounded-3xl relative">
+                    <div class="absolute top-4 right-4 w-2 h-2 bg-indigo-500 rounded-full animate-ping"></div>
+                    <p class="text-[10px] font-black text-indigo-400 uppercase mb-1">2/23/26 // 09:00 AM</p>
+                    <p class="text-[11px] font-extrabold uppercase mb-1">LinkedIn Carousel</p>
+                    <p class="text-[9px] opacity-40 italic">Topic: The Context Tax Deep-Dive</p>
+                </div>
+                <div class="p-5 border border-white/5 bg-white/[0.01] rounded-3xl opacity-40">
+                    <p class="text-[10px] font-black text-slate-500 uppercase mb-1">2/25/26</p>
+                    <p class="text-[11px] font-extrabold uppercase">TikTok Series Pt. 1</p>
+                </div>
+                <div class="p-5 border border-white/5 bg-white/[0.01] rounded-3xl opacity-40">
+                    <p class="text-[10px] font-black text-slate-500 uppercase mb-1">2/27/26</p>
+                    <p class="text-[11px] font-extrabold uppercase">Substack Blast</p>
+                </div>
+            </div>
+            
+            <p class="panel-label mt-16">Creative_Bridge</p>
+            <div class="btn-canva p-5 rounded-3xl flex items-center justify-between cursor-pointer group">
+                <div class="flex items-center gap-3">
+                    <div class="w-7 h-7 bg-white rounded-lg flex items-center justify-center shadow-md">
+                        <i data-lucide="palette" class="w-4 h-4 text-[#00C4CC]"></i>
+                    </div>
+                    <span class="text-[10px] font-black uppercase tracking-widest">Open Canva</span>
+                </div>
+                <i data-lucide="chevron-right" class="w-4 h-4 group-hover:translate-x-1 transition"></i>
+            </div>
+            <p class="text-[8px] text-center mt-4 opacity-30 font-bold uppercase tracking-widest">Auto-Sync Assets to Picao</p>
+        </div>
+
     </div>
 
     <script>
@@ -148,7 +188,6 @@
             micStage.classList.add('hidden');
             chatStage.classList.remove('hidden');
 
-            // Sequence Timing
             setTimeout(() => {
                 document.getElementById('msg-1').classList.add('show');
                 setTimeout(() => {
@@ -160,7 +199,7 @@
                             setTimeout(() => {
                                 card.classList.add('show', 'active');
                                 scrollArea.scrollTo({ top: scrollArea.scrollHeight, behavior: 'smooth' });
-                            }, i * 200);
+                            }, i * 180);
                         });
                     }, 1200);
                 }, 1000);
