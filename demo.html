@@ -3,90 +3,169 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Picao AI | Refraction Simulation</title>
+    <title>Picao AI | Refraction Engine Demo</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        :root { --picao-indigo: #6366f1; --picao-purple: #a855f7; }
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: #050505; color: white; min-height: 100vh; overflow-x: hidden; }
-        .glass-demo { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(80px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 6rem; }
-        .glow { position: absolute; width: 600px; height: 600px; background: #6366f1; filter: blur(200px); opacity: 0.15; z-index: -1; pointer-events: none; }
+        
+        /* --- DYNAMIC 3D BACKGROUND --- */
+        .bg-grid {
+            position: fixed; inset: 0; z-index: -1;
+            background-image: linear-gradient(rgba(99, 102, 241, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(99, 102, 241, 0.05) 1px, transparent 1px);
+            background-size: 60px 60px;
+            perspective: 1200px; transform: rotateX(65deg) translateY(-150px);
+            mask-image: linear-gradient(to bottom, transparent, black);
+        }
+        .orb { position: fixed; width: 600px; height: 600px; border-radius: 50%; filter: blur(140px); opacity: 0.15; z-index: -1; }
+        .orb-1 { top: -10%; left: -10%; background: var(--picao-indigo); animation: drift 25s infinite alternate; }
+        .orb-2 { bottom: -10%; right: -10%; background: var(--picao-purple); animation: drift 30s infinite alternate-reverse; }
+        @keyframes drift { from { transform: translate(0,0); } to { transform: translate(150px, 150px); } }
+
+        /* --- LOGO ROTATION --- */
+        .logo-ring { position: relative; display: flex; align-items: center; justify-content: center; }
+        .logo-ring::before {
+            content: ''; position: absolute; inset: -6px; border: 1.5px solid var(--picao-indigo);
+            border-radius: 4px; animation: spin 15s linear infinite; opacity: 0.7;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* --- GLASS INTERFACE --- */
+        .glass-ui { 
+            background: rgba(255, 255, 255, 0.02); 
+            backdrop-filter: blur(50px); 
+            border: 1px solid rgba(255, 255, 255, 0.08); 
+            border-radius: 5rem; 
+            box-shadow: 0 50px 100px rgba(0,0,0,0.8);
+        }
+
+        .mono { font-family: 'JetBrains Mono', monospace; }
         @keyframes progress { to { width: 100%; } }
+        .progress-bar { height: 2px; background: var(--picao-indigo); width: 0; animation: progress 4s ease-in-out forwards; }
+        
+        /* --- SPEECH TO TEXT RING --- */
+        .mic-outer { position: relative; width: 120px; height: 120px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--picao-indigo); transition: all 0.5s ease; }
+        .mic-outer:hover { transform: scale(1.1); box-shadow: 0 0 80px rgba(99, 102, 241, 0.6); }
+        .mic-outer::after {
+            content: ''; position: absolute; inset: -20px; border: 2px solid var(--picao-indigo); border-radius: 50%;
+            animation: pulse-mic 2s infinite;
+        }
+        @keyframes pulse-mic { 0% { transform: scale(0.9); opacity: 1; } 100% { transform: scale(1.5); opacity: 0; } }
     </style>
 </head>
-<body class="p-12 md:p-32 flex flex-col items-center justify-center">
-    <div class="glow" style="top: 0; left: 0;"></div>
-    <div class="glow" style="bottom: 0; right: 0; background: #a855f7;"></div>
+<body class="p-8 md:p-24 flex flex-col items-center">
+    <div class="bg-grid"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
 
-    <div class="max-w-7xl w-full glass-demo p-24 text-center relative overflow-hidden shadow-[0_0_150px_rgba(0,0,0,0.5)]">
-        <div id="start-ui">
-            <h1 class="text-9xl font-black italic mb-16 tracking-tighter">The <span class="text-indigo-500">Refractor.</span></h1>
-            <p class="opacity-40 text-2xl mb-24 font-light max-w-3xl mx-auto leading-relaxed">Turn a hesitant 2-minute thought into a cross-platform content strategy. Experience the unified workspace demo below.</p>
-            <button onclick="run()" id="mic-btn" class="w-48 h-48 bg-indigo-600 rounded-full flex items-center justify-center shadow-[0_0_100px_rgba(99,102,241,0.5)] mx-auto hover:scale-110 transition active:scale-95 group">
-                <i data-lucide="mic" class="w-24 h-24 text-white group-hover:animate-pulse"></i>
+    <div class="max-w-6xl w-full glass-ui p-16 md:p-24 relative overflow-hidden">
+        
+        <div class="flex flex-col md:flex-row justify-between items-center mb-24 pb-10 border-b border-white/5">
+            <div class="flex items-center gap-6">
+                <div class="logo-ring"><img src="Picao-Logo.png" class="w-10 h-10 invert"></div>
+                <div class="text-left">
+                    <h1 class="text-xs font-black uppercase tracking-[0.4em]">Refraction Console v1.0</h1>
+                    <p class="text-[9px] font-bold text-indigo-400 uppercase tracking-widest animate-pulse">● System_Online</p>
+                </div>
+            </div>
+            <a href="index.html" class="mt-6 md:mt-0 text-[10px] font-black uppercase tracking-[0.4em] text-slate-500 hover:text-white transition">← Back to Workspace</a>
+        </div>
+
+        <div id="stage-input" class="text-center py-20">
+            <h2 class="text-7xl md:text-9xl font-black italic mb-12 tracking-tighter leading-none">Capture <br><span class="text-indigo-500">Expertise.</span></h2>
+            <p class="max-w-2xl mx-auto opacity-40 text-lg mb-20 font-light leading-relaxed">
+                Click the microphone to simulate the "Kat" scenario: A raw, hesitant thought being refracted into a multi-channel authority engine.
+            </p>
+            <button onclick="igniteRefraction()" id="action-btn" class="mic-outer mx-auto">
+                <i data-lucide="mic" class="w-14 h-14 text-white"></i>
             </button>
-            <a href="index.html" class="block mt-20 text-[11px] font-black uppercase tracking-[0.6em] text-slate-600 hover:text-white transition">← Exit to Main Workspace</a>
         </div>
 
-        <div id="loading-ui" class="hidden flex flex-col items-center py-20">
-            <div class="font-mono text-[13px] text-indigo-400 uppercase tracking-[0.6em] space-y-10">
-                <p class="animate-pulse">Isolating_Expertise_Nuggets...</p>
-                <p class="animate-pulse" style="animation-delay: 0.5s">Adapting_Cultural_Arcs...</p>
-                <p class="animate-pulse" style="animation-delay: 1s">Refracting_Narrative_DNA...</p>
-                <p class="animate-pulse" style="animation-delay: 1.5s">Synthesizing_Platform_Hooks...</p>
-            </div>
-            <div class="w-96 h-1 bg-white/5 rounded-full mt-24 overflow-hidden">
-                <div class="bg-indigo-500 h-full w-0 animate-[progress_4s_ease-in-out_forwards]"></div>
+        <div id="stage-console" class="hidden flex-col items-center py-20">
+            <div class="w-full max-w-3xl bg-black/80 rounded-3xl p-10 border border-white/5 mono text-xs text-indigo-400 text-left space-y-4 shadow-inner">
+                <p class="animate-pulse">>>> Initializing Picao_Intelligence...</p>
+                <p class="opacity-40">>>> Capturing Raw_Audio: [2:14s] / "I love reading and writing..."</p>
+                <p class="opacity-40">>>> Extracting Value_Nuggets: [Niche_Authority, Creator_Flow]</p>
+                <p class="opacity-40">>>> Running Multi-Model Refraction [LinkedIn, X, IG, Substack]</p>
+                <div class="w-full bg-white/5 h-0.5 mt-8 rounded-full overflow-hidden">
+                    <div class="progress-bar"></div>
+                </div>
+                <p class="text-[10px] italic text-slate-600 pt-4">"Kat, your thought is the strategy. We're launching now."</p>
             </div>
         </div>
 
-        <div id="done-ui" class="hidden opacity-0 transition-all duration-1000 space-y-16 text-left">
-            <div class="bg-indigo-500/10 p-12 rounded-[4rem] border-l-4 border-indigo-500 mb-16 shadow-2xl">
-                <p class="text-indigo-200 font-bold italic text-3xl leading-snug">"Kat, your reading and writing notes are raw expertise. We've refracted your thought into 5 platform-native authority pieces with native captions and hashtags."</p>
+        <div id="stage-results" class="hidden opacity-0 transition-all duration-1000 space-y-10 text-left pb-10">
+            <div class="bg-indigo-600/10 p-10 rounded-[3rem] border-l-4 border-indigo-500 mb-12 shadow-2xl">
+                <h3 class="serif text-3xl italic text-white mb-4">"The Refraction is Complete."</h3>
+                <p class="text-indigo-300 font-bold italic text-xl">Kat, we've turned your hesitant thought into a platform-native empire. Review your drafts below.</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-                <div class="bg-white/[0.04] p-12 rounded-[4rem] border border-white/5 hover:border-indigo-500 transition-all shadow-xl">
-                    <div class="flex items-center gap-4 mb-8"><i data-lucide="linkedin" class="w-6 h-6 text-blue-500"></i> <span class="text-[11px] font-black uppercase tracking-widest text-slate-400">LinkedIn Authority</span></div>
-                    <p class="text-xl italic opacity-80 leading-snug mb-6">"Your 'useless' hobbies are actually your R&D department. Reading isn't a hobby, it's a leverage tool for series A founders..."</p>
-                    <p class="text-[11px] text-indigo-400 font-bold uppercase tracking-widest">#FounderGrowth #Leverage #NYC_Alpha</p>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="bg-white/[0.03] p-12 rounded-[4rem] border border-white/5 hover:border-indigo-500 transition-all">
+                    <div class="flex items-center justify-between mb-8">
+                        <div class="flex items-center gap-4"><i data-lucide="linkedin" class="w-6 h-6 text-blue-500"></i><span class="text-[10px] font-black uppercase tracking-widest text-slate-500">LinkedIn Authority</span></div>
+                        <span class="text-[9px] font-mono opacity-20">NODE_01</span>
+                    </div>
+                    <p class="text-xl italic opacity-80 leading-snug mb-8">"Reading isn't a hobby. It's an R&D department for your personal brand. Here is how I turn every book into a competitive advantage..."</p>
+                    <div class="flex gap-4">
+                        <span class="text-[9px] font-bold text-indigo-400 uppercase tracking-widest">#FounderGrowth</span>
+                        <span class="text-[9px] font-bold text-indigo-400 uppercase tracking-widest">#Leverage</span>
+                    </div>
                 </div>
-                <div class="bg-white/[0.04] p-12 rounded-[4rem] border border-white/5 hover:border-indigo-500 transition-all shadow-xl">
-                    <div class="flex items-center gap-4 mb-8"><i data-lucide="twitter" class="w-6 h-6 text-white"></i> <span class="text-[11px] font-black uppercase tracking-widest text-slate-400">X Thread Hook</span></div>
-                    <p class="text-xl font-bold italic leading-snug mb-6">"The 40-hour work week is a legacy system. 🧵 Here's how reading 50 books a year became my competitive edge:"</p>
-                    <p class="text-[11px] text-indigo-400 font-bold uppercase tracking-widest">#Productivity #FounderFlow</p>
+
+                <div class="bg-white/[0.03] p-12 rounded-[4rem] border border-white/5 hover:border-indigo-500 transition-all">
+                    <div class="flex items-center justify-between mb-8">
+                        <div class="flex items-center gap-4"><i data-lucide="twitter" class="w-6 h-6 text-white"></i><span class="text-[10px] font-black uppercase tracking-widest text-slate-500">X Thread</span></div>
+                        <span class="text-[9px] font-mono opacity-20">NODE_02</span>
+                    </div>
+                    <p class="text-xl font-bold italic leading-snug mb-8">"The 40-hour work week is a legacy system. 🧵 Here's the blueprint for turning reading into revenue:"</p>
+                    <div class="flex gap-4">
+                        <span class="text-[9px] font-bold text-indigo-400 uppercase tracking-widest">#Productivity</span>
+                        <span class="text-[9px] font-bold text-indigo-400 uppercase tracking-widest">#CreatorFlow</span>
+                    </div>
                 </div>
-                <div class="bg-white/[0.04] p-12 rounded-[4rem] border border-white/5 hover:border-indigo-500 transition-all shadow-xl">
-                    <div class="flex items-center gap-4 mb-8"><i data-lucide="video" class="w-6 h-6 text-pink-500"></i> <span class="text-[11px] font-black uppercase tracking-widest text-slate-400">Reel Caption</span></div>
-                    <p class="text-lg italic opacity-90 leading-snug font-bold mb-6 italic">"Stop building features. Start building clarity. 📚"</p>
-                    <p class="text-sm opacity-60 mb-6 font-light">Script Note: "Close-up shot of the library. Hard-cut to the workspace dashboard. End with the Picao logo."</p>
-                    <p class="text-[11px] text-indigo-400 font-bold uppercase tracking-widest">#CreatorEconomy #Build</p>
-                </div>
-                <div class="bg-white/[0.04] p-12 rounded-[4rem] border border-white/5 hover:border-indigo-500 transition-all shadow-xl lg:col-span-2">
-                    <div class="flex items-center gap-4 mb-8"><i data-lucide="mail" class="w-6 h-6 text-orange-500"></i> <span class="text-[11px] font-black uppercase tracking-widest text-slate-400">Substack Draft</span></div>
-                    <p class="text-2xl font-black mb-6 italic">Subject: The Refraction Manifesto</p>
-                    <p class="text-md opacity-70 leading-relaxed italic mb-8">"Dear Builders, we are losing our most valuable asset—time—to administrative lag. Picao is the end of the Context Tax. Here's how to reclaim your flow state through speech-native ideation..."</p>
-                    <p class="text-[11px] text-indigo-400 font-bold uppercase tracking-widest">Read Full Draft →</p>
+
+                <div class="bg-white/[0.03] p-12 rounded-[4rem] border border-white/5 hover:border-indigo-500 transition-all lg:col-span-2">
+                    <div class="flex items-center justify-between mb-8">
+                        <div class="flex items-center gap-4"><i data-lucide="instagram" class="w-6 h-6 text-pink-500"></i><span class="text-[10px] font-black uppercase tracking-widest text-slate-500">Reel Caption & Script</span></div>
+                        <span class="text-[9px] font-mono opacity-20">NODE_03</span>
+                    </div>
+                    <p class="text-2xl font-black mb-4 italic">"Stop overthinking content. 📚"</p>
+                    <p class="text-sm opacity-60 leading-relaxed italic mb-8">Script: [0:00-0:05] Close-up shot of the library. [0:05-0:15] Point out the 'Context Tax' book. [0:15-0:30] Call to action for the alpha.</p>
+                    <p class="text-[10px] text-indigo-400 font-bold uppercase tracking-widest">#BooksOfInstagram #BuilderLife</p>
                 </div>
             </div>
 
-            <div class="flex flex-col md:flex-row gap-10 justify-center pt-24 pb-12">
-                <button data-tally-open="9qQ7GV" class="bg-indigo-600 py-8 px-24 rounded-full font-black uppercase text-sm tracking-[0.5em] shadow-[0_0_80px_rgba(99,102,241,0.4)]">Launch All to Feed</button>
-                <button onclick="location.reload()" class="text-slate-600 font-black uppercase text-[11px] tracking-widest hover:text-white transition">Reset Simulation</button>
+            <div class="pt-20 text-center">
+                <button data-tally-open="9qQ7GV" class="bg-white text-black py-7 px-20 rounded-full font-black uppercase text-sm tracking-[0.5em] shadow-2xl hover:scale-105 transition">Launch All To Feed</button>
             </div>
         </div>
+
     </div>
 
     <script>
         lucide.createIcons();
-        function run() {
-            document.getElementById('start-ui').classList.add('hidden');
-            document.getElementById('loading-ui').classList.remove('hidden');
+        function igniteRefraction() {
+            const start = document.getElementById('stage-input');
+            const console = document.getElementById('stage-console');
+            const results = document.getElementById('stage-results');
+            const btn = document.getElementById('action-btn');
+
+            btn.innerHTML = `<i data-lucide="loader" class="w-14 h-14 animate-spin"></i>`;
+            lucide.createIcons();
+
             setTimeout(() => {
-                document.getElementById('loading-ui').classList.add('hidden');
-                document.getElementById('done-ui').classList.remove('hidden');
-                setTimeout(() => document.getElementById('done-ui').style.opacity = '1', 100);
-            }, 4000);
+                start.classList.add('hidden');
+                console.classList.remove('hidden');
+                
+                setTimeout(() => {
+                    console.classList.add('hidden');
+                    results.classList.remove('hidden');
+                    setTimeout(() => results.style.opacity = '1', 100);
+                }, 4000);
+            }, 1000);
         }
     </script>
     <script async src="https://tally.so/widgets/embed.js"></script>
