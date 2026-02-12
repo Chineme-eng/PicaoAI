@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,11 +12,11 @@
         body { font-family: 'Inter', sans-serif; background-color: #050505; color: #f8fafc; overflow-x: hidden; scroll-behavior: smooth; }
         .serif { font-family: 'Lora', serif; }
 
-        /* --- BACKGROUND & GRAIN (Shared with Pictology) --- */
+        /* --- BACKGROUND & GRAIN --- */
         .bg-canvas { position: fixed; inset: 0; z-index: -1; background: radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.03) 0%, transparent 50%); }
         .grain { position: fixed; inset: 0; background: url('https://grainy-gradients.vercel.app/noise.svg'); opacity: 0.06; pointer-events: none; z-index: 999; }
 
-        /* --- LOGO ROTATION --- */
+        /* --- LOGO ROTATION (ORIGINAL) --- */
         .logo-ring { position: relative; display: flex; align-items: center; justify-content: center; }
         .logo-ring::before {
             content: ''; position: absolute; inset: -5px; border: 1px solid var(--picao-indigo);
@@ -25,13 +24,27 @@
         }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
+        /* --- SWAPIFHY BENTO STYLE --- */
+        .glass-bento {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 2.5rem; /* High radius for Swapifhy look */
+            transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        .glass-bento:hover {
+            border-color: var(--picao-indigo);
+            background: rgba(255, 255, 255, 0.04);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px -20px rgba(99, 102, 241, 0.3);
+        }
+
         .gradient-text {
             background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        /* --- NAVIGATION --- */
         .sticky-nav {
             position: sticky; top: 0; z-index: 100;
             backdrop-filter: blur(20px);
@@ -39,22 +52,7 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        /* --- WORKFLOW CARDS --- */
-        .workflow-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
-        }
-        .workflow-card:hover {
-            border-color: var(--picao-indigo);
-            transform: translateY(-8px);
-            background: rgba(255, 255, 255, 0.04);
-            box-shadow: 0 20px 40px -20px rgba(99, 102, 241, 0.3);
-        }
-
-        .btn-pop {
-            transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
-        }
+        .btn-pop { transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1); border-radius: 999px; }
         .btn-pop:hover { transform: scale(1.02); box-shadow: 0 0 30px rgba(99, 102, 241, 0.3); }
 
         .pulse-ai { animation: pulse 3s infinite; }
@@ -63,111 +61,85 @@
             70% { box-shadow: 0 0 0 20px rgba(99, 102, 241, 0); }
             100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0); }
         }
-
         .version-stamp { font-family: ui-monospace, monospace; font-size: 9px; letter-spacing: 2px; }
     </style>
 </head>
 <body class="antialiased">
-
     <div class="bg-canvas"></div>
     <div class="grain"></div>
 
     <nav class="sticky-nav">
-        <div class="max-w-6xl mx-auto px-8 py-6 flex justify-between items-center">
+        <div class="max-w-7xl mx-auto px-8 py-6 flex justify-between items-center">
             <div class="flex items-center gap-6">
-                <div class="logo-ring">
-                    <img src="Picao-Logo.png" alt="Picao AI" class="h-8 invert opacity-80">
-                </div>
+                <div class="logo-ring"><img src="Picao-Logo.png" alt="Picao AI" class="h-8 invert opacity-80"></div>
                 <div class="flex flex-col">
                     <span class="text-xl font-black uppercase tracking-tighter">Picao<span class="text-indigo-500">AI</span></span>
                     <span class="version-stamp text-slate-500 uppercase">Build_260130_α</span>
                 </div>
             </div>
             <div class="flex items-center gap-8">
-                <span class="hidden md:block text-[10px] font-bold text-indigo-400 border border-indigo-400/20 px-4 py-1 rounded-sm uppercase tracking-widest">
-                    5 Alpha Slots Left
-                </span>
-                <button data-tally-open="9qQ7GV" class="btn-pop bg-white text-black text-[10px] font-black uppercase tracking-widest py-3 px-8 rounded-sm">
-                    Apply Now
-                </button>
+                <span class="hidden md:block text-[10px] font-bold text-indigo-400 border border-indigo-400/20 px-4 py-1 rounded-full uppercase tracking-widest">5 Alpha Slots Left</span>
+                <button data-tally-open="9qQ7GV" class="btn-pop bg-white text-black text-[10px] font-black uppercase tracking-widest py-3 px-8">Apply Now</button>
             </div>
         </div>
     </nav>
 
     <header class="max-w-5xl mx-auto px-8 pt-32 pb-40 text-center">
         <h1 class="serif text-6xl md:text-8xl font-black mb-12 tracking-tighter leading-[0.9]">
-            Turn raw ideas into <br>
-            <span class="gradient-text italic">platform-ready posts.</span>
+            Turn raw ideas into <br><span class="gradient-text italic">platform-ready posts.</span>
         </h1>
         <p class="text-xl text-slate-400 mb-16 max-w-2xl mx-auto leading-relaxed font-light">
             Record a 2-minute voice note. Get 3 platform-ready posts + hooks in 24 hours. The unified workspace for builders to ideate, create, and launch.
         </p>
-        <button data-tally-open="9qQ7GV" class="btn-pop bg-indigo-600 text-white font-black py-6 px-14 rounded-sm text-sm uppercase tracking-[0.3em] shadow-2xl shadow-indigo-500/20">
+        <button data-tally-open="9qQ7GV" class="btn-pop bg-indigo-600 text-white font-black py-6 px-14 rounded-full text-sm uppercase tracking-[0.3em] shadow-2xl shadow-indigo-500/20">
             Start Your Alpha
         </button>
     </header>
 
-    <section class="max-w-7xl mx-auto px-8 py-32 border-y border-white/5">
-        <div class="text-center mb-24">
-            <h2 class="text-[10px] font-bold text-indigo-500 uppercase tracking-[0.6em] mb-6">The 24-Hour Workflow</h2>
-            <p class="serif text-4xl italic text-white">From raw thought to cross-platform launch.</p>
-        </div>
-        
-        <div class="grid md:grid-cols-3 gap-10">
-            <div class="workflow-card p-12 rounded-sm relative overflow-hidden">
-                <div class="text-indigo-500 font-mono text-xs mb-8 uppercase tracking-widest">Process_01</div>
-                <h3 class="serif text-3xl italic text-white mb-6">Ideate</h3>
-                <p class="text-slate-400 text-sm leading-relaxed font-light">No scripts required. Just talk through your idea for 2 minutes. We capture the core value and expertise.</p>
+    <section class="max-w-7xl mx-auto px-8 py-32">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+            <div class="md:col-span-8 glass-bento p-12 flex flex-col justify-between min-h-[450px]">
+                <div>
+                    <div class="text-indigo-500 font-mono text-xs mb-8 uppercase tracking-widest">Process_01</div>
+                    <h3 class="serif text-5xl italic text-white mb-6">Ideate</h3>
+                    <p class="text-slate-400 text-lg leading-relaxed font-light max-w-md">No scripts required. Just talk through your idea for 2 minutes. We capture the core value and expertise.</p>
+                </div>
+                <div class="bg-black/40 p-6 rounded-3xl border border-white/5 flex items-center justify-between">
+                    <span class="text-[10px] font-mono text-indigo-400">Audio_Engine_Active...</span>
+                    <div class="flex gap-1 h-4 items-end">
+                        <div class="w-1 bg-indigo-500 animate-bounce h-full"></div>
+                        <div class="w-1 bg-indigo-500 animate-bounce h-2/3"></div>
+                        <div class="w-1 bg-indigo-500 animate-bounce h-1/2"></div>
+                    </div>
+                </div>
             </div>
-            <div class="workflow-card p-12 rounded-sm ring-1 ring-indigo-500/30 relative overflow-hidden bg-indigo-500/[0.02]">
+
+            <div class="md:col-span-4 glass-bento p-10 flex flex-col justify-center bg-indigo-500/[0.02]">
                 <div class="text-indigo-500 font-mono text-xs mb-8 uppercase tracking-widest">Process_02</div>
                 <h3 class="serif text-3xl italic text-white mb-6">Create</h3>
                 <p class="text-slate-400 text-sm leading-relaxed font-light">Our engine refracts your insights into 3 distinct, platform-ready drafts + high-conversion hooks.</p>
             </div>
-            <div class="workflow-card p-12 rounded-sm relative overflow-hidden">
+
+            <div class="md:col-span-4 glass-bento p-10 flex flex-col justify-center">
                 <div class="text-indigo-500 font-mono text-xs mb-8 uppercase tracking-widest">Process_03</div>
                 <h3 class="serif text-3xl italic text-white mb-6">Launch</h3>
-                <p class="text-slate-400 text-sm leading-relaxed font-light">Posts are delivered in 24 hours, optimized for LinkedIn, X, and newsletters. Founder-reviewed for quality.</p>
+                <p class="text-slate-400 text-sm leading-relaxed font-light">Delivered in 24 hours, optimized for LinkedIn, X, and newsletters. Founder-reviewed.</p>
             </div>
-        </div>
-    </section>
 
-    <section class="py-40 relative">
-        <div class="max-w-6xl mx-auto px-8">
-            <div class="grid md:grid-cols-2 gap-24 items-center">
-                <div>
-                    <h2 class="serif text-5xl text-white mb-10 leading-tight">One workspace. <br><span class="text-indigo-500 italic">Infinite reach.</span></h2>
-                    <p class="text-slate-400 mb-12 leading-relaxed font-light text-lg italic">
-                        "We don't just transcribe. We identify the Value Nuggets in your voice notes and adapt them for the specific narrative arcs of LinkedIn and X."
-                    </p>
-                    <div class="space-y-6">
-                        <div class="flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest text-slate-300">
-                            <div class="w-2 h-2 rounded-full bg-indigo-500"></div> 3 Platform-Ready Drafts
-                        </div>
-                        <div class="flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest text-slate-300">
-                            <div class="w-2 h-2 rounded-full bg-indigo-500"></div> Optimized Hooks for Growth
-                        </div>
+            <div class="md:col-span-8 glass-bento p-1 flex items-stretch">
+                <div class="bg-zinc-900/50 w-full rounded-[2.4rem] p-10">
+                    <div class="flex justify-between items-center mb-10 border-b border-white/5 pb-6">
+                        <span class="text-[9px] font-mono text-slate-500 uppercase tracking-widest">Voice_Input.wav // 2:14</span>
+                        <span class="text-[9px] bg-indigo-600 px-3 py-1 rounded-full uppercase font-bold tracking-tighter">Processing_Engine</span>
                     </div>
-                </div>
-                
-                <div class="relative">
-                    <div class="pulse-ai absolute inset-0 bg-indigo-500/5 rounded-sm"></div>
-                    <div class="relative bg-black border border-white/5 rounded-sm p-2 shadow-3xl">
-                        <div class="bg-zinc-900/50 rounded-sm p-8 text-white">
-                            <div class="flex justify-between items-center mb-10 border-b border-white/5 pb-6">
-                                <span class="text-[9px] font-mono text-slate-500 uppercase tracking-widest">Voice_Input.wav // 2:14</span>
-                                <span class="text-[9px] bg-indigo-600 px-3 py-1 rounded-sm uppercase font-bold tracking-tighter">Processing_Engine</span>
-                            </div>
-                            <div class="space-y-6">
-                                <div class="bg-white/5 p-6 rounded-sm border border-white/5">
-                                    <p class="text-[10px] text-indigo-400 font-bold uppercase tracking-widest mb-4">LinkedIn_Manifesto</p>
-                                    <p class="text-[12px] text-slate-300 leading-relaxed italic">"Feature bloat is a symptom of fear. As founders, we hide behind buttons..."</p>
-                                </div>
-                                <div class="bg-white/5 p-6 rounded-sm border border-white/5">
-                                    <p class="text-[10px] text-indigo-400 font-bold uppercase tracking-widest mb-4">X_Thread_Hook</p>
-                                    <p class="text-[12px] text-slate-300 leading-relaxed italic">"Stop building features. Start building clarity. Here’s why: 🧵"</p>
-                                </div>
-                            </div>
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div class="bg-white/5 p-6 rounded-2xl border border-white/5">
+                            <p class="text-[10px] text-indigo-400 font-bold uppercase tracking-widest mb-4">LinkedIn_Manifesto</p>
+                            <p class="text-[12px] text-slate-300 leading-relaxed italic">"Feature bloat is a symptom of fear. As founders, we hide behind buttons..."</p>
+                        </div>
+                        <div class="bg-white/5 p-6 rounded-2xl border border-white/5">
+                            <p class="text-[10px] text-indigo-400 font-bold uppercase tracking-widest mb-4">X_Thread_Hook</p>
+                            <p class="text-[12px] text-slate-300 leading-relaxed italic">"Stop building features. Start building clarity. Here’s why: 🧵"</p>
                         </div>
                     </div>
                 </div>
@@ -175,33 +147,21 @@
         </div>
     </section>
 
-    <footer id="signup" class="py-40 bg-black/40 border-t border-white/5 px-8">
+    <footer id="signup" class="py-40 px-8">
         <div class="max-w-6xl mx-auto">
-            <div class="bg-indigo-600 p-16 md:p-24 text-center rounded-sm relative overflow-hidden shadow-2xl">
+            <div class="bg-indigo-600 p-16 md:p-24 text-center rounded-[3rem] relative overflow-hidden shadow-2xl pulse-ai">
                 <h2 class="serif text-6xl md:text-8xl text-white mb-10 font-black italic tracking-tighter">Ideate. Create. Launch.</h2>
                 <p class="text-indigo-100 mb-12 text-xl font-light italic">Apply for one of 5 remaining Alpha slots this week.</p>
-                <button data-tally-open="9qQ7GV" class="btn-pop bg-white text-indigo-600 px-16 py-6 rounded-sm font-black text-sm uppercase tracking-widest">
-                    Claim My Slot
-                </button>
+                <button data-tally-open="9qQ7GV" class="btn-pop bg-white text-indigo-600 px-16 py-6 rounded-full font-black text-sm uppercase tracking-widest">Claim My Slot</button>
             </div>
-
             <div class="mt-32 pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8">
                 <div class="flex items-center gap-4">
                     <img src="Picao-Logo.png" alt="Picao" class="h-6 invert opacity-30">
                     <span class="text-[10px] font-bold uppercase tracking-[0.4em] text-slate-600">&copy; 2026 Picao AI Workspace</span>
                 </div>
-                <div class="flex items-center gap-12 text-[9px] font-bold uppercase tracking-widest text-slate-600">
-                    <span class="version-stamp">NYC_STUDIO_STABLE</span>
-                    <a href="#" class="hover:text-indigo-500 transition-colors">Documentation</a>
-                    <a href="#" class="hover:text-indigo-500 transition-colors">Legal</a>
-                </div>
             </div>
         </div>
     </footer>
-
     <script async src="https://tally.so/widgets/embed.js"></script>
-    <script>
-        function setTheme(mode) { /* Standardized for ecosystem */ }
-    </script>
 </body>
 </html>
