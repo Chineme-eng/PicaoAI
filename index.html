@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Picao AI | Unified Creator Workspace</title>
+    <title>Picao AI | Ideate, Create, and Launch Faster</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     
     <style>
@@ -12,30 +13,34 @@
         body { font-family: 'Inter', sans-serif; background-color: #050505; color: #f8fafc; overflow-x: hidden; scroll-behavior: smooth; }
         .serif { font-family: 'Lora', serif; }
 
-        /* --- BACKGROUND & GRAIN --- */
+        /* --- DYNAMIC BACKGROUND & ORBS --- */
         .bg-canvas { position: fixed; inset: 0; z-index: -1; background: radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.05) 0%, transparent 70%); }
+        .orb { position: fixed; width: 600px; height: 600px; border-radius: 50%; filter: blur(120px); opacity: 0.15; z-index: -1; pointer-events: none; }
+        .orb-1 { top: -10%; left: -10%; background: var(--picao-indigo); animation: drift 25s infinite alternate; }
+        .orb-2 { bottom: -10%; right: -10%; background: var(--picao-purple); animation: drift 30s infinite alternate-reverse; }
+        @keyframes drift { from { transform: translate(0,0); } to { transform: translate(150px, 150px); } }
         .grain { position: fixed; inset: 0; background: url('https://grainy-gradients.vercel.app/noise.svg'); opacity: 0.06; pointer-events: none; z-index: 999; }
 
-        /* --- INFINITE MARQUEE --- */
-        .marquee { overflow: hidden; white-space: nowrap; background: rgba(99, 102, 241, 0.03); border-y: 1px solid rgba(255,255,255,0.05); padding: 25px 0; }
-        .marquee-content { display: inline-block; animation: marquee 40s linear infinite; }
-        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-
-        /* --- FLIP CARDS --- */
-        .flip-card { background-color: transparent; width: 100%; height: 400px; perspective: 1000px; }
-        .flip-card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform-style: preserve-3d; }
-        .flip-card:hover .flip-card-inner { transform: rotateY(180deg); }
-        .flip-card-front, .flip-card-back { position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden; border-radius: 3rem; border: 1px solid rgba(255,255,255,0.08); padding: 3rem; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-        .flip-card-front { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(15px); }
-        .flip-card-back { background: linear-gradient(135deg, var(--picao-indigo), var(--picao-purple)); transform: rotateY(180deg); color: white; }
-
-        /* --- LOGO ROTATION --- */
-        .logo-ring::before { content: ''; position: absolute; inset: -6px; border: 1px solid var(--picao-indigo); border-radius: 4px; animation: spin 15s linear infinite; opacity: 0.4; }
+        /* --- LOGO ROTATION (RESTORED) --- */
+        .logo-ring { position: relative; display: flex; align-items: center; justify-content: center; }
+        .logo-ring::before {
+            content: ''; position: absolute; inset: -6px; border: 1px solid var(--picao-indigo);
+            border-radius: 4px; animation: spin 15s linear infinite; opacity: 0.6;
+        }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* --- FAQ ACCORDION --- */
-        details summary::-webkit-details-marker { display: none; }
-        details[open] summary svg { transform: rotate(180deg); }
+        /* --- FLIP CARDS --- */
+        .flip-card { background-color: transparent; width: 100%; height: 420px; perspective: 1000px; }
+        .flip-card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform-style: preserve-3d; }
+        .flip-card:hover .flip-card-inner { transform: rotateY(180deg); }
+        .flip-card-front, .flip-card-back { position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden; border-radius: 3rem; border: 1px solid rgba(255,255,255,0.08); padding: 3rem; display: flex; flex-direction: column; justify-content: center; }
+        .flip-card-front { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(20px); align-items: center; text-align: center; }
+        .flip-card-back { background: linear-gradient(135deg, var(--picao-indigo), var(--picao-purple)); transform: rotateY(180deg); color: white; }
+
+        /* --- MARQUEE --- */
+        .marquee { overflow: hidden; white-space: nowrap; background: rgba(255,255,255,0.02); border-y: 1px solid rgba(255,255,255,0.05); padding: 30px 0; }
+        .marquee-content { display: inline-block; animation: marquee 50s linear infinite; }
+        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
         .gradient-text { background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .btn-pop { transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1); border-radius: 999px; }
@@ -44,129 +49,130 @@
 </head>
 <body class="antialiased">
     <div class="bg-canvas"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
     <div class="grain"></div>
 
-    <nav class="sticky top-0 z-50 backdrop-blur-xl border-b border-white/5 bg-black/70">
-        <div class="max-w-7xl mx-auto px-8 py-5 flex justify-between items-center">
+    <nav class="sticky top-0 z-50 backdrop-blur-xl border-b border-white/5 bg-black/70 px-8 py-5">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
             <div class="flex items-center gap-5">
                 <div class="logo-ring"><img src="Picao-Logo.png" class="h-9 invert"></div>
                 <span class="text-2xl font-black uppercase tracking-tighter italic">Picao<span class="text-indigo-500">AI</span></span>
             </div>
-            <button data-tally-open="9qQ7GV" class="btn-pop bg-white text-black text-[10px] font-black uppercase tracking-widest py-3.5 px-10">Apply for Alpha</button>
+            <div class="flex items-center gap-10">
+                <button data-tally-open="9qQ7GV" class="text-[10px] font-black uppercase tracking-[0.4em] text-indigo-400 hover:text-white transition">Join The Team</button>
+                <button data-tally-open="9qQ7GV" class="btn-pop bg-white text-black text-[10px] font-black uppercase tracking-widest py-3.5 px-10">Apply</button>
+            </div>
         </div>
     </nav>
 
-    <header class="max-w-5xl mx-auto px-8 pt-40 pb-32 text-center">
+    <header class="max-w-5xl mx-auto px-8 pt-40 pb-40 text-center">
         <h1 class="serif text-7xl md:text-9xl font-black mb-12 tracking-tighter leading-[0.85]">
             Ideate. Create. <br><span class="gradient-text italic">Launch.</span>
         </h1>
         <p class="text-xl md:text-2xl text-slate-400 mb-16 max-w-3xl mx-auto font-light leading-relaxed">
-            The unified workspace where raw speech meets multi-model intelligence. One voice note. Infinite reach. Zero context switching.
+            The unified workspace that eliminates the "Context Tax." Record a thought. Refract it. Launch it everywhere.
         </p>
-        <div class="flex flex-col md:flex-row gap-6 justify-center">
-            <button data-tally-open="9qQ7GV" class="btn-pop bg-indigo-600 text-white font-black py-6 px-16 text-sm uppercase tracking-[0.3em]">Start Your Alpha</button>
-            <a href="demo.html" class="flex items-center justify-center text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 hover:text-white transition">Watch Demo →</a>
-        </div>
+        <button data-tally-open="9qQ7GV" class="btn-pop bg-indigo-600 text-white font-black py-7 px-20 text-sm uppercase tracking-[0.4em]">Start Your Alpha</button>
     </header>
 
-    <div class="marquee">
-        <div class="marquee-content text-3xl font-black italic uppercase tracking-[0.25em] text-white/10">
-            SPEECH TO TEXT • MULTI-PLATFORM • CONTENT REFRACTION • UNIFIED WORKSPACE • NO CONTEXT TAX • SPEECH TO TEXT • MULTI-PLATFORM • CONTENT REFRACTION • UNIFIED WORKSPACE • NO CONTEXT TAX •
+    <div class="marquee mb-20">
+        <div class="marquee-content text-4xl font-black italic uppercase tracking-[0.3em] text-white/5">
+            SPEECH TO TEXT • MULTI-PLATFORM • CONTENT REFRACTION • UNIFIED WORKSPACE • SPEECH TO TEXT • MULTI-PLATFORM • CONTENT REFRACTION • UNIFIED WORKSPACE •
         </div>
-        <div class="marquee-content text-3xl font-black italic uppercase tracking-[0.25em] text-white/10">
-            SPEECH TO TEXT • MULTI-PLATFORM • CONTENT REFRACTION • UNIFIED WORKSPACE • NO CONTEXT TAX • SPEECH TO TEXT • MULTI-PLATFORM • CONTENT REFRACTION • UNIFIED WORKSPACE • NO CONTEXT TAX •
+        <div class="marquee-content text-4xl font-black italic uppercase tracking-[0.3em] text-white/5">
+            SPEECH TO TEXT • MULTI-PLATFORM • CONTENT REFRACTION • UNIFIED WORKSPACE • SPEECH TO TEXT • MULTI-PLATFORM • CONTENT REFRACTION • UNIFIED WORKSPACE •
         </div>
     </div>
+
+    <section class="max-w-7xl mx-auto px-8 py-40">
+        <div class="grid md:grid-cols-2 gap-24 items-center">
+            <div class="p-16 bg-white/[0.01] border border-white/5 rounded-[4rem] backdrop-blur-2xl">
+                <h2 class="serif text-6xl italic text-white mb-8">Why Picao AI?</h2>
+                <p class="text-slate-400 text-xl leading-relaxed font-light mb-12">
+                    Builders lose hours jumping between apps. Picao is a <strong>unified ecosystem</strong>. We don't just transcribe; we identify the "Value Nuggets" in your voice notes and refract them into platform-native narrative arcs.
+                </p>
+                <div class="flex gap-6 items-center p-8 bg-indigo-500/10 rounded-3xl border-l-4 border-indigo-500">
+                    <p class="italic text-indigo-100 text-sm">"Kat, people want to hear about your books and your writing. Let's build both." — Picao Logic</p>
+                </div>
+            </div>
+            <div class="space-y-8">
+                <div class="p-10 border border-white/5 rounded-[2.5rem] hover:bg-white/5 transition group">
+                    <h4 class="text-indigo-400 font-black text-xs uppercase mb-4 tracking-widest">Model Agnostic</h4>
+                    <p class="text-slate-500 text-sm font-light">We leverage the absolute best LLMs for specific tasks—transcription, hooks, or long-form narrative—all in one workspace.</p>
+                </div>
+                <div class="p-10 border border-white/5 rounded-[2.5rem] hover:bg-white/5 transition group">
+                    <h4 class="text-indigo-400 font-black text-xs uppercase mb-4 tracking-widest">Context-Aware</h4>
+                    <p class="text-slate-500 text-sm font-light">Picao understands your specific niche, tailoring every refraction to your unique authority style.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <section class="max-w-7xl mx-auto px-8 py-40">
         <div class="grid md:grid-cols-3 gap-10">
             <div class="flip-card">
                 <div class="flip-card-inner">
-                    <div class="flip-card-front">
-                        <h3 class="serif text-4xl italic mb-6">Capture</h3>
-                        <p class="text-[10px] opacity-40 font-bold uppercase tracking-[0.4em]">The Input</p>
-                    </div>
-                    <div class="flip-card-back">
-                        <p class="text-lg italic font-light leading-relaxed">Record your raw expertise. We don't just transcribe; we extract the "Value Nuggets" that make your voice unique.</p>
-                    </div>
+                    <div class="flip-card-front"><h3 class="serif text-4xl italic">Capture</h3></div>
+                    <div class="flip-card-back"><p class="text-xl italic">No scripts. No keyboards. Just record your expertise for 2 minutes and let Picao do the heavy lifting.</p></div>
                 </div>
             </div>
             <div class="flip-card">
                 <div class="flip-card-inner">
-                    <div class="flip-card-front">
-                        <h3 class="serif text-4xl italic mb-6">Refract</h3>
-                        <p class="text-[10px] opacity-40 font-bold uppercase tracking-[0.4em]">The Logic</p>
-                    </div>
-                    <div class="flip-card-back">
-                        <p class="text-lg italic font-light leading-relaxed">One idea, refracted into 12 platform-native assets. From X threads to Instagram scripts, perfectly tailored.</p>
-                    </div>
+                    <div class="flip-card-front"><h3 class="serif text-4xl italic">Refract</h3></div>
+                    <div class="flip-card-back"><p class="text-xl italic">One thought becomes a 12-asset empire. Tailored for Instagram, X, LinkedIn, and Substack automatically.</p></div>
                 </div>
             </div>
             <div class="flip-card">
                 <div class="flip-card-inner">
-                    <div class="flip-card-front">
-                        <h3 class="serif text-4xl italic mb-6">Deliver</h3>
-                        <p class="text-[10px] opacity-40 font-bold uppercase tracking-[0.4em]">The Launch</p>
-                    </div>
-                    <div class="flip-card-back">
-                        <p class="text-lg italic font-light leading-relaxed">Direct-to-platform publishing. Send your content from the workspace to your feed in one click.</p>
-                    </div>
+                    <div class="flip-card-front"><h3 class="serif text-4xl italic">Launch</h3></div>
+                    <div class="flip-card-back"><p class="text-xl italic">Direct-to-platform delivery. Zero context switching between your dashboard and your social apps.</p></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="max-w-4xl mx-auto px-8 py-40">
+    <section class="max-w-7xl mx-auto px-8 py-40 border-t border-white/5">
         <div class="text-center mb-24">
-            <h2 class="serif text-5xl italic text-white mb-6">Common Questions</h2>
-            <p class="text-slate-500 uppercase text-[10px] tracking-[0.5em]">Everything you need to know about the alpha</p>
+            <h3 class="serif text-5xl italic mb-6 text-white">The Refraction Roadmap</h3>
+            <p class="text-[10px] font-black text-slate-600 uppercase tracking-[0.8em]">Expanding the Ecosystem</p>
         </div>
-        <div class="space-y-4">
-            <details class="group glass-bento border border-white/5 rounded-[2rem] overflow-hidden">
-                <summary class="flex justify-between items-center p-8 cursor-pointer list-none bg-white/[0.02]">
-                    <span class="text-sm font-bold uppercase tracking-widest text-slate-200">How does "Speech-to-Launch" actually work?</span>
-                    <svg class="w-5 h-5 text-indigo-500 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                </summary>
-                <div class="p-8 text-slate-400 text-sm leading-relaxed font-light border-t border-white/5">
-                    You record a 2-minute thought. Picao uses multi-model intelligence to transcribe, identify core narrative arcs, and then refract that one thought into dozens of assets (LinkedIn, X, Substack, IG) tailored to each platform's unique algorithm.
-                </div>
-            </details>
-            <details class="group glass-bento border border-white/5 rounded-[2rem] overflow-hidden">
-                <summary class="flex justify-between items-center p-8 cursor-pointer list-none bg-white/[0.02]">
-                    <span class="text-sm font-bold uppercase tracking-widest text-slate-200">What is the "Context Tax"?</span>
-                    <svg class="w-5 h-5 text-indigo-500 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                </summary>
-                <div class="p-8 text-slate-400 text-sm leading-relaxed font-light border-t border-white/5">
-                    The Context Tax is the 40% loss in productivity caused by switching between transcription apps, writing tools, and social schedulers. Picao is a unified workspace that keeps you in "Flow State" by housing the entire journey in one place.
-                </div>
-            </details>
-            <details class="group glass-bento border border-white/5 rounded-[2rem] overflow-hidden">
-                <summary class="flex justify-between items-center p-8 cursor-pointer list-none bg-white/[0.02]">
-                    <span class="text-sm font-bold uppercase tracking-widest text-slate-200">Can I join the team?</span>
-                    <svg class="w-5 h-5 text-indigo-500 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                </summary>
-                <div class="p-8 text-slate-400 text-sm leading-relaxed font-light border-t border-white/5">
-                    Yes! We are actively looking for builders, designers, and AI engineers. Click the "Join the Team" link in the footer to apply.
-                </div>
-            </details>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 opacity-40">
+            <div class="p-10 border border-white/5 rounded-3xl text-center font-bold text-[10px] uppercase tracking-widest">AI Video Slicing</div>
+            <div class="p-10 border border-white/5 rounded-3xl text-center font-bold text-[10px] uppercase tracking-widest">Newsletter Engine</div>
+            <div class="p-10 border border-white/5 rounded-3xl text-center font-bold text-[10px] uppercase tracking-widest">Voice Cloning</div>
+            <div class="p-10 border border-white/5 rounded-3xl text-center font-bold text-[10px] uppercase tracking-widest">API Schedulers</div>
         </div>
     </section>
 
-    <section class="max-w-7xl mx-auto px-8 py-32 text-center">
-        <div class="bg-indigo-600/5 border border-indigo-500/20 p-24 rounded-[4rem]">
-            <h2 class="serif text-5xl italic mb-8">Build the future of creation.</h2>
-            <p class="text-slate-400 mb-12 max-w-xl mx-auto">We're looking for designers and engineers who hate friction and love flow.</p>
-            <button data-tally-open="9qQ7GV" class="text-indigo-400 font-black uppercase tracking-[0.4em] hover:text-white transition-all text-sm underline underline-offset-8">Join the Team →</button>
-        </div>
-    </section>
-
-    <footer class="py-40 px-8 text-center bg-black">
-        <div class="max-w-6xl mx-auto border-t border-white/5 pt-20">
-            <img src="Picao-Logo.png" class="h-10 invert mx-auto mb-10 opacity-20">
-            <p class="text-[10px] text-slate-700 uppercase tracking-[0.6em] font-bold">&copy; 2026 Picao AI Workspace • Unified Flow • NYC</p>
+    <footer class="py-40 px-8 bg-black border-t border-white/5">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start gap-24">
+            <div>
+                <div class="flex items-center gap-4 mb-10">
+                    <div class="logo-ring"><img src="Picao-Logo.png" class="h-8 invert"></div>
+                    <span class="text-2xl font-black italic">PicaoAI</span>
+                </div>
+                <div class="space-y-4">
+                    <a href="https://linkedin.com/company/picaoai" class="flex items-center gap-3 text-sm text-slate-500 hover:text-white transition"><i data-lucide="linkedin" class="w-4 h-4"></i> LinkedIn</a>
+                    <a href="mailto:founder@picaoai.com" class="flex items-center gap-3 text-sm text-slate-500 hover:text-white transition"><i data-lucide="mail" class="w-4 h-4"></i> hello@picaoai.com</a>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-20">
+                <div class="flex flex-col gap-6">
+                    <p class="text-[10px] font-black uppercase text-indigo-400 tracking-widest">Ecosystem</p>
+                    <a href="#" class="text-sm text-slate-500 hover:text-white transition">Documentation</a>
+                    <button data-tally-open="9qQ7GV" class="text-sm text-slate-500 hover:text-white transition text-left">Join the Team</button>
+                </div>
+                <div class="flex flex-col gap-6 text-right md:text-left">
+                    <p class="text-[10px] font-black uppercase text-indigo-400 tracking-widest">Founder</p>
+                    <a href="mailto:founder@picaoai.com" class="text-sm text-slate-500 hover:text-white transition italic underline underline-offset-8">Contact Founder</a>
+                    <span class="text-[9px] font-mono text-slate-700">NYC_2026_STABLE</span>
+                </div>
+            </div>
         </div>
     </footer>
 
+    <script>lucide.createIcons();</script>
     <script async src="https://tally.so/widgets/embed.js"></script>
 </body>
 </html>
