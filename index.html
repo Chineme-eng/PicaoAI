@@ -14,7 +14,7 @@
         .serif { font-family: 'Lora', serif; }
         .mono { font-family: 'JetBrains Mono', monospace; }
 
-        /* --- THE LARGE FLOATING SLAB (RESTORED) --- */
+        /* --- THE LARGE FLOATING SLAB (UNTOUCHED) --- */
         .bg-slab {
             position: fixed; top: -15%; left: -15%; width: 130%; height: 130%;
             background: linear-gradient(135deg, rgba(99, 102, 241, 0.04) 0%, rgba(168, 85, 247, 0.04) 100%);
@@ -22,19 +22,14 @@
             z-index: -2; pointer-events: none; border: 1.5px solid rgba(255,255,255,0.015);
             animation: slabFloat 35s infinite alternate ease-in-out;
         }
-        @keyframes slabFloat { 
-            0% { transform: rotateX(25deg) rotateY(-15deg) translateY(0); } 
-            100% { transform: rotateX(32deg) rotateY(-8deg) translateY(50px); } 
-        }
+        @keyframes slabFloat { 0% { transform: rotateX(25deg) rotateY(-15deg) translateY(0); } 100% { transform: rotateX(32deg) rotateY(-8deg) translateY(50px); } }
 
-        /* --- DYNAMIC BACKGROUND ORBS --- */
         .orb { position: fixed; width: 800px; height: 800px; border-radius: 50%; filter: blur(160px); opacity: 0.18; z-index: -1; pointer-events: none; }
         .orb-1 { top: -10%; left: -5%; background: var(--picao-indigo); animation: drift 30s infinite alternate; }
         .orb-2 { bottom: -10%; right: -5%; background: var(--picao-purple); animation: drift 35s infinite alternate-reverse; }
         @keyframes drift { from { transform: translate(0,0); } to { transform: translate(150px, 150px); } }
         .grain { position: fixed; inset: 0; background: url('https://grainy-gradients.vercel.app/noise.svg'); opacity: 0.05; pointer-events: none; z-index: 999; }
 
-        /* --- LOGO ROTATION (RESTORED) --- */
         .logo-ring { position: relative; display: flex; align-items: center; justify-content: center; }
         .logo-ring::before {
             content: ''; position: absolute; inset: -7px; border: 1.8px solid var(--picao-indigo);
@@ -42,37 +37,11 @@
         }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* --- ICON ANIMATIONS --- */
-        .icon-mic-pulse { animation: mic-pulse 2s infinite ease-in-out; }
-        @keyframes mic-pulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.18); opacity: 0.6; } }
-        .icon-refract-spin { animation: spin-slow 10s linear infinite; }
-        @keyframes spin-slow { 100% { transform: rotate(360deg); } }
-        .icon-rocket-float { animation: rocket-float 4s infinite ease-in-out; }
-        @keyframes rocket-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
-
-        /* --- FLIP CARDS --- */
-        .flip-card { background-color: transparent; width: 100%; height: 480px; perspective: 1500px; }
-        .flip-card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform-style: preserve-3d; }
-        .flip-card:hover .flip-card-inner { transform: rotateY(180deg); }
-        .flip-card-front, .flip-card-back { position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden; border-radius: 3rem; border: 1px solid rgba(255,255,255,0.08); padding: 3.5rem; display: flex; flex-direction: column; justify-content: center; }
-        .flip-card-front { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(30px); align-items: center; text-align: center; }
-        .flip-card-back { background: linear-gradient(135deg, var(--picao-indigo), var(--picao-purple)); transform: rotateY(180deg); color: white; }
-
-        /* --- MARQUEE --- */
-        .marquee { overflow: hidden; white-space: nowrap; background: rgba(255,255,255,0.01); border-y: 1px solid rgba(255,255,255,0.05); padding: 35px 0; transform: rotate(-1.5deg); width: 110%; margin-left: -5%; margin-bottom: 80px; }
-        .marquee-content { display: inline-block; animation: marquee 60s linear infinite; }
-        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-
-        .gradient-text { background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .btn-pop { transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1); border-radius: 999px; }
-        .btn-pop:hover { transform: scale(1.05) translateY(-5px); box-shadow: 0 20px 50px rgba(99, 102, 241, 0.4); }
-
-        /* --- SIMULATION ENHANCEMENTS --- */
-        .workspace-wrapper { display: flex; align-items: center; justify-content: center; gap: 30px; transform: scale(0.9); margin: 0 auto; }
-        .phone-frame { width: 350px; height: 720px; background: #080808; border: 10px solid #1a1a1a; border-radius: 3.5rem; position: relative; box-shadow: 0 60px 120px rgba(0,0,0,0.9); display: flex; flex-direction: column; overflow: hidden; }
+        /* --- SIMULATION UI FIXES & VIDEO POV --- */
+        .workspace-wrapper { display: flex; align-items: center; justify-content: center; gap: 40px; transform: scale(0.95); margin: 0 auto; }
+        .phone-frame { width: 360px; height: 740px; background: #080808; border: 12px solid #1a1a1a; border-radius: 4rem; position: relative; box-shadow: 0 60px 120px rgba(0,0,0,0.9); display: flex; flex-direction: column; overflow: hidden; }
         
-        /* Mic with Motion Lines */
-        .mic-container { position: relative; width: 85px; height: 85px; margin: 0 auto; cursor: pointer; }
+        .mic-container { position: relative; width: 85px; height: 85px; margin: 0 auto; transition: 0.5s; }
         .motion-line { position: absolute; background: var(--picao-indigo); border-radius: 10px; opacity: 0; animation: radiate 2s infinite ease-out; }
         .l-top { width: 2px; height: 20px; top: -25px; left: 50%; transform: translateX(-50%); }
         .l-bottom { width: 2px; height: 20px; bottom: -25px; left: 50%; transform: translateX(-50%); }
@@ -80,29 +49,28 @@
         .l-right { width: 20px; height: 2px; right: -25px; top: 50%; transform: translateY(-50%); }
         @keyframes radiate { 0% { transform: scale(0.5); opacity: 0; } 50% { opacity: 0.8; } 100% { transform: scale(1.6); opacity: 0; } }
 
-        /* Pop-out Effect for Chat */
-        .chat-row { display: flex; align-items: flex-end; gap: 10px; margin-bottom: 1.5rem; opacity: 0; transform: translateY(20px) scale(0.95); transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .chat-row.user { flex-direction: row-reverse; }
-        
-        .profile-bubble { width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0; border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; overflow: hidden; }
-        .profile-bubble.ai { background: var(--picao-indigo); }
-        .profile-bubble.user { background: #333; color: white; font-weight: 800; font-size: 11px; }
-
-        .bubble { max-width: 80%; padding: 1rem; border-radius: 1.5rem; font-size: 12.5px; line-height: 1.5; }
-        .bubble-user { background: #1a1a1a; color: #d1d1d1; border-bottom-right-radius: 0.2rem; }
+        .chat-row { display: flex; align-items: flex-end; gap: 10px; margin-bottom: 1.5rem; opacity: 0; transform: translateY(20px) scale(0.9); transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .chat-row.user { flex-direction: row-reverse; transform: translateY(20px) scale(0.9); }
+        .profile-bubble { width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0; border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; overflow: hidden; background: #222; }
+        .bubble { max-width: 80%; padding: 1rem; border-radius: 1.5rem; font-size: 13px; line-height: 1.5; }
+        .bubble-user { background: #1a1a1a; color: #eee; border-bottom-right-radius: 0.2rem; }
         .bubble-picao { background: var(--picao-indigo); color: white; font-weight: 600; border-bottom-left-radius: 0.2rem; }
-        
         .show-row { opacity: 1 !important; transform: translateY(0) scale(1) !important; }
 
-        /* Typing Dots Animation */
-        .typing { display: flex; gap: 4px; padding: 10px 15px; background: #1a1a1a; border-radius: 1.5rem; border-bottom-left-radius: 0.2rem; width: fit-content; }
-        .dot { width: 6px; height: 6px; background: #555; border-radius: 50%; animation: blink 1.4s infinite both; }
-        .dot:nth-child(2) { animation-delay: 0.2s; }
-        .dot:nth-child(3) { animation-delay: 0.4s; }
-        @keyframes blink { 0%, 100% { opacity: 0.2; } 50% { opacity: 1; } }
+        .typing { display: flex; gap: 4px; padding: 12px 18px; background: #1a1a1a; border-radius: 1.5rem; width: fit-content; }
+        .dot { width: 6px; height: 6px; background: #555; border-radius: 50%; animation: blink 1.4s infinite; }
+        @keyframes blink { 50% { opacity: 0.3; } }
 
-        .refraction-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 1.5rem; padding: 1.2rem; margin-bottom: 1rem; opacity: 0; transform: scale(0.9) translateY(10px); transition: all 0.5s ease; }
-        .card-pop { opacity: 1 !important; transform: scale(1) translateY(0) !important; }
+        .sector-title { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 800; text-transform: uppercase; color: var(--picao-indigo); letter-spacing: 0.2em; margin-bottom: 1.5rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.05); }
+        .refraction-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 1.8rem; padding: 1.4rem; margin-bottom: 1rem; opacity: 0; transform: translateY(20px); transition: 0.5s; }
+        .active-card { opacity: 1; transform: translateY(0); }
+
+        .design-sector { display: flex; gap: 10px; margin-bottom: 2rem; }
+        .tool-icon { flex: 1; aspect-ratio: 1; background: #111; border: 1px solid rgba(255,255,255,0.05); border-radius: 1.2rem; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 8px; font-weight: 800; gap: 5px; opacity: 0.6; }
+        .tool-icon.canva { border-color: var(--canva-blue); color: var(--canva-blue); opacity: 1; }
+
+        .btn-pop { transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1); border-radius: 999px; }
+        .btn-pop:hover { transform: scale(1.05) translateY(-5px); box-shadow: 0 20px 50px rgba(99, 102, 241, 0.4); }
     </style>
 </head>
 <body class="antialiased">
@@ -149,84 +117,80 @@
         </div>
     </header>
 
-    <div class="marquee">
-        <div class="marquee-content text-5xl font-black italic uppercase tracking-[0.3em] text-white/5">
-            SPEECH TO TEXT • MULTI-PLATFORM • CONTENT REFRACTION • UNIFIED WORKSPACE • NO CONTEXT TAX •
-        </div>
-        <div class="marquee-content text-5xl font-black italic uppercase tracking-[0.3em] text-white/5">
-            SPEECH TO TEXT • MULTI-PLATFORM • CONTENT REFRACTION • UNIFIED WORKSPACE • NO CONTEXT TAX •
-        </div>
-    </div>
-
     <section id="preview" class="max-w-7xl mx-auto px-8 py-48 border-y border-white/5 bg-white/[0.01] scroll-mt-20">
         <div class="text-center mb-24">
-            <h2 class="serif text-6xl italic text-white mb-6">Preview the Workspace.</h2>
-            <p class="text-[11px] font-black text-indigo-400 uppercase tracking-[0.6em]">A Command Center for Builders</p>
+            <h2 class="serif text-6xl italic text-white mb-6">Phone POV.</h2>
+            <p class="text-[11px] font-black text-indigo-400 uppercase tracking-[0.6em]">A 24-Hour Creator Cycle Simulation</p>
         </div>
 
         <div class="workspace-wrapper">
-            <div class="side-panel hidden xl:flex">
-                <p class="text-[10px] font-black text-indigo-400 uppercase mb-8 tracking-[0.2em] font-mono">Idea_Vault</p>
-                <div class="p-5 bg-white/[0.03] rounded-3xl border border-white/10 mb-6">
-                    <p class="text-[9px] font-black text-slate-500 mb-2">2.12.26</p>
-                    <p class="text-[11px] italic opacity-60">"Reading as an R&D department..."</p>
-                </div>
-                <div class="p-5 bg-white/[0.03] rounded-3xl border border-white/10 opacity-30">
-                    <p class="text-[9px] font-black text-slate-500 mb-2">2.10.26</p>
-                    <p class="text-[11px] italic">"Context switching analysis..."</p>
-                </div>
-            </div>
-
             <div class="phone-frame">
-                <div class="px-8 py-5 border-b border-white/5 flex items-center justify-between bg-black/60 backdrop-blur-md">
+                <div class="px-8 py-5 border-b border-white/5 flex items-center justify-between bg-black/60 backdrop-blur-md sticky top-0 z-50">
                     <div class="flex items-center gap-3">
-                        <div class="w-7 h-7 bg-indigo-600 rounded-lg flex items-center justify-center shadow-lg"><img src="Picao-Logo.png" class="w-4 h-4 invert"></div>
-                        <h1 class="text-[10px] font-black uppercase tracking-widest">Picao Hub</h1>
+                        <div class="w-7 h-7 bg-indigo-600 rounded-lg flex items-center justify-center"><img src="Picao-Logo.png" class="w-4 h-4 invert"></div>
+                        <h1 class="text-[10px] font-black uppercase tracking-widest">Picao AI</h1>
                     </div>
-                    <button id="reset-sim" class="hidden text-[8px] font-black uppercase text-indigo-400 border border-indigo-400/20 px-3 py-1 rounded-full" onclick="resetSimulation()">Reset</button>
+                    <div class="flex gap-1.5 opacity-30"><i data-lucide="signal" class="w-3 h-3"></i><i data-lucide="battery" class="w-3 h-3"></i></div>
                 </div>
 
-                <div id="sim-scroll" class="flex-1 overflow-y-auto p-8 flex flex-col no-scrollbar" style="scrollbar-width: none;">
-                    <div id="mic-stage" class="flex-1 flex flex-col items-center justify-center text-center">
-                        <div class="mic-container mb-10" onclick="runSimulation()">
-                            <div class="motion-line l-top"></div><div class="motion-line l-bottom"></div><div class="motion-line l-left"></div><div class="motion-line l-right"></div>
-                            <div class="mic-button"><i data-lucide="mic" class="w-9 h-9 text-white"></i></div>
+                <div id="sim-scroll" class="flex-1 overflow-y-auto p-8 flex flex-col no-scrollbar" style="scrollbar-width: none; -ms-overflow-style: none;">
+                    
+                    <div id="mic-stage" class="flex flex-col items-center justify-center text-center pt-20 pb-40">
+                        <div id="recording-indicator" class="hidden flex items-center gap-2 mb-6 text-red-500 font-black text-[9px] uppercase tracking-widest animate-pulse">
+                            <span class="w-2 h-2 bg-red-500 rounded-full"></span> Recording_Voice
                         </div>
-                        <h2 class="text-xl font-extrabold italic mb-2">Tap to Ideate</h2>
+                        <div class="mic-container mb-10">
+                            <div class="motion-line l-top"></div><div class="motion-line l-bottom"></div><div class="motion-line l-left"></div><div class="motion-line l-right"></div>
+                            <div class="mic-button shadow-2xl shadow-indigo-500/20"><i data-lucide="mic" class="w-10 h-10 text-white"></i></div>
+                        </div>
+                        <p id="mic-text" class="text-[10px] opacity-40 font-medium uppercase tracking-widest">Awaiting Expertise Input...</p>
                     </div>
 
                     <div id="chat-stage" class="hidden flex flex-col">
                         <div id="r1" class="chat-row user">
-                            <div class="profile-bubble user">K</div>
-                            <div class="bubble bubble-user">"Hey Picao, I want to post on IG about reading and writing, but I’m not sure anyone would be interested."</div>
+                            <div class="profile-bubble user font-black">K</div>
+                            <div class="bubble bubble-user">"Hey Picao, I’ve been thinking about making content on ig but I’m not sure what to post, i like reading and writing but I’m not sure anyone would be interested in that"</div>
                         </div>
 
-                        <div id="typing-indicator" class="hidden chat-row">
-                            <div class="profile-bubble ai"><img src="Picao-Logo.png" class="w-4 h-4 invert"></div>
+                        <div id="typing-box" class="chat-row hidden">
+                            <div class="profile-bubble ai p-1.5"><img src="Picao-Logo.png" class="w-full invert"></div>
                             <div class="typing"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
                         </div>
 
                         <div id="r2" class="chat-row">
-                            <div class="profile-bubble ai"><img src="Picao-Logo.png" class="w-4 h-4 invert"></div>
-                            <div class="bubble bubble-picao shadow-xl shadow-indigo-500/10">"Hey Kat, so many people would be interested! You could rate books or give writing tips. Let's refract this."</div>
-                        </div>
-                        
-                        <div id="cards-stage" class="hidden space-y-4 mt-6 pb-20">
-                            <div class="refraction-card"><div class="flex gap-3 items-center mb-3"><i data-lucide="linkedin" class="w-4 h-4 text-blue-400"></i><span class="text-[9px] font-black text-slate-500 uppercase">LinkedIn Authority</span></div><p class="text-[11px] italic opacity-80">Reading isn't a hobby. It's leverage. #FounderGrowth</p></div>
-                            <div class="refraction-card"><div class="flex gap-3 items-center mb-3"><i data-lucide="youtube" class="w-4 h-4 text-red-500"></i><span class="text-[9px] font-black text-slate-500 uppercase">YouTube Short</span></div><p class="text-[11px] italic font-bold">Hook: "Stop reading the wrong books."</p></div>
-                            <div class="refraction-card"><div class="flex gap-3 items-center mb-3"><i data-lucide="at-sign" class="w-4 h-4 text-white"></i><span class="text-[9px] font-black text-slate-500 uppercase">Threads</span></div><p class="text-[11px] italic opacity-80">5 tips from my library: 🧵</p></div>
+                            <div class="profile-bubble ai p-1.5"><img src="Picao-Logo.png" class="w-full invert"></div>
+                            <div class="bubble bubble-picao shadow-2xl shadow-indigo-500/10">"Hey Kat, there are so many people that would be interested in your content, you could make a series of you rating books you’ve read or you could give tips on how to improve writing, you could even do both"</div>
                         </div>
                     </div>
-                </div>
-            </div>
 
-            <div class="side-panel hidden xl:flex">
-                <p class="text-[10px] font-black text-indigo-400 uppercase mb-8 tracking-[0.2em] font-mono">Timeline</p>
-                <div class="p-5 border-l-4 border-indigo-500 bg-indigo-500/5 rounded-3xl mb-12">
-                    <p class="text-[10px] font-black text-indigo-400 mb-1">2.23.26</p>
-                    <p class="text-[11px] font-extrabold uppercase">LinkedIn Post</p>
+                    <div id="secondary-sectors" class="hidden mt-10">
+                        <h3 class="sector-title">Refraction_Nodes</h3>
+                        <div id="ref-cards" class="space-y-4">
+                            <div class="refraction-card"><div class="flex gap-3 mb-2"><i data-lucide="linkedin" class="w-4 h-4 text-blue-400"></i><span class="text-[9px] font-black uppercase text-slate-500">LinkedIn Authority</span></div><p class="text-[11px] italic opacity-80">Reading isn't a hobby. It's leverage.</p></div>
+                            <div class="refraction-card"><div class="flex gap-3 mb-2"><i data-lucide="youtube" class="w-4 h-4 text-red-500"></i><span class="text-[9px] font-black uppercase text-slate-500">YouTube Script</span></div><p class="text-[11px] font-bold italic">"Stop reading wrong."</p></div>
+                        </div>
+
+                        <h3 class="sector-title">Idea_Vault</h3>
+                        <div class="p-5 bg-white/[0.03] rounded-3xl border border-white/10 mb-4">
+                            <p class="text-[9px] font-black text-indigo-400 mb-2">NOTE_2/12/26</p>
+                            <p class="text-[11px] opacity-60">Series Idea: Rating every book that changed my tax bracket.</p>
+                        </div>
+
+                        <h3 class="sector-title">Post_Scheduler</h3>
+                        <div class="p-5 border-l-4 border-indigo-500 bg-indigo-500/5 rounded-3xl mb-8">
+                            <p class="text-[10px] font-black text-indigo-400 mb-1 uppercase">2/23/26 Post Carousel</p>
+                            <p class="text-[11px] font-extrabold uppercase text-slate-200">LinkedIn: The Context Tax</p>
+                        </div>
+
+                        <h3 class="sector-title">Creative_Workspaces</h3>
+                        <div class="design-sector">
+                            <div class="tool-icon canva"><i data-lucide="palette" class="w-4 h-4"></i>Canva</div>
+                            <div class="tool-icon"><i data-lucide="image" class="w-4 h-4"></i>Picsart</div>
+                            <div class="tool-icon"><i data-lucide="type" class="w-4 h-4"></i>Kittl</div>
+                        </div>
+                    </div>
+
                 </div>
-                <div class="btn-canva"><img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Canva_icon_2021.svg" class="w-4 h-4 invert"> Open Canva</div>
             </div>
         </div>
     </section>
@@ -355,18 +319,13 @@
             <div>
                 <div class="flex items-center gap-6 mb-12">
                     <div class="logo-ring"><img src="Picao-Logo.png" class="h-10 invert"></div>
-                    <span class="text-3xl font-black italic tracking-tighter uppercase">PicaoAI</span>
+                    <span class="text-3xl font-black italic uppercase tracking-tighter">PicaoAI</span>
                 </div>
             </div>
             <div class="grid grid-cols-2 gap-32 text-right">
                 <div class="flex flex-col gap-10">
-                    <p class="text-[12px] font-black uppercase text-indigo-400 tracking-[0.5em]">Workspace</p>
-                    <button data-tally-open="9qQ7GV" class="text-sm text-slate-500 hover:text-white transition text-right font-light italic">Support</button>
-                </div>
-                <div class="flex flex-col gap-10">
                     <p class="text-[12px] font-black uppercase text-indigo-400 tracking-[0.5em]">Studio</p>
                     <span class="text-[11px] font-mono text-slate-800 uppercase tracking-widest italic">NYC_ALPHA_v2.6</span>
-                    <span class="text-[11px] text-slate-800 font-black uppercase tracking-widest italic">© 2026 Picao AI Workspace</span>
                 </div>
             </div>
         </div>
@@ -375,52 +334,61 @@
     <script>
         lucide.createIcons();
 
+        // AUTOMATED POV SCRIPT
         function runSimulation() {
-            const mic = document.getElementById('mic-stage');
+            const micBox = document.getElementById('mic-stage');
+            const recInd = document.getElementById('recording-indicator');
+            const micTxt = document.getElementById('mic-text');
             const chat = document.getElementById('chat-stage');
+            const typing = document.getElementById('typing-box');
             const r1 = document.getElementById('r1');
             const r2 = document.getElementById('r2');
-            const typing = document.getElementById('typing-indicator');
-            const cards = document.getElementById('cards-stage');
             const scroll = document.getElementById('sim-scroll');
-            const resetBtn = document.getElementById('reset-sim');
+            const sectors = document.getElementById('secondary-sectors');
+            const cards = document.querySelectorAll('.refraction-card');
 
-            mic.style.display = 'none';
-            chat.classList.remove('hidden');
-            resetBtn.classList.remove('hidden');
-
+            // 1. Initial State: Recording
+            recInd.classList.remove('hidden');
+            micTxt.innerText = "Listening_Expertise...";
+            
             setTimeout(() => {
+                // 2. Clear Mic, Show User Message
+                micBox.style.display = 'none';
+                chat.classList.remove('hidden');
                 r1.classList.add('show-row');
+
                 setTimeout(() => {
+                    // 3. AI is typing
                     typing.classList.remove('hidden');
                     typing.classList.add('show-row');
-                    
+                    scroll.scrollTo({ top: scroll.scrollHeight, behavior: 'smooth' });
+
                     setTimeout(() => {
-                        typing.classList.remove('show-row');
+                        // 4. Show AI Response
+                        typing.style.display = 'none';
+                        r2.classList.add('show-row');
+
                         setTimeout(() => {
-                            typing.classList.add('hidden');
-                            r2.classList.add('show-row');
+                            // 5. Open Vault/Scheduler Sectors and Scroll
+                            sectors.classList.remove('hidden');
+                            cards.forEach((c, i) => {
+                                setTimeout(() => c.classList.add('active-card'), i * 300);
+                            });
                             
+                            // Video-like scroll to bottom
                             setTimeout(() => {
-                                cards.classList.remove('hidden');
-                                const cardItems = document.querySelectorAll('.refraction-card');
-                                cardItems.forEach((c, i) => {
-                                    setTimeout(() => {
-                                        c.classList.add('card-pop');
-                                        scroll.scrollTo({ top: scroll.scrollHeight, behavior: 'smooth' });
-                                    }, i * 250);
-                                });
-                            }, 1200);
-                        }, 100);
-                    }, 2000);
-                }, 800);
-            }, 300);
+                                scroll.scrollTo({ top: scroll.scrollHeight, behavior: 'smooth' });
+                            }, 1000);
+                        }, 1500);
+                    }, 2500);
+                }, 1500);
+            }, 3000);
         }
 
-        function resetSimulation() {
-            location.href = '#preview';
-            location.reload();
-        }
+        // Trigger on load for the "video" feel
+        window.onload = () => {
+            setTimeout(runSimulation, 2000);
+        };
     </script>
     <script async src="https://tally.so/widgets/embed.js"></script>
 </body>
