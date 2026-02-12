@@ -11,6 +11,7 @@
     
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
@@ -38,10 +39,10 @@
         body { font-family: 'Inter', sans-serif; background-color: #020202; color: #f8fafc; overflow-x: hidden; -webkit-font-smoothing: antialiased; transition: background-color 0.5s ease, color 0.5s ease; }
         ::selection { background: rgba(99, 102, 241, 0.3); color: white; }
         
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #020202; }
-        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; border: 2px solid #020202; }
-        ::-webkit-scrollbar-thumb:hover { background: #555; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
 
         .serif { font-family: 'Lora', serif; }
         .mono { font-family: 'JetBrains Mono', monospace; }
@@ -68,7 +69,7 @@
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
         /* --- SPOTLIGHT CARD EFFECT --- */
-        .spotlight-card { position: relative; overflow: hidden; background: rgba(255, 255, 255, 0.01); border: 1px solid rgba(255,255,255,0.05); transition: border-color 0.3s, background 0.3s; }
+        .spotlight-card { position: relative; overflow: hidden; background: rgba(255, 255, 255, 0.01); border: 1px solid rgba(255,255,255,0.05); transition: border-color 0.3s, background 0.3s, transform 0.3s; }
         .spotlight-card::before {
             content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
             background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), rgba(255, 255, 255, 0.06), transparent 40%);
@@ -85,11 +86,6 @@
         .flip-card-front { background: rgba(20, 20, 20, 0.4); backdrop-filter: blur(20px); align-items: center; text-align: center; }
         .flip-card-back { background: linear-gradient(145deg, #1e1b4b, #4c1d95); transform: rotateY(180deg); color: white; border: 1px solid rgba(255,255,255,0.2); }
         
-        /* --- ICONS ANIMATIONS --- */
-        .icon-mic-pulse { animation: mic-pulse 2s infinite ease-in-out; } @keyframes mic-pulse { 0%, 100% { transform: scale(1); opacity: 1; filter: drop-shadow(0 0 10px rgba(99,102,241,0.5)); } 50% { transform: scale(1.1); opacity: 0.6; } }
-        .icon-refract-spin { animation: spin-slow 10s linear infinite; } @keyframes spin-slow { 100% { transform: rotate(360deg); } }
-        .icon-rocket-float { animation: rocket-float 4s infinite ease-in-out; } @keyframes rocket-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
-
         /* --- MARQUEE --- */
         .marquee { overflow: hidden; white-space: nowrap; background: rgba(0,0,0,0.3); border-y: 1px solid rgba(255,255,255,0.05); padding: 25px 0; transform: rotate(-1.5deg); width: 110%; margin-left: -5%; margin-bottom: 60px; mask-image: linear-gradient(to right, transparent, black 20%, black 80%, transparent); -webkit-mask-image: linear-gradient(to right, transparent, black 20%, black 80%, transparent); transition: background 0.5s; }
         .marquee-content { display: inline-block; animation: marquee 60s linear infinite; }
@@ -105,7 +101,7 @@
         .btn-shine:hover::after { left: 100%; transition: 0.5s; }
 
         /* --- PREVIEW SECTION & WORKFLOW OS --- */
-        .workspace-wrapper { display: flex; align-items: center; justify-content: center; gap: 40px; transform: scale(0.9); margin: 0 auto; }
+        .workspace-wrapper { display: flex; align-items: center; justify-content: center; gap: 40px; transform: scale(0.9); margin: 0 auto; perspective: 2000px; }
         @media (min-width: 1280px) { .workspace-wrapper { transform: scale(1); } }
         
         .side-panel { width: 280px; height: 680px; background: rgba(255, 255, 255, 0.01); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 3rem; backdrop-filter: blur(20px); padding: 2.2rem; display: flex; flex-direction: column; transition: all 0.5s ease; opacity: 0.2; transform: scale(0.95); }
@@ -116,10 +112,10 @@
         .active-context .scan-line { opacity: 1; animation: scanDown 3s infinite linear; }
         @keyframes scanDown { 0% { transform: translateY(0); } 100% { transform: translateY(400px); } }
 
-        .phone-frame { width: 100%; max-width: 360px; height: 760px; background: #080808; border: 8px solid #222; outline: 4px solid #000; border-radius: 4rem; position: relative; box-shadow: 0 50px 100px -20px rgba(0,0,0,0.8), inset 0 0 20px rgba(255,255,255,0.05); overflow: hidden; z-index: 10; display: flex; flex-direction: column; transition: box-shadow 0.5s; }
+        .phone-frame { width: 100%; max-width: 360px; height: 760px; background: #080808; border: 8px solid #222; outline: 4px solid #000; border-radius: 4rem; position: relative; box-shadow: 0 50px 100px -20px rgba(0,0,0,0.8), inset 0 0 20px rgba(255,255,255,0.05); overflow: hidden; z-index: 10; display: flex; flex-direction: column; transition: transform 0.1s ease-out; transform-style: preserve-3d; }
         
-        /* New: Screen Glare for realism */
-        .screen-glare { position: absolute; inset: 0; background: linear-gradient(120deg, rgba(255,255,255,0.03) 0%, transparent 40%, rgba(255,255,255,0.01) 100%); pointer-events: none; z-index: 900; }
+        /* Screen Glare Parallax */
+        .screen-glare { position: absolute; inset: -50%; width: 200%; height: 200%; background: linear-gradient(115deg, transparent 40%, rgba(255,255,255,0.04) 45%, rgba(255,255,255,0.06) 50%, rgba(255,255,255,0.04) 55%, transparent 60%); pointer-events: none; z-index: 900; transform: rotate(20deg); opacity: 0.8; transition: transform 0.1s ease-out; }
 
         /* Enhanced Dynamic Island */
         .dynamic-island { position: absolute; top: 15px; left: 50%; transform: translateX(-50%); width: 100px; height: 28px; background: black; border-radius: 20px; z-index: 100; transition: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); display: flex; align-items: center; justify-content: center; gap: 8px; overflow: hidden; }
@@ -131,7 +127,7 @@
         .screen { position: absolute; inset: 0; padding: 20px; padding-top: 60px; display: flex; flex-direction: column; opacity: 0; pointer-events: none; transition: all 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); transform: scale(0.92) translateY(10px); background: #050505; }
         .screen.active-screen { opacity: 1; pointer-events: auto; transform: scale(1) translateY(0); z-index: 50; }
 
-        /* New: Audio Visualizer Bars */
+        /* Audio Visualizer Bars */
         .audio-viz { display: flex; gap: 4px; height: 40px; align-items: center; justify-content: center; }
         .bar { width: 6px; background: var(--picao-indigo); border-radius: 99px; height: 10px; animation: none; }
         .bar.active-voice { animation: equalizer 1s infinite ease-in-out; }
@@ -145,11 +141,17 @@
         .chat-row { display: flex; align-items: flex-end; gap: 8px; margin-bottom: 1rem; opacity: 0; transform: translateY(20px); transition: 0.5s; }
         .chat-row.user { flex-direction: row-reverse; }
         .chat-show { opacity: 1 !important; transform: translateY(0) !important; }
-        .bubble { padding: 14px 18px; border-radius: 20px; font-size: 13px; line-height: 1.5; max-width: 85%; box-shadow: 0 2px 10px rgba(0,0,0,0.2); position: relative; }
+        .bubble { padding: 14px 18px; border-radius: 20px; font-size: 12px; line-height: 1.5; max-width: 85%; box-shadow: 0 2px 10px rgba(0,0,0,0.2); position: relative; }
         .bubble-user { background: #222; color: #eee; border-bottom-right-radius: 4px; border: 1px solid rgba(255,255,255,0.05); }
         .bubble-picao { background: var(--picao-indigo); background: linear-gradient(135deg, var(--picao-indigo), #7c3aed); color: white; border-bottom-left-radius: 4px; font-weight: 500; border: 1px solid rgba(255,255,255,0.1); }
-        /* Cursor for typing effect */
         .cursor { display: inline-block; width: 6px; height: 14px; background: white; margin-left: 2px; animation: blink 1s infinite; vertical-align: middle; }
+
+        /* Interactive Action Buttons */
+        .action-container { display: flex; gap: 8px; margin-top: 10px; opacity: 0; transform: translateY(10px); transition: 0.5s; flex-wrap: wrap; }
+        .action-container.show { opacity: 1; transform: translateY(0); }
+        .action-btn { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 8px 16px; font-size: 10px; color: white; cursor: pointer; transition: 0.2s; display: flex; items-center; gap: 4px; }
+        .action-btn:hover { background: rgba(255,255,255,0.2); transform: scale(1.05); }
+        .action-btn.clicked { background: #4ade80; color: black; border-color: #4ade80; transform: scale(0.95); }
 
         .profile-pic { width: 30px; height: 30px; border-radius: 50%; background: #222; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: bold; border: 1px solid rgba(255,255,255,0.1); flex-shrink: 0; }
         .typing { display: flex; gap: 4px; padding: 12px 16px; background: #222; border-radius: 20px; border-bottom-left-radius: 4px; width: fit-content; }
@@ -159,9 +161,9 @@
         @keyframes blink { 50% { opacity: 0.3; } }
 
         /* Floating Icons for Refraction */
-        .float-icon { position: absolute; opacity: 0; pointer-events: none; transition: 0.5s; z-index: 150; }
+        .float-icon { position: absolute; opacity: 0; pointer-events: none; transition: 0.5s; z-index: 150; filter: drop-shadow(0 0 10px currentColor); }
         .float-icon.float-active { animation: floatUp 1.5s forwards ease-out; opacity: 1; }
-        @keyframes floatUp { 0% { transform: translate(-50%, 0) scale(0.5); opacity: 0; } 50% { opacity: 1; } 100% { transform: translate(-50%, -100px) scale(1.2); opacity: 0; } }
+        @keyframes floatUp { 0% { transform: translate(-50%, 0) scale(0.5); opacity: 0; } 50% { opacity: 1; } 100% { transform: translate(-50%, -150px) scale(1.5); opacity: 0; } }
 
         /* NOTES & CALENDAR */
         .notes-header { font-size: 22px; font-weight: 800; margin-bottom: 25px; color: #fbbf24; text-shadow: 0 0 20px rgba(251, 191, 36, 0.3); }
@@ -179,6 +181,10 @@
         /* Push Notification Style */
         .push-notification { position: absolute; top: 12px; left: 10px; right: 10px; background: rgba(30,30,30,0.95); backdrop-filter: blur(10px); border-radius: 16px; padding: 12px; display: flex; align-items: center; gap: 10px; transform: translateY(-150%); transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 200; box-shadow: 0 5px 20px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); }
         .push-active { transform: translateY(0); }
+
+        /* Confetti Particles */
+        .confetti { position: absolute; width: 4px; height: 4px; background: #fff; animation: fall 3s linear forwards; pointer-events: none; z-index: 800; }
+        @keyframes fall { 0% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(600px) rotate(720deg); opacity: 0; } }
 
         .launch-btn { background: #151515; padding: 16px; border-radius: 18px; display: flex; items-center; gap: 14px; border: 1px solid rgba(255,255,255,0.05); transition: 0.3s; opacity: 0; transform: translateX(20px); }
         .launch-btn:hover { background: #222; transform: scale(1.02); border-color: rgba(255,255,255,0.1); }
@@ -225,6 +231,9 @@
         .theme-toggle:hover { background: rgba(255,255,255,0.2); }
         body.light-mode .theme-toggle { background: rgba(0,0,0,0.05); border-color: rgba(0,0,0,0.1); color: #0f172a; }
         body.light-mode .theme-toggle:hover { background: rgba(0,0,0,0.1); }
+        
+        /* Light mode action buttons */
+        body.light-mode .action-btn { color: white; }
     </style>
 </head>
 <body class="antialiased selection:bg-indigo-500 selection:text-white">
@@ -315,8 +324,8 @@
                 </div>
             </div>
 
-            <div class="phone-frame">
-                <div class="screen-glare"></div>
+            <div class="phone-frame" id="phone-frame">
+                <div class="screen-glare" id="screen-glare"></div>
                 
                 <div class="push-notification" id="push-notif">
                     <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center"><img src="Picao-Logo.png" class="w-5 invert"></div>
@@ -363,8 +372,14 @@
 
                         <div class="chat-row" id="chat-2">
                             <div class="profile-pic bg-indigo-600 shadow-lg"><img src="Picao-Logo.png" class="w-3.5 h-3.5 invert"></div>
-                            <div class="bubble bubble-picao shadow-[0_10px_30px_rgba(99,102,241,0.3)]">
-                                <span id="typewriter-text"></span><span class="cursor"></span>
+                            <div class="flex flex-col gap-2 max-w-[85%]">
+                                <div class="bubble bubble-picao shadow-[0_10px_30px_rgba(99,102,241,0.3)] w-full">
+                                    <span id="typewriter-text"></span><span class="cursor"></span>
+                                </div>
+                                <div class="action-container" id="chat-actions">
+                                    <button class="action-btn" id="btn-draft"><i data-lucide="pen-line" class="w-3 h-3"></i> Draft Strategy</button>
+                                    <button class="action-btn"><i data-lucide="refresh-cw" class="w-3 h-3"></i> Brainstorm</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -381,6 +396,7 @@
                 </div>
 
                 <div id="screen-calendar" class="screen bg-[#0a0a0a]">
+                    <div id="confetti-container" class="absolute inset-0 overflow-hidden pointer-events-none"></div>
                     <h3 class="cal-header text-indigo-400 flex items-center justify-center gap-2 mb-6">February 2026 <i data-lucide="chevron-down" class="w-4 h-4"></i></h3>
                     <div class="cal-grid">
                         <div class="cal-day opacity-50">20</div><div class="cal-day opacity-50">21</div><div class="cal-day">22</div>
@@ -672,6 +688,24 @@
                 card.style.setProperty("--mouse-y", `${y}px`);
             });
         });
+        
+        // PHONE PARALLAX EFFECT (WOW FACTOR)
+        const phone = document.getElementById('phone-frame');
+        const glare = document.getElementById('screen-glare');
+        document.getElementById('preview').addEventListener('mousemove', (e) => {
+            const rect = phone.getBoundingClientRect();
+            const x = (e.clientX - rect.left) / rect.width - 0.5;
+            const y = (e.clientY - rect.top) / rect.height - 0.5;
+            
+            // Subtle tilt
+            phone.style.transform = `perspective(1000px) rotateY(${x * 10}deg) rotateX(${y * -10}deg)`;
+            
+            // Glare movement (opposite to tilt for realism)
+            glare.style.transform = `translate(${x * 50}px, ${y * 50}px) rotate(20deg)`;
+        });
+        document.getElementById('preview').addEventListener('mouseleave', () => {
+            phone.style.transform = 'perspective(1000px) rotateY(0deg) rotateX(0deg)';
+        });
 
         // SCROLL REVEAL EFFECT
         const revealElements = document.querySelectorAll('.reveal');
@@ -735,6 +769,19 @@
             }
         }
 
+        function fireConfetti() {
+            const container = document.getElementById('confetti-container');
+            container.innerHTML = '';
+            for(let i=0; i<30; i++) {
+                const c = document.createElement('div');
+                c.className = 'confetti';
+                c.style.left = Math.random() * 100 + '%';
+                c.style.background = ['#6366f1', '#a855f7', '#4ade80', '#fbbf24'][Math.floor(Math.random() * 4)];
+                c.style.animationDuration = (Math.random() * 2 + 1) + 's';
+                container.appendChild(c);
+            }
+        }
+
         function switchScreen(name) {
             Object.values(screens).forEach(s => s.classList.remove('active-screen'));
             screens[name].classList.add('active-screen');
@@ -777,6 +824,8 @@
             document.getElementById('note-card').style.opacity = '0';
             document.getElementById('cal-target').classList.remove('active');
             document.getElementById('typewriter-text').innerHTML = "";
+            document.getElementById('chat-actions').classList.remove('show');
+            document.getElementById('btn-draft').classList.remove('clicked');
             
             document.querySelectorAll('.launch-btn').forEach(b => b.classList.remove('launch-show'));
             document.querySelectorAll('.note-line').forEach(n => n.classList.remove('note-typing'));
@@ -807,8 +856,14 @@
             const aiResponse = "Hey Kat, there are so many people that would be interested in your content! You could make a series of you rating books you’ve read or you could give tips on how to improve writing. Let's draft this.";
             await typeText("typewriter-text", aiResponse, 15); // Fast typing
 
+            // INTERACTIVE MOMENT (New!)
+            await delay(500);
+            document.getElementById('chat-actions').classList.add('show');
+            await delay(1000); // User "thinks"
+            document.getElementById('btn-draft').classList.add('clicked'); // Simulated Click
+
             // Refraction Animation (Icons flying out)
-            await delay(800);
+            await delay(600);
             document.getElementById('float-li').classList.add('float-active');
             await delay(100);
             document.getElementById('float-ig').classList.add('float-active');
@@ -847,6 +902,7 @@
             
             await delay(500);
             document.getElementById('push-notif').classList.add('push-active'); // Show Push Notification
+            fireConfetti(); // WOW FACTOR: Confetti
             
             await delay(3000);
             document.getElementById('push-notif').classList.remove('push-active');
