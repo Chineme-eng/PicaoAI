@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,12 +9,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
-        :root { --picao-indigo: #6366f1; --picao-purple: #a855f7; --canva-blue: #00C4CC; }
+        :root { --picao-indigo: #6366f1; --picao-purple: #a855f7; --canva-blue: #00C4CC; --notion-gray: #2F3437; }
         body { font-family: 'Inter', sans-serif; background-color: #050505; color: #f8fafc; overflow-x: hidden; scroll-behavior: smooth; }
         .serif { font-family: 'Lora', serif; }
         .mono { font-family: 'JetBrains Mono', monospace; }
 
-        /* --- BACKGROUND FX --- */
+        /* --- THE LARGE FLOATING SLAB (PRESERVED) --- */
         .bg-slab {
             position: fixed; top: -15%; left: -15%; width: 130%; height: 130%;
             background: linear-gradient(135deg, rgba(99, 102, 241, 0.04) 0%, rgba(168, 85, 247, 0.04) 100%);
@@ -28,6 +27,7 @@
             100% { transform: rotateX(32deg) rotateY(-8deg) translateY(50px); } 
         }
 
+        /* --- BACKGROUND ORBS --- */
         .orb { position: fixed; width: 800px; height: 800px; border-radius: 50%; filter: blur(160px); opacity: 0.18; z-index: -1; pointer-events: none; }
         .orb-1 { top: -10%; left: -5%; background: var(--picao-indigo); animation: drift 30s infinite alternate; }
         .orb-2 { bottom: -10%; right: -5%; background: var(--picao-purple); animation: drift 35s infinite alternate-reverse; }
@@ -42,6 +42,7 @@
         }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
+        /* --- FLIP CARD ANIMATIONS --- */
         .icon-mic-pulse { animation: mic-pulse 2s infinite ease-in-out; }
         @keyframes mic-pulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.18); opacity: 0.6; } }
         .icon-refract-spin { animation: spin-slow 10s linear infinite; }
@@ -64,20 +65,30 @@
         .btn-pop { transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1); border-radius: 999px; }
         .btn-pop:hover { transform: scale(1.05) translateY(-5px); box-shadow: 0 20px 50px rgba(99, 102, 241, 0.4); }
 
-        /* --- ACCORDION STYLES (NEW) --- */
-        details > summary { list-style: none; cursor: pointer; outline: none; }
-        details > summary::-webkit-details-marker { display: none; }
-        details[open] summary ~ * { animation: sweep .3s ease-in-out; }
-        @keyframes sweep { 0% {opacity: 0; transform: translateY(-10px)} 100% {opacity: 1; transform: translateY(0)} }
-        details summary .chevron { transition: transform 0.3s ease; }
-        details[open] summary .chevron { transform: rotate(180deg); }
-
-        /* --- SIMULATION CSS --- */
-        .workspace-wrapper { display: flex; align-items: center; justify-content: center; gap: 30px; transform: scale(0.9); margin: 0 auto; }
-        .side-panel { width: 260px; height: 640px; background: rgba(255, 255, 255, 0.015); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 2.5rem; backdrop-filter: blur(40px); padding: 2rem; display: flex; flex-direction: column; }
-        .phone-frame { width: 350px; height: 720px; background: #080808; border: 10px solid #1a1a1a; border-radius: 3.5rem; position: relative; box-shadow: 0 60px 120px rgba(0,0,0,0.9); display: flex; flex-direction: column; overflow: hidden; }
+        /* --- NEW SIMULATION CSS (HIGH FIDELITY) --- */
+        .workspace-wrapper { display: flex; align-items: center; justify-content: center; gap: 40px; transform: scale(0.95); margin: 0 auto; }
         
-        .mic-container { position: relative; width: 85px; height: 85px; margin: 0 auto; cursor: pointer; }
+        .side-panel { 
+            width: 270px; height: 680px; background: rgba(255, 255, 255, 0.015); 
+            border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 3rem; 
+            backdrop-filter: blur(40px); padding: 2.2rem; display: flex; flex-direction: column; 
+            transition: all 0.5s ease; opacity: 0.5;
+        }
+        .side-panel.active-panel { opacity: 1; border-color: rgba(99, 102, 241, 0.3); box-shadow: 0 0 40px rgba(99, 102, 241, 0.1); }
+
+        .phone-frame { 
+            width: 360px; height: 760px; background: #080808; border: 12px solid #1a1a1a; 
+            border-radius: 4rem; position: relative; box-shadow: 0 60px 120px rgba(0,0,0,0.9); 
+            display: flex; flex-direction: column; overflow: hidden; 
+        }
+        
+        /* Dynamic Island */
+        .dynamic-island { position: absolute; top: 12px; left: 50%; transform: translateX(-50%); width: 100px; height: 28px; background: black; border-radius: 20px; z-index: 100; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: flex; align-items: center; justify-content: center; gap: 6px; }
+        .dynamic-island.active { width: 180px; height: 36px; border: 1px solid rgba(255,255,255,0.1); }
+        .island-content { opacity: 0; font-size: 9px; font-weight: bold; color: #4ade80; transition: opacity 0.2s; }
+        .dynamic-island.active .island-content { opacity: 1; }
+
+        .mic-container { position: relative; width: 90px; height: 90px; margin: 0 auto; cursor: pointer; }
         .motion-line { position: absolute; background: var(--picao-indigo); border-radius: 10px; opacity: 0; animation: radiate 2s infinite ease-out; }
         .l-top { width: 2px; height: 20px; top: -25px; left: 50%; transform: translateX(-50%); }
         .l-bottom { width: 2px; height: 20px; bottom: -25px; left: 50%; transform: translateX(-50%); }
@@ -85,34 +96,32 @@
         .l-right { width: 20px; height: 2px; right: -25px; top: 50%; transform: translateY(-50%); }
         @keyframes radiate { 0% { transform: scale(0.5); opacity: 0; } 50% { opacity: 0.8; } 100% { transform: scale(1.6); opacity: 0; } }
 
-        .chat-row { display: flex; align-items: flex-end; gap: 10px; margin-bottom: 1.5rem; opacity: 0; transform: translateY(20px) scale(0.9); transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .chat-row { display: flex; align-items: flex-end; gap: 10px; margin-bottom: 1.5rem; opacity: 0; transform: translateY(20px) scale(0.9); transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         .chat-row.user { flex-direction: row-reverse; }
-        .profile-bubble { width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0; border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; overflow: hidden; background: #222; }
+        .profile-bubble { width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0; border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; overflow: hidden; background: #222; }
         .profile-bubble.ai { background: var(--picao-indigo); }
-        .profile-bubble.user { background: #333; color: white; font-weight: 800; font-size: 11px; }
-        .bubble { max-width: 80%; padding: 1rem; border-radius: 1.5rem; font-size: 12.5px; line-height: 1.5; }
+        
+        .bubble { max-width: 80%; padding: 1.1rem; border-radius: 1.6rem; font-size: 13px; line-height: 1.5; }
         .bubble-user { background: #1a1a1a; color: #d1d1d1; border-bottom-right-radius: 0.2rem; }
         .bubble-picao { background: var(--picao-indigo); color: white; font-weight: 600; border-bottom-left-radius: 0.2rem; }
         .show-row { opacity: 1 !important; transform: translateY(0) scale(1) !important; }
 
-        .typing { display: flex; gap: 4px; padding: 12px 18px; background: #1a1a1a; border-radius: 1.5rem; width: fit-content; }
-        .dot { width: 6px; height: 6px; background: #555; border-radius: 50%; animation: blink 1.4s infinite; }
-        .dot:nth-child(2) { animation-delay: 0.2s; }
-        .dot:nth-child(3) { animation-delay: 0.4s; }
-        @keyframes blink { 50% { opacity: 0.3; } }
+        .refraction-card { 
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 1.5rem; 
+            padding: 0; overflow: hidden; margin-bottom: 1rem; opacity: 0; transform: translateY(30px); transition: all 0.6s ease; 
+        }
+        .card-header { padding: 1.2rem; display: flex; gap: 8px; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .card-body { padding: 1.2rem; font-size: 11px; opacity: 0.8; font-style: italic; }
+        .card-pop { opacity: 1 !important; transform: translateY(0) !important; }
 
-        .sector-title { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 800; text-transform: uppercase; color: var(--picao-indigo); letter-spacing: 0.2em; margin-bottom: 1.5rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.05); }
-        .design-sector { display: flex; gap: 10px; margin-bottom: 2rem; }
-        .tool-icon { flex: 1; aspect-ratio: 1; background: #111; border: 1px solid rgba(255,255,255,0.05); border-radius: 1.2rem; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 8px; font-weight: 800; gap: 5px; opacity: 0.6; }
-        .tool-icon.canva { border-color: var(--canva-blue); color: var(--canva-blue); opacity: 1; }
-        .refraction-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 1.5rem; padding: 1.2rem; margin-bottom: 1rem; opacity: 0; transform: scale(0.9) translateY(10px); transition: all 0.5s ease; }
-        .card-pop { opacity: 1 !important; transform: scale(1) translateY(0) !important; }
-        .btn-canva { background: var(--canva-blue); color: white; padding: 14px; border-radius: 1.2rem; display: flex; align-items: center; justify-content: center; gap: 10px; font-weight: 800; font-size: 11px; text-transform: uppercase; cursor: pointer; transition: 0.3s; }
+        /* REAL APP GRID */
+        .app-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; padding: 20px; opacity: 0; transition: opacity 0.5s; }
+        .app-icon { aspect-ratio: 1; background: #1a1a1a; border-radius: 1.2rem; border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 6px; font-size: 9px; font-weight: 700; color: #666; transition: all 0.3s; }
+        .app-icon.active-sync { border-color: var(--picao-indigo); color: white; background: rgba(99, 102, 241, 0.2); transform: scale(1.05); box-shadow: 0 0 20px rgba(99, 102, 241, 0.2); }
     </style>
 </head>
 <body class="antialiased">
     <div class="bg-slab"></div>
-    <div class="bg-canvas"></div>
     <div class="orb orb-1"></div>
     <div class="orb orb-2"></div>
     <div class="grain"></div>
@@ -157,12 +166,8 @@
 
     <div class="py-16 text-center opacity-40 border-b border-white/5 bg-black/20">
         <p class="text-[9px] font-black uppercase tracking-[0.4em] mb-8 text-slate-500">Powering the workflows of builders from</p>
-        <div class="flex justify-center gap-12 grayscale items-center flex-wrap px-8">
-            <span class="serif font-black text-xl italic">Vercel</span>
-            <span class="font-bold text-lg tracking-tighter">stripe</span>
-            <span class="font-mono text-lg font-bold">LINEAR</span>
-            <span class="font-bold text-xl tracking-tight">notion</span>
-            <span class="font-black text-lg uppercase tracking-widest">ARC</span>
+        <div class="flex justify-center gap-12 grayscale items-center flex-wrap px-8 font-black text-xl italic tracking-tight">
+            <span>VERCEL</span><span>stripe</span><span>LINEAR</span><span>notion</span><span>ARC</span>
         </div>
     </div>
 
@@ -177,96 +182,99 @@
 
     <section id="preview" class="max-w-7xl mx-auto px-8 py-48 border-y border-white/5 bg-white/[0.01] scroll-mt-20">
         <div class="text-center mb-24">
-            <h2 class="serif text-6xl italic text-white mb-6">Phone POV.</h2>
-            <p class="text-[11px] font-black text-indigo-400 uppercase tracking-[0.6em]">A 24-Hour Creator Cycle Simulation</p>
+            <h2 class="serif text-6xl italic text-white mb-6">The Cycle.</h2>
+            <p class="text-[11px] font-black text-indigo-400 uppercase tracking-[0.6em]">24-Hour Creator Workflow Simulation</p>
         </div>
 
         <div class="workspace-wrapper">
-            <div class="side-panel hidden xl:flex">
+            <div id="panel-left" class="side-panel hidden xl:flex">
                 <p class="text-[10px] font-black text-indigo-400 uppercase mb-8 tracking-[0.2em] font-mono">Idea_Vault</p>
-                <div class="space-y-5">
-                    <div class="p-5 bg-white/[0.03] rounded-3xl border border-white/10 mb-6">
-                        <p class="text-[9px] font-black text-slate-500 mb-2">2.12.26</p>
-                        <p class="text-[11px] italic opacity-60">"Reading as an R&D department..."</p>
-                    </div>
-                    <div class="p-5 bg-white/[0.03] rounded-3xl border border-white/10 opacity-30">
-                        <p class="text-[9px] font-black text-slate-500 mb-2">2.10.26</p>
-                        <p class="text-[11px] italic">"Context switching analysis..."</p>
-                    </div>
+                <div class="p-5 bg-white/[0.03] rounded-3xl border border-white/10 mb-6 transition-all" id="note-active">
+                    <p class="text-[9px] font-black text-slate-500 mb-2">LIVE NOTE</p>
+                    <p class="text-[11px] italic opacity-60">"Series Idea: Rating every book that changed my tax bracket..."</p>
                 </div>
-                <p class="text-[10px] font-black text-indigo-400 uppercase mt-16 mb-8 tracking-[0.2em] font-mono">Ecosystem</p>
-                <div class="flex gap-4 opacity-40"><i data-lucide="notion"></i><i data-lucide="slack"></i></div>
+                <div class="p-5 bg-white/[0.03] rounded-3xl border border-white/10 opacity-30">
+                    <p class="text-[9px] font-black text-slate-500 mb-2">ARCHIVE</p>
+                    <p class="text-[11px] italic">"Context switching tax..."</p>
+                </div>
             </div>
 
             <div class="phone-frame">
-                <div class="px-8 py-5 border-b border-white/5 flex items-center justify-between bg-black/60 backdrop-blur-md sticky top-0 z-50">
-                    <div class="flex items-center gap-3">
-                        <div class="w-7 h-7 bg-indigo-600 rounded-lg flex items-center justify-center shadow-lg"><img src="Picao-Logo.png" class="w-4 h-4 invert"></div>
-                        <h1 class="text-[10px] font-black uppercase tracking-widest">Picao Hub</h1>
-                    </div>
-                    <button id="reset-sim" class="hidden text-[8px] font-black uppercase text-indigo-400 border border-indigo-400/20 px-3 py-1 rounded-full" onclick="resetSimulation()">Reset</button>
+                <div class="dynamic-island" id="island">
+                    <i data-lucide="mic" class="w-3 h-3 text-green-400 island-content"></i>
+                    <span class="island-content">Recording</span>
                 </div>
 
-                <div id="sim-scroll" class="flex-1 overflow-y-auto p-8 flex flex-col no-scrollbar" style="scrollbar-width: none;">
+                <div id="sim-scroll" class="flex-1 overflow-y-auto p-6 flex flex-col no-scrollbar" style="scrollbar-width: none;">
+                    
                     <div id="mic-stage" class="flex-1 flex flex-col items-center justify-center text-center pt-20 pb-40">
-                        <div id="recording-indicator" class="hidden flex items-center gap-2 mb-6 text-red-500 font-black text-[9px] uppercase tracking-widest animate-pulse">
-                            <span class="w-2 h-2 bg-red-500 rounded-full"></span> Recording_Voice
-                        </div>
-                        <div class="mic-container mb-10">
+                        <div class="mic-container mb-10" onclick="runSimulation()">
                             <div class="motion-line l-top"></div><div class="motion-line l-bottom"></div><div class="motion-line l-left"></div><div class="motion-line l-right"></div>
-                            <div class="mic-button shadow-2xl shadow-indigo-500/20"><i data-lucide="mic" class="w-10 h-10 text-white"></i></div>
+                            <div class="w-full h-full bg-indigo-600 rounded-full flex items-center justify-center shadow-2xl shadow-indigo-500/30"><i data-lucide="mic" class="w-10 h-10 text-white"></i></div>
                         </div>
-                        <p id="mic-text" class="text-[10px] opacity-40 font-medium uppercase tracking-widest">Awaiting Expertise Input...</p>
+                        <p class="text-[10px] opacity-40 font-black uppercase tracking-widest">Tap to Ideate</p>
                     </div>
 
-                    <div id="chat-stage" class="hidden flex flex-col">
+                    <div id="chat-stage" class="hidden flex flex-col pt-10">
                         <div id="r1" class="chat-row user">
-                            <div class="profile-bubble user font-black">K</div>
-                            <div class="bubble bubble-user">"Hey Picao, I’ve been thinking about making content on ig but I’m not sure what to post, i like reading and writing but I’m not sure anyone would be interested in that"</div>
-                        </div>
-                        <div id="typing-box" class="chat-row hidden">
-                            <div class="profile-bubble ai p-1.5"><img src="Picao-Logo.png" class="w-full invert"></div>
-                            <div class="typing"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+                            <div class="profile-bubble user">K</div>
+                            <div class="bubble bubble-user">"Hey Picao, I want to post on IG about reading, but I’m not sure anyone would be interested."</div>
                         </div>
                         <div id="r2" class="chat-row">
                             <div class="profile-bubble ai p-1.5"><img src="Picao-Logo.png" class="w-full invert"></div>
-                            <div class="bubble bubble-picao shadow-2xl shadow-indigo-500/10">"Hey Kat, there are so many people that would be interested in your content, you could make a series of you rating books you’ve read or you could give tips on how to improve writing, you could even do both"</div>
+                            <div class="bubble bubble-picao shadow-2xl shadow-indigo-500/10">"Hey Kat! So many people would be interested. Let's refract this into a full strategy."</div>
                         </div>
                     </div>
 
-                    <div id="secondary-sectors" class="hidden mt-10">
-                        <h3 class="sector-title">Refraction_Nodes</h3>
-                        <div id="ref-cards" class="space-y-4">
-                            <div class="refraction-card"><div class="flex gap-3 mb-2"><i data-lucide="linkedin" class="w-4 h-4 text-blue-400"></i><span class="text-[9px] font-black uppercase text-slate-500">LinkedIn Authority</span></div><p class="text-[11px] italic opacity-80">Reading isn't a hobby. It's leverage.</p></div>
-                            <div class="refraction-card"><div class="flex gap-3 mb-2"><i data-lucide="youtube" class="w-4 h-4 text-red-500"></i><span class="text-[9px] font-black uppercase text-slate-500">YouTube Script</span></div><p class="text-[11px] font-bold italic">"Stop reading wrong."</p></div>
+                    <div id="cards-stage" class="hidden space-y-4 pt-6 pb-20">
+                        <div class="refraction-card">
+                            <div class="card-header bg-[#0077b5]/10 border-b border-[#0077b5]/20">
+                                <i data-lucide="linkedin" class="w-4 h-4 text-[#0077b5]"></i>
+                                <span class="text-[9px] font-black uppercase text-white">LinkedIn</span>
+                            </div>
+                            <div class="card-body">"Reading isn't a hobby. It's leverage. Here is how I turn 1 book into 10 strategies..."</div>
                         </div>
-                        <h3 class="sector-title">Idea_Vault</h3>
-                        <div class="p-5 bg-white/[0.03] rounded-3xl border border-white/10 mb-4">
-                            <p class="text-[9px] font-black text-indigo-400 mb-2">NOTE_2/12/26</p>
-                            <p class="text-[11px] opacity-60">Series Idea: Rating every book that changed my tax bracket.</p>
+                        <div class="refraction-card">
+                            <div class="card-header bg-[#FF0000]/10 border-b border-[#FF0000]/20">
+                                <i data-lucide="youtube" class="w-4 h-4 text-[#FF0000]"></i>
+                                <span class="text-[9px] font-black uppercase text-white">Shorts Script</span>
+                            </div>
+                            <div class="card-body font-bold">Hook: "Stop reading the wrong books."</div>
                         </div>
-                        <h3 class="sector-title">Post_Scheduler</h3>
-                        <div class="p-5 border-l-4 border-indigo-500 bg-indigo-500/5 rounded-3xl mb-8">
-                            <p class="text-[10px] font-black text-indigo-400 mb-1 uppercase">2/23/26 Post Carousel</p>
-                            <p class="text-[11px] font-extrabold uppercase text-slate-200">LinkedIn: The Context Tax</p>
-                        </div>
-                        <h3 class="sector-title">Creative_Workspaces</h3>
-                        <div class="design-sector">
-                            <div class="tool-icon canva"><i data-lucide="palette" class="w-4 h-4"></i>Canva</div>
-                            <div class="tool-icon"><i data-lucide="image" class="w-4 h-4"></i>Picsart</div>
-                            <div class="tool-icon"><i data-lucide="type" class="w-4 h-4"></i>Kittl</div>
+                        <div class="refraction-card">
+                            <div class="card-header bg-[#ff0050]/10 border-b border-[#ff0050]/20">
+                                <i data-lucide="video" class="w-4 h-4 text-[#ff0050]"></i>
+                                <span class="text-[9px] font-black uppercase text-white">TikTok</span>
+                            </div>
+                            <div class="card-body">Caption: My writer's block fix. 📚</div>
                         </div>
                     </div>
+
+                    <div id="app-stage" class="hidden pt-10">
+                        <p class="text-[9px] font-black uppercase tracking-widest text-center mb-6 text-indigo-400">Syncing Ecosystem...</p>
+                        <div class="app-grid">
+                            <div class="app-icon" id="app-canva"><i data-lucide="palette" class="w-5 h-5"></i><span>Canva</span></div>
+                            <div class="app-icon" id="app-notion"><i data-lucide="file-text" class="w-5 h-5"></i><span>Notion</span></div>
+                            <div class="app-icon" id="app-kittl"><i data-lucide="layers" class="w-5 h-5"></i><span>Kittl</span></div>
+                            <div class="app-icon" id="app-slack"><i data-lucide="hash" class="w-5 h-5"></i><span>Slack</span></div>
+                            <div class="app-icon" id="app-linear"><i data-lucide="zap" class="w-5 h-5"></i><span>Linear</span></div>
+                            <div class="app-icon" id="app-picsart"><i data-lucide="image" class="w-5 h-5"></i><span>Picsart</span></div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
-            <div class="side-panel hidden xl:flex">
+            <div id="panel-right" class="side-panel hidden xl:flex">
                 <p class="text-[10px] font-black text-indigo-400 uppercase mb-8 tracking-[0.2em] font-mono">Timeline</p>
                 <div class="p-5 border-l-4 border-indigo-500 bg-indigo-500/5 rounded-3xl mb-12">
                     <p class="text-[10px] font-black text-indigo-400 mb-1">2.23.26</p>
                     <p class="text-[11px] font-extrabold uppercase">LinkedIn Post</p>
                 </div>
-                <div class="btn-canva"><img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Canva_icon_2021.svg" class="w-4 h-4 invert"> Open Canva</div>
+                <div class="bg-[#00C4CC] p-4 rounded-2xl flex items-center gap-3 cursor-pointer hover:scale-105 transition shadow-[0_0_20px_rgba(0,196,204,0.3)]">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Canva_icon_2021.svg" class="w-4 h-4 invert">
+                    <span class="text-[10px] font-black uppercase text-white">Open Canva</span>
+                </div>
             </div>
         </div>
     </section>
@@ -276,10 +284,10 @@
             <div class="p-16 bg-white/[0.01] border border-white/5 rounded-[4rem] backdrop-blur-3xl shadow-2xl">
                 <h2 class="serif text-6xl italic text-white mb-8">Why Picao AI?</h2>
                 <p class="text-slate-400 text-2xl leading-relaxed font-light mb-10">
-                    Existing tools are silos. You transcribe in one, write in another, and schedule in a third. Picao is a <strong>unified ecosystem</strong>. We identify your "Value Nuggets" and adapt them for specific narrative arcs—keeping you in a permanent flow state.
+                    Existing tools are silos. You transcribe in one, write in another, and schedule in a third. Picao is a <strong>unified ecosystem</strong>. We identify your "Value Nuggets" and adapt them for specific narrative arcs.
                 </p>
                 <div class="flex gap-6 items-start p-10 bg-indigo-500/10 rounded-3xl border-l-4 border-indigo-500">
-                    <p class="italic text-indigo-100 text-lg leading-relaxed font-bold">"Kat, your reading and writing notes are high-value. Let's stop the friction and start the refraction. You can do both." — The Picao Logic</p>
+                    <p class="italic text-indigo-100 text-lg leading-relaxed font-bold">"Kat, your reading and writing notes are high-value. Let's stop the friction and start the refraction. You can do both."</p>
                 </div>
             </div>
             <div class="space-y-10">
@@ -303,66 +311,20 @@
         <div class="grid md:grid-cols-3 gap-12">
             <div class="flip-card">
                 <div class="flip-card-inner">
-                    <div class="flip-card-front">
-                        <div class="icon-mic-pulse mb-10"><i data-lucide="mic" class="w-16 h-16 text-indigo-500"></i></div>
-                        <h3 class="serif text-4xl italic">Capture</h3>
-                        <p class="text-[9px] font-black uppercase tracking-widest opacity-30 mt-4">The Input</p>
-                    </div>
-                    <div class="flip-card-back">
-                        <h4 class="font-black text-xs uppercase mb-8 tracking-widest">Asset Capture</h4>
-                        <p class="text-xl italic font-light leading-relaxed">No scripts. Record your expertise for 2 minutes. We filter the noise and extract the raw "Value Nuggets" of your unique perspective.</p>
-                    </div>
+                    <div class="flip-card-front"><div class="icon-mic-pulse mb-10"><i data-lucide="mic" class="w-16 h-16 text-indigo-500"></i></div><h3 class="serif text-4xl italic">Capture</h3></div>
+                    <div class="flip-card-back"><h4 class="font-black text-xs uppercase mb-8 tracking-widest">Asset Capture</h4><p class="text-xl italic font-light leading-relaxed">No scripts. Record your expertise for 2 minutes. We filter the noise and extract the raw "Value Nuggets" of your unique perspective.</p></div>
                 </div>
             </div>
             <div class="flip-card">
                 <div class="flip-card-inner">
-                    <div class="flip-card-front">
-                        <div class="icon-refract-spin mb-10"><i data-lucide="layers" class="w-16 h-16 text-indigo-500"></i></div>
-                        <h3 class="serif text-4xl italic">Refract</h3>
-                        <p class="text-[9px] font-black uppercase tracking-widest opacity-30 mt-4">The Engine</p>
-                    </div>
-                    <div class="flip-card-back">
-                        <h4 class="font-black text-xs uppercase mb-8 tracking-widest">Multi-Model Splitting</h4>
-                        <p class="text-xl italic font-light leading-relaxed">One thought becomes a 12-asset strategy. Tailored for Instagram Reels, X threads, and LinkedIn manifestos automatically.</p>
-                    </div>
+                    <div class="flip-card-front"><div class="icon-refract-spin mb-10"><i data-lucide="layers" class="w-16 h-16 text-indigo-500"></i></div><h3 class="serif text-4xl italic">Refract</h3></div>
+                    <div class="flip-card-back"><h4 class="font-black text-xs uppercase mb-8 tracking-widest">Multi-Model Splitting</h4><p class="text-xl italic font-light leading-relaxed">One thought becomes a 12-asset strategy. Tailored for Instagram Reels, X threads, and LinkedIn manifestos automatically.</p></div>
                 </div>
             </div>
             <div class="flip-card">
                 <div class="flip-card-inner">
-                    <div class="flip-card-front">
-                        <div class="icon-rocket-float mb-10"><i data-lucide="rocket" class="w-16 h-16 text-indigo-500"></i></div>
-                        <h3 class="serif text-4xl italic">Launch</h3>
-                        <p class="text-[9px] font-black uppercase tracking-widest opacity-30 mt-4">The Output</p>
-                    </div>
-                    <div class="flip-card-back">
-                        <h4 class="font-black text-xs uppercase mb-8 tracking-widest">Unified Delivery</h4>
-                        <p class="text-xl italic font-light leading-relaxed">Native direct-to-platform publishing. Zero context switching between your dashboard and your social feeds. Flow state maintained.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="founders-corner" class="max-w-7xl mx-auto px-8 py-40 scroll-mt-32">
-        <div class="p-24 glass border border-white/5 rounded-[5rem] bg-white/[0.01] relative overflow-hidden shadow-3xl">
-            <div class="absolute top-0 right-0 p-16 opacity-5"><i data-lucide="quote" class="w-64 h-64"></i></div>
-            <div class="grid lg:grid-cols-3 gap-24 items-center relative z-10">
-                <div class="lg:col-span-2">
-                    <h2 class="serif text-6xl italic text-white mb-10">Founder's Note</h2>
-                    <p class="text-slate-400 text-3xl font-light leading-relaxed italic mb-12">
-                        "Picao AI isn't a tool; it's a rebellion against friction. I built this for the builders who have the expertise but lack the time to play the social media game. We are the refraction point for your genius."
-                    </p>
-                    <div class="flex items-center gap-8">
-                        <div class="w-20 h-20 rounded-full bg-indigo-600 flex items-center justify-center font-bold text-2xl shadow-xl">F</div>
-                        <div>
-                            <p class="text-xl font-black uppercase tracking-widest">The Founder</p>
-                            <p class="text-sm text-indigo-400 uppercase font-bold tracking-widest italic">Picao AI Studio • NYC</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex flex-col gap-8">
-                    <button data-tally-open="9qQ7GV" class="btn-pop bg-white text-black py-7 px-12 font-black uppercase text-xs tracking-widest">Message Founder</button>
-                    <a href="mailto:founder@picaoai.com" class="text-center py-7 border border-white/10 rounded-full text-slate-500 font-black uppercase text-[11px] tracking-widest hover:text-white transition">Follow the Build</a>
+                    <div class="flip-card-front"><div class="icon-rocket-float mb-10"><i data-lucide="rocket" class="w-16 h-16 text-indigo-500"></i></div><h3 class="serif text-4xl italic">Launch</h3></div>
+                    <div class="flip-card-back"><h4 class="font-black text-xs uppercase mb-8 tracking-widest">Unified Delivery</h4><p class="text-xl italic font-light leading-relaxed">Native direct-to-platform publishing. Zero context switching between your dashboard and your social feeds. Flow state maintained.</p></div>
                 </div>
             </div>
         </div>
@@ -372,96 +334,61 @@
         <h3 class="serif text-4xl italic text-center mb-16 text-white">Frequent Questions</h3>
         <div class="space-y-4">
             <details class="group bg-white/[0.02] border border-white/5 rounded-3xl p-6 open:bg-white/[0.04] transition-all">
-                <summary class="flex justify-between items-center text-sm font-bold text-slate-300 list-none">
-                    Is my voice data private?
-                    <i data-lucide="chevron-down" class="w-4 h-4 chevron"></i>
-                </summary>
-                <p class="text-xs text-slate-500 mt-4 leading-relaxed font-light">Absolutely. Your voice inputs are processed securely and are never used to train public models. We believe in 100% data sovereignty for creators.</p>
+                <summary class="flex justify-between items-center text-sm font-bold text-slate-300 list-none">Is my voice data private?<i data-lucide="chevron-down" class="w-4 h-4"></i></summary>
+                <p class="text-xs text-slate-500 mt-4 leading-relaxed font-light">Absolutely. Your voice inputs are processed securely and are never used to train public models.</p>
             </details>
             <details class="group bg-white/[0.02] border border-white/5 rounded-3xl p-6 open:bg-white/[0.04] transition-all">
-                <summary class="flex justify-between items-center text-sm font-bold text-slate-300 list-none">
-                    Does it work for non-English speakers?
-                    <i data-lucide="chevron-down" class="w-4 h-4 chevron"></i>
-                </summary>
-                <p class="text-xs text-slate-500 mt-4 leading-relaxed font-light">Yes. Picao's underlying models support over 50 languages for transcription and refraction, ensuring your nuance is captured globally.</p>
+                <summary class="flex justify-between items-center text-sm font-bold text-slate-300 list-none">Does it work for non-English speakers?<i data-lucide="chevron-down" class="w-4 h-4"></i></summary>
+                <p class="text-xs text-slate-500 mt-4 leading-relaxed font-light">Yes. Picao's underlying models support over 50 languages for transcription and refraction.</p>
             </details>
-            <details class="group bg-white/[0.02] border border-white/5 rounded-3xl p-6 open:bg-white/[0.04] transition-all">
-                <summary class="flex justify-between items-center text-sm font-bold text-slate-300 list-none">
-                    How fast is the Alpha rollout?
-                    <i data-lucide="chevron-down" class="w-4 h-4 chevron"></i>
-                </summary>
-                <p class="text-xs text-slate-500 mt-4 leading-relaxed font-light">We are onboarding users in weekly cohorts to ensure stability. Joining the waitlist now secures your spot in the next available batch.</p>
-            </details>
+        </div>
+    </section>
+
+    <section id="founders-corner" class="max-w-7xl mx-auto px-8 py-40 scroll-mt-32">
+        <div class="p-24 glass border border-white/5 rounded-[5rem] bg-white/[0.01] relative overflow-hidden shadow-3xl">
+            <div class="absolute top-0 right-0 p-16 opacity-5"><i data-lucide="quote" class="w-64 h-64"></i></div>
+            <div class="grid lg:grid-cols-3 gap-24 items-center relative z-10">
+                <div class="lg:col-span-2">
+                    <h2 class="serif text-6xl italic text-white mb-10">Founder's Note</h2>
+                    <p class="text-slate-400 text-3xl font-light leading-relaxed italic mb-12">"Picao AI isn't a tool; it's a rebellion against friction. I built this for the builders who have the expertise but lack the time to play the social media game."</p>
+                    <div class="flex items-center gap-8"><div class="w-20 h-20 rounded-full bg-indigo-600 flex items-center justify-center font-bold text-2xl shadow-xl">F</div><div><p class="text-xl font-black uppercase tracking-widest">The Founder</p><p class="text-sm text-indigo-400 uppercase font-bold tracking-widest italic">Picao AI Studio • NYC</p></div></div>
+                </div>
+                <div class="flex flex-col gap-8"><button data-tally-open="9qQ7GV" class="btn-pop bg-white text-black py-7 px-12 font-black uppercase text-xs tracking-widest">Message Founder</button><a href="mailto:founder@picaoai.com" class="text-center py-7 border border-white/10 rounded-full text-slate-500 font-black uppercase text-[11px] tracking-widest hover:text-white transition">Follow the Build</a></div>
+            </div>
         </div>
     </section>
 
     <section class="max-w-5xl mx-auto px-8 py-40">
         <div class="p-24 border-2 border-indigo-500/20 bg-indigo-500/[0.03] rounded-[5rem] text-center shadow-3xl">
             <h2 class="serif text-6xl italic text-white mb-8">Join the Private Alpha.</h2>
-            <div class="flex items-center justify-center gap-2 mb-12">
-                <span class="relative flex h-2 w-2">
-                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
-                  <span class="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
-                </span>
-                <p class="text-[9px] font-black uppercase tracking-widest text-indigo-300">14 Spots Remaining in this Cohort</p>
-            </div>
+            <div class="flex items-center justify-center gap-2 mb-12"><span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span></span><p class="text-[9px] font-black uppercase tracking-widest text-indigo-300">14 Spots Remaining in this Cohort</p></div>
             <form action="#" class="flex flex-col md:flex-row gap-6 max-w-4xl mx-auto mb-12">
                 <input type="text" placeholder="Full Name" class="flex-1 bg-black/60 border border-white/10 rounded-full px-10 py-7 text-sm focus:outline-none focus:border-indigo-500 transition font-light">
                 <input type="email" placeholder="Email Address" class="flex-1 bg-black/60 border border-white/10 rounded-full px-10 py-7 text-sm focus:outline-none focus:border-indigo-500 transition font-light">
                 <button type="submit" class="btn-pop bg-indigo-600 text-white font-black py-7 px-16 text-xs uppercase tracking-[0.4em]">Get Access</button>
             </form>
-            <p class="text-[12px] font-black text-slate-700 uppercase tracking-[1em]">Expanding Access Weekly</p>
         </div>
     </section>
 
     <section id="roadmap" class="max-w-7xl mx-auto px-8 py-40 border-t border-white/5">
-        <div class="text-center mb-24">
-            <h3 class="serif text-6xl italic mb-6">The Roadmap</h3>
-            <p class="text-[11px] font-black text-slate-700 uppercase tracking-[1.2em]">Future Refractions</p>
-        </div>
+        <div class="text-center mb-24"><h3 class="serif text-6xl italic mb-6">The Roadmap</h3><p class="text-[11px] font-black text-slate-700 uppercase tracking-[1.2em]">Future Refractions</p></div>
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-12 opacity-30 hover:opacity-100 transition-opacity duration-1000">
-            <div class="p-12 border border-white/5 rounded-[3.5rem] text-center">
-                <h5 class="font-black text-[12px] uppercase tracking-widest text-indigo-400 mb-6">Video Slicing</h5>
-                <p class="text-xs text-slate-500 leading-relaxed italic font-light">Auto-generate captioned Reels and TikToks directly from voice frequency logs.</p>
-            </div>
-            <div class="p-12 border border-white/5 rounded-[3.5rem] text-center">
-                <h5 class="font-black text-[12px] uppercase tracking-widest text-indigo-400 mb-6">Newsletter Engine</h5>
-                <p class="text-xs text-slate-500 leading-relaxed italic font-light">Weekly long-form deep dives synthesized from your daily audio brainstorms.</p>
-            </div>
-            <div class="p-12 border border-white/5 rounded-[3.5rem] text-center">
-                <h5 class="font-black text-[12px] uppercase tracking-widest text-indigo-400 mb-6">Voice Cloning</h5>
-                <p class="text-xs text-slate-500 leading-relaxed italic font-light">Personalized voice refraction for automated multi-language audio social posts.</p>
-            </div>
-            <div class="p-12 border border-white/5 rounded-[3.5rem] text-center">
-                <h5 class="font-black text-[12px] uppercase tracking-widest text-indigo-400 mb-6">Direct API</h5>
-                <p class="text-xs text-slate-500 leading-relaxed italic font-light">One-click native publishing via official social media API pipelines.</p>
-            </div>
+            <div class="p-12 border border-white/5 rounded-[3.5rem] text-center"><h5 class="font-black text-[12px] uppercase tracking-widest text-indigo-400 mb-6">Video Slicing</h5><p class="text-xs text-slate-500 leading-relaxed italic font-light">Auto-generate captioned Reels and TikToks directly from voice frequency logs.</p></div>
+            <div class="p-12 border border-white/5 rounded-[3.5rem] text-center"><h5 class="font-black text-[12px] uppercase tracking-widest text-indigo-400 mb-6">Newsletter Engine</h5><p class="text-xs text-slate-500 leading-relaxed italic font-light">Weekly long-form deep dives synthesized from your daily audio brainstorms.</p></div>
+            <div class="p-12 border border-white/5 rounded-[3.5rem] text-center"><h5 class="font-black text-[12px] uppercase tracking-widest text-indigo-400 mb-6">Voice Cloning</h5><p class="text-xs text-slate-500 leading-relaxed italic font-light">Personalized voice refraction for automated multi-language audio social posts.</p></div>
+            <div class="p-12 border border-white/5 rounded-[3.5rem] text-center"><h5 class="font-black text-[12px] uppercase tracking-widest text-indigo-400 mb-6">Direct API</h5><p class="text-xs text-slate-500 leading-relaxed italic font-light">One-click native publishing via official social media API pipelines.</p></div>
         </div>
     </section>
 
     <footer class="py-56 px-10 bg-black border-t border-white/5">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start gap-32">
             <div>
-                <div class="flex items-center gap-6 mb-12">
-                    <div class="logo-ring"><img src="Picao-Logo.png" class="h-10 invert"></div>
-                    <span class="text-3xl font-black italic tracking-tighter uppercase">PicaoAI</span>
-                </div>
-                <div class="flex gap-12">
-                    <a href="https://linkedin.com/company/picaoai" class="text-slate-500 hover:text-white transition"><i data-lucide="linkedin" class="w-8 h-8"></i></a>
-                    <a href="mailto:founder@picaoai.com" class="text-slate-500 hover:text-white transition"><i data-lucide="mail" class="w-8 h-8"></i></a>
-                </div>
+                <div class="flex items-center gap-6 mb-12"><div class="logo-ring"><img src="Picao-Logo.png" class="h-10 invert"></div><span class="text-3xl font-black italic tracking-tighter uppercase">PicaoAI</span></div>
+                <div class="flex gap-12"><a href="https://linkedin.com/company/picaoai" class="text-slate-500 hover:text-white transition"><i data-lucide="linkedin" class="w-8 h-8"></i></a><a href="mailto:founder@picaoai.com" class="text-slate-500 hover:text-white transition"><i data-lucide="mail" class="w-8 h-8"></i></a></div>
             </div>
             <div class="grid grid-cols-2 gap-32 text-right">
-                <div class="flex flex-col gap-10">
-                    <p class="text-[12px] font-black uppercase text-indigo-400 tracking-[0.5em]">Workspace</p>
-                    <button data-tally-open="9qQ7GV" class="text-sm text-slate-500 hover:text-white transition text-right font-light">Join Team</button>
-                    <a href="mailto:founder@picaoai.com" class="text-sm text-slate-500 hover:text-white transition text-right font-light italic underline underline-offset-8">Support</a>
-                </div>
-                <div class="flex flex-col gap-10">
-                    <p class="text-[12px] font-black uppercase text-indigo-400 tracking-[0.5em]">Studio</p>
-                    <span class="text-[11px] font-mono text-slate-800 uppercase tracking-widest italic">NYC_ALPHA_v2.6</span>
-                    <span class="text-[11px] text-slate-800 font-black uppercase tracking-widest italic">© 2026 Picao AI Workspace</span>
-                </div>
+                <div class="flex flex-col gap-10"><p class="text-[12px] font-black uppercase text-indigo-400 tracking-[0.5em]">Workspace</p><button data-tally-open="9qQ7GV" class="text-sm text-slate-500 hover:text-white transition text-right font-light">Join Team</button><a href="mailto:founder@picaoai.com" class="text-sm text-slate-500 hover:text-white transition text-right font-light italic underline underline-offset-8">Support</a></div>
+                <div class="flex flex-col gap-10"><p class="text-[12px] font-black uppercase text-indigo-400 tracking-[0.5em]">Studio</p><span class="text-[11px] font-mono text-slate-800 uppercase tracking-widest italic">NYC_ALPHA_v2.6</span><span class="text-[11px] text-slate-800 font-black uppercase tracking-widest italic">© 2026 Picao AI Workspace</span></div>
             </div>
         </div>
     </footer>
@@ -469,71 +396,64 @@
     <script>
         lucide.createIcons();
 
-        // AUTOMATED POV SCRIPT
         function runSimulation() {
-            const micBox = document.getElementById('mic-stage');
-            const recInd = document.getElementById('recording-indicator');
-            const micTxt = document.getElementById('mic-text');
+            const mic = document.getElementById('mic-stage');
             const chat = document.getElementById('chat-stage');
-            const typing = document.getElementById('typing-box');
+            const island = document.getElementById('island');
             const r1 = document.getElementById('r1');
             const r2 = document.getElementById('r2');
+            const cards = document.getElementById('cards-stage');
+            const appStage = document.getElementById('app-stage');
             const scroll = document.getElementById('sim-scroll');
-            const sectors = document.getElementById('secondary-sectors');
-            const cards = document.querySelectorAll('.refraction-card');
-            const resetBtn = document.getElementById('reset-sim');
+            const left = document.getElementById('panel-left');
+            const right = document.getElementById('panel-right');
 
-            // 1. Initial State: Recording
-            recInd.classList.remove('hidden');
-            micTxt.innerText = "Listening_Expertise...";
+            // 1. Start Recording
+            island.classList.add('active');
             
             setTimeout(() => {
-                // 2. Clear Mic, Show User Message
-                micBox.style.display = 'none';
+                // 2. Chat Starts
+                island.classList.remove('active');
+                mic.style.display = 'none';
                 chat.classList.remove('hidden');
                 r1.classList.add('show-row');
-                resetBtn.classList.remove('hidden');
 
                 setTimeout(() => {
-                    // 3. AI is typing
-                    typing.classList.remove('hidden');
-                    typing.classList.add('show-row');
+                    r2.classList.add('show-row');
                     scroll.scrollTo({ top: scroll.scrollHeight, behavior: 'smooth' });
 
                     setTimeout(() => {
-                        // 4. Show AI Response
-                        typing.style.display = 'none';
-                        r2.classList.add('show-row');
+                        // 3. Cards Appear (Real Mockups)
+                        cards.classList.remove('hidden');
+                        const cardItems = document.querySelectorAll('.refraction-card');
+                        cardItems.forEach((c, i) => {
+                            setTimeout(() => {
+                                c.classList.add('card-pop');
+                                scroll.scrollTo({ top: scroll.scrollHeight, behavior: 'smooth' });
+                            }, i * 300);
+                        });
 
                         setTimeout(() => {
-                            // 5. Open Vault/Scheduler Sectors and Scroll
-                            sectors.classList.remove('hidden');
-                            cards.forEach((c, i) => {
-                                setTimeout(() => c.classList.add('active-card'), i * 300);
+                            // 4. App Grid + Side Panels Activate
+                            appStage.classList.remove('hidden');
+                            appStage.style.opacity = '1';
+                            const apps = document.querySelectorAll('.app-icon');
+                            apps.forEach((a, i) => {
+                                setTimeout(() => a.classList.add('active-sync'), i * 150);
                             });
                             
-                            // Video-like scroll to bottom
-                            setTimeout(() => {
-                                scroll.scrollTo({ top: scroll.scrollHeight, behavior: 'smooth' });
-                            }, 1000);
-                        }, 1500);
-                    }, 2500);
+                            left.classList.add('active-panel');
+                            right.classList.add('active-panel');
+                            scroll.scrollTo({ top: scroll.scrollHeight, behavior: 'smooth' });
+
+                        }, 2000);
+                    }, 1500);
                 }, 1500);
-            }, 3000);
+            }, 2500);
         }
 
-        function resetSimulation() {
-            location.href = "#preview";
-            location.reload();
-        }
-
-        // Trigger on load for the "video" feel
-        window.onload = () => {
-            setTimeout(runSimulation, 2000);
-        };
+        window.onload = () => { setTimeout(runSimulation, 1500); };
     </script>
     <script async src="https://tally.so/widgets/embed.js"></script>
 </body>
 </html>
-
-```
