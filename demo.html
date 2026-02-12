@@ -3,57 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Picao AI | Product Demo</title>
+    <title>Picao AI | Simulation</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #050505; color: white; min-height: 100vh; }
-        .glass-demo { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(30px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 4rem; }
-        .gradient-btn { background: linear-gradient(135deg, #6366f1, #a855f7); transition: transform 0.4s ease; }
-        .gradient-btn:hover { transform: scale(1.1); }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #050505; color: white; min-height: 100vh; overflow-x: hidden; }
+        .glass { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(50px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 4rem; }
+        .glow { position: absolute; width: 400px; height: 400px; background: #6366f1; filter: blur(150px); opacity: 0.1; z-index: -1; }
     </style>
 </head>
-<body class="p-8 md:p-20">
-    <div class="max-w-5xl mx-auto">
-        <header class="flex justify-between items-center mb-32">
-            <div class="flex items-center gap-4">
-                <img src="Picao-Logo.png" class="w-12 h-12 invert">
-                <span class="text-xs font-black uppercase tracking-widest opacity-40">Preview_v1.0</span>
-            </div>
-            <button data-tally-open="9qQ7GV" class="text-[10px] font-black uppercase tracking-widest border border-white/10 px-8 py-3 rounded-full">Apply Now</button>
-        </header>
+<body class="p-8 md:p-20 flex flex-col items-center justify-center">
+    <div class="glow" style="top: 0; left: 0;"></div>
+    <div class="glow" style="bottom: 0; right: 0; background: #a855f7;"></div>
 
-        <div id="simulation" class="text-center py-20">
-            <h2 class="text-7xl font-black italic mb-12 tracking-tighter leading-none">Experience <span class="text-indigo-500">Refraction.</span></h2>
-            <p class="max-w-xl mx-auto opacity-40 text-sm mb-16 leading-relaxed">Simulate a voice note: "Hey Picao, I want to share my thoughts on improving creative flow through reading."</p>
-            <button onclick="ignite()" id="mic-btn" class="w-36 h-36 gradient-btn rounded-full flex items-center justify-center shadow-3xl">
-                <i data-lucide="mic" class="w-16 h-16 text-white"></i>
+    <div class="max-w-4xl w-full glass p-20 text-center relative overflow-hidden">
+        <div id="start-ui">
+            <h1 class="text-7xl font-black italic mb-10 tracking-tighter">Enter the <br><span class="text-indigo-500">Workspace.</span></h1>
+            <p class="opacity-40 text-sm mb-16">Simulate a 2-minute thought being refracted.</p>
+            <button onclick="run()" id="mic" class="w-36 h-36 bg-indigo-600 rounded-full flex items-center justify-center shadow-2xl mx-auto hover:scale-110 transition active:scale-95">
+                <i data-lucide="mic" class="w-16 h-16"></i>
             </button>
         </div>
 
-        <div id="results" class="hidden opacity-0 transition-all duration-1000 space-y-8 pb-32">
-            <div class="grid md:grid-cols-2 gap-8">
-                <div class="glass-demo p-12"><h4 class="text-indigo-500 text-[10px] font-black uppercase tracking-widest mb-6">X Thread Hook</h4><p class="text-xl font-bold italic">"Reading isn't just consumption—it's R&D for your soul. Here is the framework: 🧵"</p></div>
-                <div class="glass-demo p-12"><h4 class="text-indigo-500 text-[10px] font-black uppercase tracking-widest mb-6">LinkedIn Manifesto</h4><p class="text-xl font-bold italic">"We hide behind features because we're afraid of clarity. Let's change that."</p></div>
+        <div id="loading-ui" class="hidden flex flex-col items-center py-20">
+            <div class="font-mono text-[10px] text-indigo-400 uppercase tracking-widest space-y-4">
+                <p class="animate-pulse">Analyzing_Voice_Frequencies...</p>
+                <p class="animate-pulse" style="animation-delay: 0.5s">Identifying_Value_Nuggets...</p>
+                <p class="animate-pulse" style="animation-delay: 1s">Refracting_Narrative_Arcs...</p>
             </div>
-            <div class="glass-demo p-20 text-center">
-                <h3 class="text-4xl font-black mb-10 italic">Go from Idea to Live in seconds.</h3>
-                <button data-tally-open="9qQ7GV" class="gradient-btn px-16 py-6 rounded-full font-black text-xs uppercase tracking-widest">Join the Alpha</button>
+            <div class="w-64 h-1 bg-white/5 rounded-full mt-12 overflow-hidden">
+                <div class="bg-indigo-500 h-full w-0 animate-[progress_2s_ease-in-out_forwards]"></div>
             </div>
+        </div>
+
+        <div id="done-ui" class="hidden opacity-0 transition-all duration-1000 space-y-10">
+            <div class="text-left space-y-4">
+                <div class="bg-white/5 p-8 rounded-[2rem] border border-white/5">
+                    <span class="text-indigo-500 text-[10px] font-black uppercase tracking-widest">LinkedIn Manifesto</span>
+                    <p class="text-lg italic mt-4 opacity-80 leading-snug">"Stop reading about habits. Start building systems. I read 12 books this month and here is the one truth I found..."</p>
+                </div>
+            </div>
+            <button data-tally-open="9qQ7GV" class="w-full bg-white text-black py-6 rounded-full font-black uppercase text-xs tracking-[0.4em] shadow-3xl">Apply for Alpha</button>
         </div>
     </div>
 
+    <style> @keyframes progress { to { width: 100%; } } </style>
     <script>
         lucide.createIcons();
-        function ignite() {
-            document.getElementById('mic-btn').innerHTML = '<i data-lucide="loader" class="animate-spin w-16 h-16"></i>';
-            lucide.createIcons();
+        function run() {
+            document.getElementById('start-ui').classList.add('hidden');
+            document.getElementById('loading-ui').classList.remove('hidden');
             setTimeout(() => {
-                document.getElementById('simulation').classList.add('hidden');
-                document.getElementById('results').classList.remove('hidden');
-                setTimeout(() => document.getElementById('results').style.opacity = '1', 100);
-            }, 1800);
+                document.getElementById('loading-ui').classList.add('hidden');
+                document.getElementById('done-ui').classList.remove('hidden');
+                setTimeout(() => document.getElementById('done-ui').style.opacity = '1', 100);
+            }, 2500);
         }
     </script>
     <script async src="https://tally.so/widgets/embed.js"></script>
