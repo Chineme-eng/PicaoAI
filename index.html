@@ -14,7 +14,7 @@
         .serif { font-family: 'Lora', serif; }
         .mono { font-family: 'JetBrains Mono', monospace; }
 
-        /* --- THE LARGE FLOATING SLAB --- */
+        /* --- THE LARGE FLOATING SLAB (RESTORED) --- */
         .bg-slab {
             position: fixed; top: -15%; left: -15%; width: 130%; height: 130%;
             background: linear-gradient(135deg, rgba(99, 102, 241, 0.04) 0%, rgba(168, 85, 247, 0.04) 100%);
@@ -22,14 +22,19 @@
             z-index: -2; pointer-events: none; border: 1.5px solid rgba(255,255,255,0.015);
             animation: slabFloat 35s infinite alternate ease-in-out;
         }
-        @keyframes slabFloat { 0% { transform: rotateX(25deg) rotateY(-15deg) translateY(0); } 100% { transform: rotateX(32deg) rotateY(-8deg) translateY(50px); } }
+        @keyframes slabFloat { 
+            0% { transform: rotateX(25deg) rotateY(-15deg) translateY(0); } 
+            100% { transform: rotateX(32deg) rotateY(-8deg) translateY(50px); } 
+        }
 
+        /* --- DYNAMIC BACKGROUND ORBS --- */
         .orb { position: fixed; width: 800px; height: 800px; border-radius: 50%; filter: blur(160px); opacity: 0.18; z-index: -1; pointer-events: none; }
         .orb-1 { top: -10%; left: -5%; background: var(--picao-indigo); animation: drift 30s infinite alternate; }
         .orb-2 { bottom: -10%; right: -5%; background: var(--picao-purple); animation: drift 35s infinite alternate-reverse; }
         @keyframes drift { from { transform: translate(0,0); } to { transform: translate(150px, 150px); } }
         .grain { position: fixed; inset: 0; background: url('https://grainy-gradients.vercel.app/noise.svg'); opacity: 0.05; pointer-events: none; z-index: 999; }
 
+        /* --- LOGO ROTATION (RESTORED) --- */
         .logo-ring { position: relative; display: flex; align-items: center; justify-content: center; }
         .logo-ring::before {
             content: ''; position: absolute; inset: -7px; border: 1.8px solid var(--picao-indigo);
@@ -37,6 +42,7 @@
         }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
+        /* --- ICON ANIMATIONS --- */
         .icon-mic-pulse { animation: mic-pulse 2s infinite ease-in-out; }
         @keyframes mic-pulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.18); opacity: 0.6; } }
         .icon-refract-spin { animation: spin-slow 10s linear infinite; }
@@ -44,6 +50,7 @@
         .icon-rocket-float { animation: rocket-float 4s infinite ease-in-out; }
         @keyframes rocket-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
 
+        /* --- FLIP CARDS --- */
         .flip-card { background-color: transparent; width: 100%; height: 480px; perspective: 1500px; }
         .flip-card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform-style: preserve-3d; }
         .flip-card:hover .flip-card-inner { transform: rotateY(180deg); }
@@ -51,6 +58,7 @@
         .flip-card-front { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(30px); align-items: center; text-align: center; }
         .flip-card-back { background: linear-gradient(135deg, var(--picao-indigo), var(--picao-purple)); transform: rotateY(180deg); color: white; }
 
+        /* --- MARQUEE --- */
         .marquee { overflow: hidden; white-space: nowrap; background: rgba(255,255,255,0.01); border-y: 1px solid rgba(255,255,255,0.05); padding: 35px 0; transform: rotate(-1.5deg); width: 110%; margin-left: -5%; margin-bottom: 80px; }
         .marquee-content { display: inline-block; animation: marquee 60s linear infinite; }
         @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
@@ -61,9 +69,9 @@
 
         /* --- SIMULATION ENHANCEMENTS --- */
         .workspace-wrapper { display: flex; align-items: center; justify-content: center; gap: 30px; transform: scale(0.9); margin: 0 auto; }
-        .side-panel { width: 260px; height: 640px; background: rgba(255, 255, 255, 0.015); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 2.5rem; backdrop-filter: blur(40px); padding: 2rem; display: flex; flex-direction: column; }
-        .phone-frame { width: 350px; height: 700px; background: #080808; border: 10px solid #1a1a1a; border-radius: 3.5rem; position: relative; box-shadow: 0 60px 120px rgba(0,0,0,0.9); display: flex; flex-direction: column; overflow: hidden; }
+        .phone-frame { width: 350px; height: 720px; background: #080808; border: 10px solid #1a1a1a; border-radius: 3.5rem; position: relative; box-shadow: 0 60px 120px rgba(0,0,0,0.9); display: flex; flex-direction: column; overflow: hidden; }
         
+        /* Mic with Motion Lines */
         .mic-container { position: relative; width: 85px; height: 85px; margin: 0 auto; cursor: pointer; }
         .motion-line { position: absolute; background: var(--picao-indigo); border-radius: 10px; opacity: 0; animation: radiate 2s infinite ease-out; }
         .l-top { width: 2px; height: 20px; top: -25px; left: 50%; transform: translateX(-50%); }
@@ -73,21 +81,28 @@
         @keyframes radiate { 0% { transform: scale(0.5); opacity: 0; } 50% { opacity: 0.8; } 100% { transform: scale(1.6); opacity: 0; } }
 
         /* Pop-out Effect for Chat */
-        .chat-row { display: flex; align-items: flex-end; gap: 10px; margin-bottom: 1.5rem; opacity: 0; transform: scale(0.8) translateX(20px); transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .chat-row.user { flex-direction: row-reverse; transform: scale(0.8) translateX(-20px); }
+        .chat-row { display: flex; align-items: flex-end; gap: 10px; margin-bottom: 1.5rem; opacity: 0; transform: translateY(20px) scale(0.95); transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .chat-row.user { flex-direction: row-reverse; }
         
         .profile-bubble { width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0; border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; overflow: hidden; }
         .profile-bubble.ai { background: var(--picao-indigo); }
-        .profile-bubble.user { background: #333; font-weight: 800; font-size: 12px; }
+        .profile-bubble.user { background: #333; color: white; font-weight: 800; font-size: 11px; }
 
-        .bubble { max-width: 80%; padding: 1rem; border-radius: 1.5rem; font-size: 12px; line-height: 1.4; position: relative; }
+        .bubble { max-width: 80%; padding: 1rem; border-radius: 1.5rem; font-size: 12.5px; line-height: 1.5; }
         .bubble-user { background: #1a1a1a; color: #d1d1d1; border-bottom-right-radius: 0.2rem; }
-        .bubble-picao { background: var(--picao-indigo); font-weight: 600; border-bottom-left-radius: 0.2rem; }
+        .bubble-picao { background: var(--picao-indigo); color: white; font-weight: 600; border-bottom-left-radius: 0.2rem; }
         
-        .show-row { opacity: 1 !important; transform: scale(1) translateX(0) !important; }
+        .show-row { opacity: 1 !important; transform: translateY(0) scale(1) !important; }
 
-        .refraction-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 1.5rem; padding: 1.2rem; margin-bottom: 1rem; opacity: 0; transform: scale(0.95); transition: all 0.5s ease; }
-        .btn-canva { background: var(--canva-blue); color: white; padding: 14px; border-radius: 1.2rem; display: flex; align-items: center; justify-content: center; gap: 10px; font-weight: 800; font-size: 11px; text-transform: uppercase; cursor: pointer; transition: 0.3s; }
+        /* Typing Dots Animation */
+        .typing { display: flex; gap: 4px; padding: 10px 15px; background: #1a1a1a; border-radius: 1.5rem; border-bottom-left-radius: 0.2rem; width: fit-content; }
+        .dot { width: 6px; height: 6px; background: #555; border-radius: 50%; animation: blink 1.4s infinite both; }
+        .dot:nth-child(2) { animation-delay: 0.2s; }
+        .dot:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes blink { 0%, 100% { opacity: 0.2; } 50% { opacity: 1; } }
+
+        .refraction-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 1.5rem; padding: 1.2rem; margin-bottom: 1rem; opacity: 0; transform: scale(0.9) translateY(10px); transition: all 0.5s ease; }
+        .card-pop { opacity: 1 !important; transform: scale(1) translateY(0) !important; }
     </style>
 </head>
 <body class="antialiased">
@@ -136,30 +151,30 @@
 
     <div class="marquee">
         <div class="marquee-content text-5xl font-black italic uppercase tracking-[0.3em] text-white/5">
-            SPEECH TO TEXT • MULTI-PLATFORM • CONTENT REFRACTION • UNIFIED WORKSPACE • NO CONTEXT TAX • SPEECH TO TEXT • MULTI-PLATFORM • CONTENT REFRACTION •
+            SPEECH TO TEXT • MULTI-PLATFORM • CONTENT REFRACTION • UNIFIED WORKSPACE • NO CONTEXT TAX •
         </div>
         <div class="marquee-content text-5xl font-black italic uppercase tracking-[0.3em] text-white/5">
-            SPEECH TO TEXT • MULTI-PLATFORM • CONTENT REFRACTION • UNIFIED WORKSPACE • NO CONTEXT TAX • SPEECH TO TEXT • MULTI-PLATFORM • CONTENT REFRACTION •
+            SPEECH TO TEXT • MULTI-PLATFORM • CONTENT REFRACTION • UNIFIED WORKSPACE • NO CONTEXT TAX •
         </div>
     </div>
 
     <section id="preview" class="max-w-7xl mx-auto px-8 py-48 border-y border-white/5 bg-white/[0.01] scroll-mt-20">
         <div class="text-center mb-24">
-            <h2 class="serif text-6xl italic text-white mb-6">Preview the Preview.</h2>
-            <p class="text-[11px] font-black text-indigo-400 uppercase tracking-[0.6em]">The Command Center Simulation</p>
+            <h2 class="serif text-6xl italic text-white mb-6">Preview the Workspace.</h2>
+            <p class="text-[11px] font-black text-indigo-400 uppercase tracking-[0.6em]">A Command Center for Builders</p>
         </div>
 
         <div class="workspace-wrapper">
             <div class="side-panel hidden xl:flex">
                 <p class="text-[10px] font-black text-indigo-400 uppercase mb-8 tracking-[0.2em] font-mono">Idea_Vault</p>
-                <div class="space-y-5">
-                    <div class="p-5 bg-white/[0.03] rounded-3xl border border-white/10">
-                        <p class="text-[9px] font-black text-slate-500 mb-2">2.12.26</p>
-                        <p class="text-[11px] italic opacity-60">"IG: Reading as an R&D department..."</p>
-                    </div>
+                <div class="p-5 bg-white/[0.03] rounded-3xl border border-white/10 mb-6">
+                    <p class="text-[9px] font-black text-slate-500 mb-2">2.12.26</p>
+                    <p class="text-[11px] italic opacity-60">"Reading as an R&D department..."</p>
                 </div>
-                <p class="text-[10px] font-black text-indigo-400 uppercase mt-16 mb-8 tracking-[0.2em] font-mono">Ecosystem</p>
-                <div class="flex gap-4 opacity-40"><i data-lucide="notion"></i><i data-lucide="slack"></i></div>
+                <div class="p-5 bg-white/[0.03] rounded-3xl border border-white/10 opacity-30">
+                    <p class="text-[9px] font-black text-slate-500 mb-2">2.10.26</p>
+                    <p class="text-[11px] italic">"Context switching analysis..."</p>
+                </div>
             </div>
 
             <div class="phone-frame">
@@ -172,10 +187,10 @@
                 </div>
 
                 <div id="sim-scroll" class="flex-1 overflow-y-auto p-8 flex flex-col no-scrollbar" style="scrollbar-width: none;">
-                    <div id="mic-stage" class="flex-1 flex flex-col items-center justify-center text-center py-10">
+                    <div id="mic-stage" class="flex-1 flex flex-col items-center justify-center text-center">
                         <div class="mic-container mb-10" onclick="runSimulation()">
                             <div class="motion-line l-top"></div><div class="motion-line l-bottom"></div><div class="motion-line l-left"></div><div class="motion-line l-right"></div>
-                            <div class="mic-button shadow-2xl shadow-indigo-500/20"><i data-lucide="mic" class="w-10 h-10 text-white"></i></div>
+                            <div class="mic-button"><i data-lucide="mic" class="w-9 h-9 text-white"></i></div>
                         </div>
                         <h2 class="text-xl font-extrabold italic mb-2">Tap to Ideate</h2>
                     </div>
@@ -183,16 +198,23 @@
                     <div id="chat-stage" class="hidden flex flex-col">
                         <div id="r1" class="chat-row user">
                             <div class="profile-bubble user">K</div>
-                            <div class="bubble bubble-user">"Hey Picao, I’ve been thinking about making content on IG but I’m not sure what to post, I like reading and writing but I’m not sure anyone would be interested."</div>
+                            <div class="bubble bubble-user">"Hey Picao, I want to post on IG about reading and writing, but I’m not sure anyone would be interested."</div>
                         </div>
+
+                        <div id="typing-indicator" class="hidden chat-row">
+                            <div class="profile-bubble ai"><img src="Picao-Logo.png" class="w-4 h-4 invert"></div>
+                            <div class="typing"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+                        </div>
+
                         <div id="r2" class="chat-row">
                             <div class="profile-bubble ai"><img src="Picao-Logo.png" class="w-4 h-4 invert"></div>
-                            <div class="bubble bubble-picao">"Hey Kat, so many people would be interested! You could rate books or give writing tips. Let's refract this."</div>
+                            <div class="bubble bubble-picao shadow-xl shadow-indigo-500/10">"Hey Kat, so many people would be interested! You could rate books or give writing tips. Let's refract this."</div>
                         </div>
                         
-                        <div id="cards-stage" class="hidden space-y-4 pt-4">
-                            <div class="refraction-card active"><div class="flex gap-3 items-center mb-3"><i data-lucide="linkedin" class="w-4 h-4 text-blue-400"></i><span class="text-[9px] font-black uppercase">LinkedIn Authority</span></div><p class="text-[11px] italic opacity-80">Reading isn't a hobby. It's leverage. #FounderGrowth</p></div>
-                            <div class="refraction-card active"><div class="flex gap-3 items-center mb-3"><i data-lucide="video" class="w-4 h-4 text-pink-500"></i><span class="text-[9px] font-black uppercase">TikTok Script</span></div><p class="text-[11px] font-bold italic">Caption: My writer's block fix. 📚</p></div>
+                        <div id="cards-stage" class="hidden space-y-4 mt-6 pb-20">
+                            <div class="refraction-card"><div class="flex gap-3 items-center mb-3"><i data-lucide="linkedin" class="w-4 h-4 text-blue-400"></i><span class="text-[9px] font-black text-slate-500 uppercase">LinkedIn Authority</span></div><p class="text-[11px] italic opacity-80">Reading isn't a hobby. It's leverage. #FounderGrowth</p></div>
+                            <div class="refraction-card"><div class="flex gap-3 items-center mb-3"><i data-lucide="youtube" class="w-4 h-4 text-red-500"></i><span class="text-[9px] font-black text-slate-500 uppercase">YouTube Short</span></div><p class="text-[11px] italic font-bold">Hook: "Stop reading the wrong books."</p></div>
+                            <div class="refraction-card"><div class="flex gap-3 items-center mb-3"><i data-lucide="at-sign" class="w-4 h-4 text-white"></i><span class="text-[9px] font-black text-slate-500 uppercase">Threads</span></div><p class="text-[11px] italic opacity-80">5 tips from my library: 🧵</p></div>
                         </div>
                     </div>
                 </div>
@@ -358,6 +380,7 @@
             const chat = document.getElementById('chat-stage');
             const r1 = document.getElementById('r1');
             const r2 = document.getElementById('r2');
+            const typing = document.getElementById('typing-indicator');
             const cards = document.getElementById('cards-stage');
             const scroll = document.getElementById('sim-scroll');
             const resetBtn = document.getElementById('reset-sim');
@@ -369,22 +392,34 @@
             setTimeout(() => {
                 r1.classList.add('show-row');
                 setTimeout(() => {
-                    r2.classList.add('show-row');
+                    typing.classList.remove('hidden');
+                    typing.classList.add('show-row');
+                    
                     setTimeout(() => {
-                        cards.classList.remove('hidden');
-                        scroll.scrollTo({ top: scroll.scrollHeight, behavior: 'smooth' });
-                    }, 1000);
-                }, 1200);
+                        typing.classList.remove('show-row');
+                        setTimeout(() => {
+                            typing.classList.add('hidden');
+                            r2.classList.add('show-row');
+                            
+                            setTimeout(() => {
+                                cards.classList.remove('hidden');
+                                const cardItems = document.querySelectorAll('.refraction-card');
+                                cardItems.forEach((c, i) => {
+                                    setTimeout(() => {
+                                        c.classList.add('card-pop');
+                                        scroll.scrollTo({ top: scroll.scrollHeight, behavior: 'smooth' });
+                                    }, i * 250);
+                                });
+                            }, 1200);
+                        }, 100);
+                    }, 2000);
+                }, 800);
             }, 300);
         }
 
         function resetSimulation() {
-            document.getElementById('mic-stage').style.display = 'flex';
-            document.getElementById('chat-stage').classList.add('hidden');
-            document.getElementById('cards-stage').classList.add('hidden');
-            document.getElementById('reset-sim').classList.add('hidden');
-            document.getElementById('r1').classList.remove('show-row');
-            document.getElementById('r2').classList.remove('show-row');
+            location.href = '#preview';
+            location.reload();
         }
     </script>
     <script async src="https://tally.so/widgets/embed.js"></script>
