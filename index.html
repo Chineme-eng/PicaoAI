@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Picao AI | Ideate, Create, and Launch Faster</title>
+    <title>Picao AI | Unified Creator Workspace</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     
@@ -12,26 +12,30 @@
         body { font-family: 'Inter', sans-serif; background-color: #050505; color: #f8fafc; overflow-x: hidden; scroll-behavior: smooth; }
         .serif { font-family: 'Lora', serif; }
 
-        /* --- BACKGROUND EFFECTS --- */
+        /* --- BACKGROUND & GRAIN --- */
         .bg-canvas { position: fixed; inset: 0; z-index: -1; background: radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.05) 0%, transparent 70%); }
         .grain { position: fixed; inset: 0; background: url('https://grainy-gradients.vercel.app/noise.svg'); opacity: 0.06; pointer-events: none; z-index: 999; }
 
-        /* --- INFINITE TEXT MARQUEE --- */
-        .marquee { overflow: hidden; white-space: nowrap; position: relative; background: rgba(99, 102, 241, 0.05); border-y: 1px solid rgba(255,255,255,0.05); padding: 20px 0; }
-        .marquee-content { display: inline-block; animation: marquee 30s linear infinite; }
+        /* --- INFINITE MARQUEE --- */
+        .marquee { overflow: hidden; white-space: nowrap; background: rgba(99, 102, 241, 0.03); border-y: 1px solid rgba(255,255,255,0.05); padding: 25px 0; }
+        .marquee-content { display: inline-block; animation: marquee 40s linear infinite; }
         @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
         /* --- FLIP CARDS --- */
-        .flip-card { background-color: transparent; width: 100%; height: 380px; perspective: 1000px; }
-        .flip-card-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform-style: preserve-3d; }
+        .flip-card { background-color: transparent; width: 100%; height: 400px; perspective: 1000px; }
+        .flip-card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform-style: preserve-3d; }
         .flip-card:hover .flip-card-inner { transform: rotateY(180deg); }
-        .flip-card-front, .flip-card-back { position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden; border-radius: 2.5rem; border: 1px solid rgba(255,255,255,0.08); padding: 2.5rem; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-        .flip-card-front { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(10px); }
+        .flip-card-front, .flip-card-back { position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden; border-radius: 3rem; border: 1px solid rgba(255,255,255,0.08); padding: 3rem; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        .flip-card-front { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(15px); }
         .flip-card-back { background: linear-gradient(135deg, var(--picao-indigo), var(--picao-purple)); transform: rotateY(180deg); color: white; }
 
-        /* --- LOGO RING --- */
-        .logo-ring::before { content: ''; position: absolute; inset: -5px; border: 1px solid var(--picao-indigo); border-radius: 4px; animation: spin 15s linear infinite; opacity: 0.4; }
+        /* --- LOGO ROTATION --- */
+        .logo-ring::before { content: ''; position: absolute; inset: -6px; border: 1px solid var(--picao-indigo); border-radius: 4px; animation: spin 15s linear infinite; opacity: 0.4; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* --- FAQ ACCORDION --- */
+        details summary::-webkit-details-marker { display: none; }
+        details[open] summary svg { transform: rotate(180deg); }
 
         .gradient-text { background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .btn-pop { transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1); border-radius: 999px; }
@@ -43,119 +47,123 @@
     <div class="grain"></div>
 
     <nav class="sticky top-0 z-50 backdrop-blur-xl border-b border-white/5 bg-black/70">
-        <div class="max-w-7xl mx-auto px-8 py-4 flex justify-between items-center">
-            <div class="flex items-center gap-4">
-                <div class="logo-ring"><img src="Picao-Logo.png" class="h-8 invert"></div>
-                <span class="text-xl font-black uppercase tracking-tighter italic">Picao<span class="text-indigo-500">AI</span></span>
+        <div class="max-w-7xl mx-auto px-8 py-5 flex justify-between items-center">
+            <div class="flex items-center gap-5">
+                <div class="logo-ring"><img src="Picao-Logo.png" class="h-9 invert"></div>
+                <span class="text-2xl font-black uppercase tracking-tighter italic">Picao<span class="text-indigo-500">AI</span></span>
             </div>
-            <div class="flex items-center gap-4">
-                <button data-tally-open="9qQ7GV" class="btn-pop bg-white text-black text-[10px] font-black uppercase tracking-widest py-3 px-8">Apply for Alpha</button>
-            </div>
+            <button data-tally-open="9qQ7GV" class="btn-pop bg-white text-black text-[10px] font-black uppercase tracking-widest py-3.5 px-10">Apply for Alpha</button>
         </div>
     </nav>
 
-    <header class="max-w-5xl mx-auto px-8 pt-32 pb-32 text-center">
-        <div class="inline-block px-6 py-2 mb-8 border border-indigo-500/20 rounded-full bg-indigo-500/5 text-[10px] font-bold text-indigo-400 uppercase tracking-widest">
-            The Unified Workspace for Builders
-        </div>
-        <h1 class="serif text-6xl md:text-8xl font-black mb-12 tracking-tighter leading-[0.9]">
+    <header class="max-w-5xl mx-auto px-8 pt-40 pb-32 text-center">
+        <h1 class="serif text-7xl md:text-9xl font-black mb-12 tracking-tighter leading-[0.85]">
             Ideate. Create. <br><span class="gradient-text italic">Launch.</span>
         </h1>
-        <p class="text-xl text-slate-400 mb-16 max-w-2xl mx-auto font-light">
-            One workspace. Multi-model intelligence. Zero app-switching. Turn your raw speech into a cross-platform content engine.
+        <p class="text-xl md:text-2xl text-slate-400 mb-16 max-w-3xl mx-auto font-light leading-relaxed">
+            The unified workspace where raw speech meets multi-model intelligence. One voice note. Infinite reach. Zero context switching.
         </p>
-        <button data-tally-open="9qQ7GV" class="btn-pop bg-indigo-600 text-white font-black py-6 px-14 text-sm uppercase tracking-[0.3em]">Enter the Workspace</button>
+        <div class="flex flex-col md:flex-row gap-6 justify-center">
+            <button data-tally-open="9qQ7GV" class="btn-pop bg-indigo-600 text-white font-black py-6 px-16 text-sm uppercase tracking-[0.3em]">Start Your Alpha</button>
+            <a href="demo.html" class="flex items-center justify-center text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 hover:text-white transition">Watch Demo →</a>
+        </div>
     </header>
 
-    <div class="marquee border-y border-white/5">
-        <div class="marquee-content text-2xl font-black italic uppercase tracking-[0.2em] text-white/20">
-            SPEECH TO TEXT • MULTI-PLATFORM • CONTENT REFRACTION • IDEATE FASTER • LAUNCH NOW • SPEECH TO TEXT • MULTI-PLATFORM • CONTENT REFRACTION • IDEATE FASTER • LAUNCH NOW •
+    <div class="marquee">
+        <div class="marquee-content text-3xl font-black italic uppercase tracking-[0.25em] text-white/10">
+            SPEECH TO TEXT • MULTI-PLATFORM • CONTENT REFRACTION • UNIFIED WORKSPACE • NO CONTEXT TAX • SPEECH TO TEXT • MULTI-PLATFORM • CONTENT REFRACTION • UNIFIED WORKSPACE • NO CONTEXT TAX •
         </div>
-        <div class="marquee-content text-2xl font-black italic uppercase tracking-[0.2em] text-white/20">
-            SPEECH TO TEXT • MULTI-PLATFORM • CONTENT REFRACTION • IDEATE FASTER • LAUNCH NOW • SPEECH TO TEXT • MULTI-PLATFORM • CONTENT REFRACTION • IDEATE FASTER • LAUNCH NOW •
+        <div class="marquee-content text-3xl font-black italic uppercase tracking-[0.25em] text-white/10">
+            SPEECH TO TEXT • MULTI-PLATFORM • CONTENT REFRACTION • UNIFIED WORKSPACE • NO CONTEXT TAX • SPEECH TO TEXT • MULTI-PLATFORM • CONTENT REFRACTION • UNIFIED WORKSPACE • NO CONTEXT TAX •
         </div>
     </div>
 
-    <section class="max-w-7xl mx-auto px-8 py-32">
-        <div class="grid md:grid-cols-3 gap-8">
+    <section class="max-w-7xl mx-auto px-8 py-40">
+        <div class="grid md:grid-cols-3 gap-10">
             <div class="flip-card">
                 <div class="flip-card-inner">
                     <div class="flip-card-front">
-                        <h3 class="serif text-3xl italic mb-4">Speech-to-Text</h3>
-                        <p class="text-xs opacity-50 uppercase tracking-widest">The Input</p>
+                        <h3 class="serif text-4xl italic mb-6">Capture</h3>
+                        <p class="text-[10px] opacity-40 font-bold uppercase tracking-[0.4em]">The Input</p>
                     </div>
                     <div class="flip-card-back">
-                        <p class="text-lg italic font-light">"Hey Picao, I have this idea..." Capture raw expertise without ever touching a keyboard.</p>
+                        <p class="text-lg italic font-light leading-relaxed">Record your raw expertise. We don't just transcribe; we extract the "Value Nuggets" that make your voice unique.</p>
                     </div>
                 </div>
             </div>
             <div class="flip-card">
                 <div class="flip-card-inner">
                     <div class="flip-card-front">
-                        <h3 class="serif text-3xl italic mb-4">Refraction</h3>
-                        <p class="text-xs opacity-50 uppercase tracking-widest">The Engine</p>
+                        <h3 class="serif text-4xl italic mb-6">Refract</h3>
+                        <p class="text-[10px] opacity-40 font-bold uppercase tracking-[0.4em]">The Logic</p>
                     </div>
                     <div class="flip-card-back">
-                        <p class="text-lg italic font-light">One thought, tailored for the unique narrative arcs of Instagram, X, and LinkedIn simultaneously.</p>
+                        <p class="text-lg italic font-light leading-relaxed">One idea, refracted into 12 platform-native assets. From X threads to Instagram scripts, perfectly tailored.</p>
                     </div>
                 </div>
             </div>
             <div class="flip-card">
                 <div class="flip-card-inner">
                     <div class="flip-card-front">
-                        <h3 class="serif text-3xl italic mb-4">Direct Launch</h3>
-                        <p class="text-xs opacity-50 uppercase tracking-widest">The Output</p>
+                        <h3 class="serif text-4xl italic mb-6">Deliver</h3>
+                        <p class="text-[10px] opacity-40 font-bold uppercase tracking-[0.4em]">The Launch</p>
                     </div>
                     <div class="flip-card-back">
-                        <p class="text-lg italic font-light">Native delivery. Send your content directly to your social apps with zero context switching.</p>
+                        <p class="text-lg italic font-light leading-relaxed">Direct-to-platform publishing. Send your content from the workspace to your feed in one click.</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="max-w-6xl mx-auto px-8 py-32 bg-white/[0.01] rounded-[4rem] border border-white/5">
-        <div class="grid md:grid-cols-2 gap-20 items-center p-12">
-            <div>
-                <h2 class="serif text-5xl italic text-white mb-8">Personalized <br><span class="text-indigo-500">Intelligence.</span></h2>
-                <p class="text-slate-400 text-lg leading-relaxed mb-8">Picao doesn't just transcribe; it collaborates. It understands your niche and helps you build authority where it matters most.</p>
-                <div class="flex gap-4">
-                    <div class="w-12 h-12 rounded-full bg-indigo-500/20 flex items-center justify-center text-indigo-500 font-bold">K</div>
-                    <div class="bg-white/5 p-6 rounded-3xl rounded-tl-none border border-white/10">
-                        <p class="text-sm italic">"I like reading and writing but I’m not sure anyone would be interested in that..."</p>
-                    </div>
+    <section class="max-w-4xl mx-auto px-8 py-40">
+        <div class="text-center mb-24">
+            <h2 class="serif text-5xl italic text-white mb-6">Common Questions</h2>
+            <p class="text-slate-500 uppercase text-[10px] tracking-[0.5em]">Everything you need to know about the alpha</p>
+        </div>
+        <div class="space-y-4">
+            <details class="group glass-bento border border-white/5 rounded-[2rem] overflow-hidden">
+                <summary class="flex justify-between items-center p-8 cursor-pointer list-none bg-white/[0.02]">
+                    <span class="text-sm font-bold uppercase tracking-widest text-slate-200">How does "Speech-to-Launch" actually work?</span>
+                    <svg class="w-5 h-5 text-indigo-500 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </summary>
+                <div class="p-8 text-slate-400 text-sm leading-relaxed font-light border-t border-white/5">
+                    You record a 2-minute thought. Picao uses multi-model intelligence to transcribe, identify core narrative arcs, and then refract that one thought into dozens of assets (LinkedIn, X, Substack, IG) tailored to each platform's unique algorithm.
                 </div>
-                <div class="flex gap-4 mt-6 justify-end">
-                    <div class="bg-indigo-600 p-6 rounded-3xl rounded-tr-none text-white text-sm italic">
-                        "Kat, so many people would be interested! Let's rate books and give writing tips. You can do both."
-                    </div>
-                    <div class="w-12 h-12 rounded-full bg-indigo-600 flex items-center justify-center font-bold">P</div>
+            </details>
+            <details class="group glass-bento border border-white/5 rounded-[2rem] overflow-hidden">
+                <summary class="flex justify-between items-center p-8 cursor-pointer list-none bg-white/[0.02]">
+                    <span class="text-sm font-bold uppercase tracking-widest text-slate-200">What is the "Context Tax"?</span>
+                    <svg class="w-5 h-5 text-indigo-500 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </summary>
+                <div class="p-8 text-slate-400 text-sm leading-relaxed font-light border-t border-white/5">
+                    The Context Tax is the 40% loss in productivity caused by switching between transcription apps, writing tools, and social schedulers. Picao is a unified workspace that keeps you in "Flow State" by housing the entire journey in one place.
                 </div>
-            </div>
-            <div class="space-y-6">
-                <h3 class="serif text-3xl italic">The "Picao" Advantage</h3>
-                <div class="p-6 glass-panel border border-white/10 rounded-3xl">
-                    <h4 class="text-indigo-400 font-black text-xs uppercase mb-2">Eliminate the Context Tax</h4>
-                    <p class="text-sm text-slate-500">Stop jumping between 5 apps. We house everything from the first word to the final post.</p>
+            </details>
+            <details class="group glass-bento border border-white/5 rounded-[2rem] overflow-hidden">
+                <summary class="flex justify-between items-center p-8 cursor-pointer list-none bg-white/[0.02]">
+                    <span class="text-sm font-bold uppercase tracking-widest text-slate-200">Can I join the team?</span>
+                    <svg class="w-5 h-5 text-indigo-500 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </summary>
+                <div class="p-8 text-slate-400 text-sm leading-relaxed font-light border-t border-white/5">
+                    Yes! We are actively looking for builders, designers, and AI engineers. Click the "Join the Team" link in the footer to apply.
                 </div>
-                <div class="p-6 glass-panel border border-white/10 rounded-3xl">
-                    <h4 class="text-indigo-400 font-black text-xs uppercase mb-2">Platform-Native Tailoring</h4>
-                    <p class="text-sm text-slate-500">An X thread isn't a LinkedIn post. We know the difference and refract accordingly.</p>
-                </div>
-            </div>
+            </details>
         </div>
     </section>
 
-    <section class="max-w-4xl mx-auto px-8 py-32 text-center">
-        <h2 class="serif text-4xl italic mb-6">Want to build the future of creation?</h2>
-        <p class="text-slate-500 mb-12">We are looking for builders, designers, and AI enthusiasts.</p>
-        <button data-tally-open="9qQ7GV" class="text-indigo-400 font-black uppercase tracking-[0.3em] hover:text-white transition">Join the Team →</button>
+    <section class="max-w-7xl mx-auto px-8 py-32 text-center">
+        <div class="bg-indigo-600/5 border border-indigo-500/20 p-24 rounded-[4rem]">
+            <h2 class="serif text-5xl italic mb-8">Build the future of creation.</h2>
+            <p class="text-slate-400 mb-12 max-w-xl mx-auto">We're looking for designers and engineers who hate friction and love flow.</p>
+            <button data-tally-open="9qQ7GV" class="text-indigo-400 font-black uppercase tracking-[0.4em] hover:text-white transition-all text-sm underline underline-offset-8">Join the Team →</button>
+        </div>
     </section>
 
     <footer class="py-40 px-8 text-center bg-black">
         <div class="max-w-6xl mx-auto border-t border-white/5 pt-20">
-            <img src="Picao-Logo.png" class="h-10 invert mx-auto mb-8 opacity-20">
-            <p class="text-[10px] text-slate-700 uppercase tracking-widest">&copy; 2026 Picao AI Workspace • NYC</p>
+            <img src="Picao-Logo.png" class="h-10 invert mx-auto mb-10 opacity-20">
+            <p class="text-[10px] text-slate-700 uppercase tracking-[0.6em] font-bold">&copy; 2026 Picao AI Workspace • Unified Flow • NYC</p>
         </div>
     </footer>
 
