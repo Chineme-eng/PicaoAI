@@ -3,76 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Picao AI | Product Preview</title>
+    <title>Picao AI | Product Demo</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
     <style>
-        :root { --bg: #050505; --accent: #6366f1; --card: rgba(255, 255, 255, 0.03); }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: white; min-height: 100vh; }
-        .glass-premium { 
-            background: var(--card); 
-            backdrop-filter: blur(20px); 
-            border: 1px solid rgba(255, 255, 255, 0.08); 
-            border-radius: 3rem; 
-        }
-        @keyframes pulse-soft { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
-        .status-pulse { animation: pulse-soft 2s infinite; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #050505; color: white; min-height: 100vh; }
+        .glass-demo { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(30px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 4rem; }
+        .gradient-btn { background: linear-gradient(135deg, #6366f1, #a855f7); transition: transform 0.4s ease; }
+        .gradient-btn:hover { transform: scale(1.1); }
     </style>
 </head>
-<body class="p-6 md:p-12">
-    <div class="max-w-6xl mx-auto">
-        <div class="flex flex-col md:flex-row justify-between items-center mb-16 gap-6 border-b border-white/5 pb-8">
+<body class="p-8 md:p-20">
+    <div class="max-w-5xl mx-auto">
+        <header class="flex justify-between items-center mb-32">
             <div class="flex items-center gap-4">
-                <img src="Picao-Logo.png" class="w-10 h-10">
-                <div>
-                    <h1 class="text-xs font-black tracking-widest uppercase">Product Preview (Simulated)</h1>
-                    <p class="text-[9px] font-bold text-indigo-500 uppercase tracking-widest status-pulse">● MVP in Progress</p>
-                </div>
+                <img src="Picao-Logo.png" class="w-12 h-12 invert">
+                <span class="text-xs font-black uppercase tracking-widest opacity-40">Preview_v1.0</span>
             </div>
-            <div class="text-center md:text-right">
-                <p class="text-[10px] font-black opacity-30 uppercase tracking-widest mb-1">Target Persona</p>
-                <p class="text-[10px] font-black text-white uppercase tracking-widest">LinkedIn Solopreneurs</p>
-            </div>
-        </div>
+            <button data-tally-open="9qQ7GV" class="text-[10px] font-black uppercase tracking-widest border border-white/10 px-8 py-3 rounded-full">Apply Now</button>
+        </header>
 
-        <div id="capture-stage" class="flex flex-col items-center justify-center py-20 text-center">
-            <h2 class="text-5xl md:text-7xl font-black mb-8 italic tracking-tighter">Experience <span class="text-indigo-500">Refraction.</span></h2>
-            <p class="max-w-xl opacity-40 text-sm mb-12 font-medium">Click to simulate processing a 90-second voice note.</p>
-            <button onclick="ignitePreview()" id="action-btn" class="w-32 h-32 bg-indigo-600 rounded-full flex items-center justify-center shadow-[0_0_50px_rgba(99,102,241,0.3)] hover:scale-105 transition group">
-                <i data-lucide="mic" class="w-12 h-12 text-white"></i>
+        <div id="simulation" class="text-center py-20">
+            <h2 class="text-7xl font-black italic mb-12 tracking-tighter leading-none">Experience <span class="text-indigo-500">Refraction.</span></h2>
+            <p class="max-w-xl mx-auto opacity-40 text-sm mb-16 leading-relaxed">Simulate a voice note: "Hey Picao, I want to share my thoughts on improving creative flow through reading."</p>
+            <button onclick="ignite()" id="mic-btn" class="w-36 h-36 gradient-btn rounded-full flex items-center justify-center shadow-3xl">
+                <i data-lucide="mic" class="w-16 h-16 text-white"></i>
             </button>
         </div>
 
-        <div id="output-stage" class="hidden space-y-8 opacity-0 transition-opacity duration-700 pb-20">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <div class="glass-premium p-10 border-l-4 border-l-indigo-600">
-                    <div class="flex justify-between items-center mb-8">
-                        <span class="text-[10px] font-black uppercase tracking-widest text-indigo-500">LinkedIn Authority Post</span>
-                        <span class="text-[9px] font-mono opacity-20 uppercase">Node_01</span>
-                    </div>
-                    <h3 class="text-2xl font-black mb-6 leading-tight italic">Why Your "Context Tax" is Killing Your Velocity.</h3>
-                    <p class="text-sm opacity-60 leading-relaxed mb-6">"I record a 2-minute thought, Picao refracts it into 12 assets..."</p>
-                </div>
-                </div>
-            <div class="glass-premium p-12 bg-indigo-600/5 border-indigo-500/20 text-center flex flex-col items-center">
-                <h4 class="text-2xl font-black mb-4 italic">Want the real thing?</h4>
-                <button class="bg-indigo-600 text-white px-10 py-4 rounded-full font-black text-xs uppercase tracking-widest">Email Me Your First Note</button>
+        <div id="results" class="hidden opacity-0 transition-all duration-1000 space-y-8 pb-32">
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="glass-demo p-12"><h4 class="text-indigo-500 text-[10px] font-black uppercase tracking-widest mb-6">X Thread Hook</h4><p class="text-xl font-bold italic">"Reading isn't just consumption—it's R&D for your soul. Here is the framework: 🧵"</p></div>
+                <div class="glass-demo p-12"><h4 class="text-indigo-500 text-[10px] font-black uppercase tracking-widest mb-6">LinkedIn Manifesto</h4><p class="text-xl font-bold italic">"We hide behind features because we're afraid of clarity. Let's change that."</p></div>
+            </div>
+            <div class="glass-demo p-20 text-center">
+                <h3 class="text-4xl font-black mb-10 italic">Go from Idea to Live in seconds.</h3>
+                <button data-tally-open="9qQ7GV" class="gradient-btn px-16 py-6 rounded-full font-black text-xs uppercase tracking-widest">Join the Alpha</button>
             </div>
         </div>
     </div>
+
     <script>
         lucide.createIcons();
-        function ignitePreview() {
-            const btn = document.getElementById('action-btn');
-            btn.innerHTML = `<i data-lucide="loader" class="w-12 h-12 animate-spin"></i>`;
+        function ignite() {
+            document.getElementById('mic-btn').innerHTML = '<i data-lucide="loader" class="animate-spin w-16 h-16"></i>';
             lucide.createIcons();
             setTimeout(() => {
-                document.getElementById('capture-stage').classList.add('hidden');
-                document.getElementById('output-stage').classList.remove('hidden');
-                setTimeout(() => document.getElementById('output-stage').style.opacity = '1', 50);
-            }, 1500);
+                document.getElementById('simulation').classList.add('hidden');
+                document.getElementById('results').classList.remove('hidden');
+                setTimeout(() => document.getElementById('results').style.opacity = '1', 100);
+            }, 1800);
         }
     </script>
+    <script async src="https://tally.so/widgets/embed.js"></script>
 </body>
 </html>
