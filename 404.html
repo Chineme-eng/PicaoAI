@@ -3,85 +3,164 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 | Access Denied</title>
+    <title>404 | Context Lost - Picao AI</title>
+    <meta name="robots" content="noindex, follow">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@900&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        picao: { indigo: '#6366f1', purple: '#a855f7', dark: '#050505' }
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: { '0%, 100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-10px)' } }
+                    }
+                }
+            }
+        }
+    </script>
+
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #020617; color: #ffffff; overflow: hidden; height: 100vh; display: flex; align-items: center; justify-content: center; }
-        .font-header { font-family: 'Orbitron', sans-serif; }
+        :root { --picao-indigo: #6366f1; --picao-purple: #a855f7; }
         
-        .glitch {
-            position: relative;
-            font-size: 8rem;
-            animation: glitch 1s linear infinite;
-        }
+        body { font-family: 'Inter', sans-serif; background-color: #020202; color: #f8fafc; overflow: hidden; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: background-color 0.5s ease, color 0.5s ease; }
+        
+        .serif { font-family: 'Lora', serif; }
+        .mono { font-family: 'JetBrains Mono', monospace; }
 
-        @keyframes glitch {
-            2%, 64% { transform: translate(2px, 0) skew(0deg); }
-            4%, 60% { transform: translate(-2px, 0) skew(0deg); }
-            62% { transform: translate(0, 0) skew(5deg); }
-        }
+        /* --- BACKGROUND FX --- */
+        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 60px 60px; z-index: -3; pointer-events: none; mask-image: radial-gradient(circle at center, black 40%, transparent 100%); }
+        .orb { position: fixed; width: 600px; height: 600px; border-radius: 50%; filter: blur(140px); opacity: 0.15; z-index: -1; pointer-events: none; mix-blend-mode: screen; }
+        .orb-1 { top: -10%; left: -10%; background: var(--picao-indigo); animation: drift 30s infinite alternate; }
+        .orb-2 { bottom: -10%; right: -10%; background: var(--picao-purple); animation: drift 35s infinite alternate-reverse; }
+        @keyframes drift { from { transform: translate(0,0); } to { transform: translate(150px, 150px); } }
+        
+        /* --- GLITCH TEXT EFFECT --- */
+        .glitch-wrapper { position: relative; display: inline-block; }
+        .glitch { font-size: 8rem; font-weight: 900; line-height: 1; letter-spacing: -5px; position: relative; color: white; mix-blend-mode: lighten; }
+        .glitch::before, .glitch::after { content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.8; }
+        .glitch::before { color: #00ffff; z-index: -1; animation: glitch-anim-1 2s infinite linear alternate-reverse; }
+        .glitch::after { color: #ff00ff; z-index: -2; animation: glitch-anim-2 2s infinite linear alternate-reverse; }
+        
+        @keyframes glitch-anim-1 { 0% { clip-path: inset(20% 0 80% 0); transform: translate(-2px, 1px); } 20% { clip-path: inset(60% 0 10% 0); transform: translate(2px, -1px); } 40% { clip-path: inset(40% 0 50% 0); transform: translate(-2px, 2px); } 60% { clip-path: inset(80% 0 5% 0); transform: translate(2px, -2px); } 80% { clip-path: inset(10% 0 70% 0); transform: translate(-1px, 1px); } 100% { clip-path: inset(30% 0 50% 0); transform: translate(1px, -1px); } }
+        @keyframes glitch-anim-2 { 0% { clip-path: inset(10% 0 60% 0); transform: translate(2px, -1px); } 20% { clip-path: inset(80% 0 5% 0); transform: translate(-2px, 2px); } 40% { clip-path: inset(30% 0 20% 0); transform: translate(2px, 1px); } 60% { clip-path: inset(10% 0 80% 0); transform: translate(-1px, -2px); } 80% { clip-path: inset(50% 0 30% 0); transform: translate(1px, 2px); } 100% { clip-path: inset(70% 0 10% 0); transform: translate(-2px, -1px); } }
 
-        .glitch:before, .glitch:after {
-            content: "404";
-            position: absolute;
-            left: 0;
-        }
+        /* --- CARD & UI --- */
+        .spotlight-card { position: relative; background: rgba(255, 255, 255, 0.01); border: 1px solid rgba(255,255,255,0.05); transition: border-color 0.3s; border-radius: 2rem; padding: 3rem; text-align: center; max-width: 500px; width: 90%; backdrop-filter: blur(20px); }
+        .spotlight-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), rgba(255, 255, 255, 0.06), transparent 40%); opacity: 0; transition: opacity 0.5s; pointer-events: none; z-index: 1; border-radius: 2rem; }
+        .spotlight-card:hover::before { opacity: 1; }
+        .spotlight-card:hover { border-color: rgba(255,255,255,0.1); }
 
-        .glitch:before { animation: glitchTop 1s linear infinite; clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%); }
-        @keyframes glitchTop {
-            2%, 64% { transform: translate(2px, -2px); }
-            4%, 60% { transform: translate(-2px, 2px); }
-            62% { transform: translate(13px, -1px) skew(-13deg); }
-        }
+        .btn-pop { display: inline-flex; align-items: center; gap: 8px; overflow: hidden; transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1); border-radius: 999px; background: #6366f1; color: white; padding: 12px 32px; font-weight: 800; text-transform: uppercase; font-size: 11px; letter-spacing: 2px; }
+        .btn-pop:hover { transform: scale(1.05) translateY(-2px); box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3); background: #4f46e5; }
 
-        .scanline {
-            width: 100%;
-            height: 100px;
-            z-index: 10;
-            background: linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgba(34, 211, 238, 0.1) 50%, rgba(0, 0, 0, 0) 100%);
-            opacity: 0.1;
-            position: absolute;
-            bottom: 100%;
-            animation: scanline 3s linear infinite;
-        }
+        .progress-bar { width: 100%; height: 2px; background: rgba(255,255,255,0.1); margin-top: 30px; position: relative; overflow: hidden; border-radius: 99px; }
+        .progress-fill { position: absolute; top: 0; left: 0; height: 100%; background: var(--picao-indigo); width: 0%; animation: fill 10s linear forwards; }
+        @keyframes fill { to { width: 100%; } }
 
-        @keyframes scanline {
-            0% { bottom: 100%; }
-            100% { bottom: -100px; }
-        }
+        /* LIGHT MODE */
+        body.light-mode { background-color: #f0f4f8; color: #0f172a; }
+        body.light-mode .bg-grid { background-image: linear-gradient(to right, rgba(0,0,0,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,0,0,0.03) 1px, transparent 1px); }
+        body.light-mode .glitch { color: #0f172a; }
+        body.light-mode .spotlight-card { background: white; border-color: rgba(0,0,0,0.05); box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
+        body.light-mode .text-slate-400 { color: #64748b; }
+        body.light-mode .progress-bar { background: rgba(0,0,0,0.05); }
+        
+        .theme-toggle { position: absolute; top: 20px; right: 20px; padding: 10px; border-radius: 50%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); cursor: pointer; color: white; z-index: 50; }
+        body.light-mode .theme-toggle { background: white; border-color: rgba(0,0,0,0.1); color: #0f172a; }
     </style>
 </head>
-<body>
+<body class="antialiased">
+    <div class="bg-grid"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
 
-    <div class="scanline"></div>
+    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle Light Mode">
+        <i data-lucide="sun" class="w-5 h-5 hidden dark-icon"></i>
+        <i data-lucide="moon" class="w-5 h-5 light-icon"></i>
+    </button>
 
-    <div class="text-center px-6">
-        <div class="mb-8">
-            <h1 class="font-header glitch text-cyan-400">404</h1>
-            <p class="font-header text-xs tracking-[0.5em] text-cyan-500/50 uppercase mt-4">Security Breach Detected</p>
+    <div class="spotlight-card relative z-10">
+        <div class="glitch-wrapper mb-2">
+            <h1 class="glitch serif italic" data-text="404">404</h1>
         </div>
+        
+        <h2 class="text-2xl font-bold mb-4">Signal Lost in Refraction</h2>
+        <p class="text-slate-400 text-sm leading-relaxed mb-8 max-w-xs mx-auto">
+            The context you are looking for hasn't been captured yet. It seems this page has refracted into nothingness.
+        </p>
 
-        <div class="max-w-md mx-auto bg-white/5 backdrop-blur-xl border border-white/10 p-10 rounded-[2.5rem] shadow-2xl">
-            <i data-lucide="shield-alert" class="w-12 h-12 text-red-500 mx-auto mb-6 animate-pulse"></i>
-            <h2 class="font-header text-xl mb-4 uppercase">Restricted Sector</h2>
-            <p class="text-gray-400 text-sm leading-relaxed mb-8">
-                The node you are trying to access has been encrypted or does not exist in the Picao Network. 
-            </p>
-            
-            <a href="index.html" class="inline-block bg-cyan-500 text-black px-10 py-4 rounded-full font-black text-xs tracking-widest hover:scale-105 transition active:scale-95 shadow-[0_0_20px_rgba(34,211,238,0.3)]">
-                RETURN TO TERMINAL
+        <div class="flex flex-col items-center gap-6">
+            <a href="index.html" class="btn-pop">
+                <i data-lucide="arrow-left" class="w-4 h-4"></i> Return to Workspace
             </a>
+            
+            <div class="w-full max-w-[200px]">
+                <div class="flex justify-between text-[9px] font-mono text-slate-500 uppercase tracking-widest mb-2">
+                    <span>Auto-Redirect</span>
+                    <span id="countdown">10s</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+            </div>
         </div>
+    </div>
 
-        <div class="mt-12 font-mono text-[10px] text-gray-700 uppercase tracking-widest">
-            Protocol: Picao-OS_v1.0 // Auth: Required
-        </div>
+    <div class="absolute bottom-8 text-[10px] font-mono text-slate-600 uppercase tracking-[0.3em]">
+        Error_Code: Context_Null
     </div>
 
     <script>
         lucide.createIcons();
+
+        // MOUSE SPOTLIGHT
+        const card = document.querySelector(".spotlight-card");
+        document.addEventListener("mousemove", (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            card.style.setProperty("--mouse-x", `${x}px`);
+            card.style.setProperty("--mouse-y", `${y}px`);
+        });
+
+        // THEME TOGGLE
+        const themeBtn = document.getElementById('theme-toggle');
+        const sunIcon = document.querySelector('.light-icon');
+        const moonIcon = document.querySelector('.dark-icon');
+        const body = document.body;
+
+        themeBtn.addEventListener('click', () => {
+            body.classList.toggle('light-mode');
+            if (body.classList.contains('light-mode')) {
+                sunIcon.style.display = 'none';
+                moonIcon.style.display = 'block';
+            } else {
+                sunIcon.style.display = 'block';
+                moonIcon.style.display = 'none';
+            }
+        });
+
+        // AUTO REDIRECT LOGIC
+        let timeLeft = 10;
+        const countdownEl = document.getElementById('countdown');
+        
+        const timer = setInterval(() => {
+            timeLeft--;
+            countdownEl.textContent = timeLeft + 's';
+            if(timeLeft <= 0) {
+                clearInterval(timer);
+                window.location.href = 'index.html';
+            }
+        }, 1000);
     </script>
 </body>
 </html>
