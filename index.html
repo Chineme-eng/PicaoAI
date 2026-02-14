@@ -118,6 +118,10 @@
         .dock { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(20px); border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 10px 30px rgba(0,0,0,0.05); border-radius: 30px; height: 60px; position: absolute; bottom: 20px; left: 20px; right: 20px; display: flex; justify-content: space-around; align-items: center; z-index: 60; }
         .dock-icon { color: #94A3B8; transition: 0.3s; width: 20px; height: 20px; }
         .dock-icon.active { color: #4F46E5; transform: translateY(-4px); filter: drop-shadow(0 4px 8px rgba(79, 70, 229, 0.3)); }
+
+        /* Typing cursor style */
+        .typing-cursor::after { content: '|'; animation: blink 0.7s infinite; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
     </style>
 </head>
 <body class="bg-[#FDFBF7]">
@@ -142,12 +146,8 @@
     </nav>
 
     <header class="max-w-7xl mx-auto px-6 pt-24 pb-32 text-center reveal">
-        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-700 text-xs font-bold uppercase tracking-widest mb-8">
-            <span class="w-2 h-2 rounded-full bg-indigo-500 animate-pulse"></span>
-            Public Beta v2.0
-        </div>
         <h1 class="serif text-6xl md:text-8xl text-slate-900 leading-[1.1] mb-8 tracking-tight">
-            The workspace that <br> <span class="italic text-indigo-600">thinks</span> with you.
+            The workspace that <br> <span class="italic text-indigo-600 typing-cursor" id="typewriter"></span> with you.
         </h1>
         <p class="text-xl text-slate-500 max-w-2xl mx-auto leading-relaxed mb-12">
             Eliminate the "Context Tax." Ideate, refract, and launch your content across every platform without leaving your flow state.
@@ -339,36 +339,6 @@
         </div>
     </section>
 
-    <section class="py-24 bg-white border-y border-slate-100">
-        <div class="max-w-5xl mx-auto px-6">
-            <h3 class="serif text-3xl text-center mb-16 italic">"It feels like cheating."</h3>
-            <div class="grid md:grid-cols-2 gap-12">
-                <div class="p-8 bg-slate-50 rounded-2xl border border-slate-100 relative group hover:shadow-lg transition">
-                    <i data-lucide="quote" class="w-8 h-8 text-indigo-200 absolute top-6 right-6"></i>
-                    <p class="text-slate-600 mb-6 leading-relaxed relative z-10">"I speak my messy thoughts into Picao while walking the dog. By the time I get home, I have a newsletter, 3 tweets, and a LinkedIn post ready to approve."</p>
-                    <div class="flex items-center gap-4">
-                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" class="w-10 h-10 rounded-full bg-slate-200">
-                        <div>
-                            <p class="font-bold text-slate-900 text-sm">Felix K.</p>
-                            <p class="text-xs text-slate-500 uppercase tracking-wide">Founder, ScaleUp</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="p-8 bg-slate-50 rounded-2xl border border-slate-100 relative group hover:shadow-lg transition">
-                    <i data-lucide="quote" class="w-8 h-8 text-purple-200 absolute top-6 right-6"></i>
-                    <p class="text-slate-600 mb-6 leading-relaxed relative z-10">"The context switching used to kill my creativity. Picao handles the formatting and platform nuances so I can just focus on the core idea."</p>
-                    <div class="flex items-center gap-4">
-                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah" class="w-10 h-10 rounded-full bg-slate-200">
-                        <div>
-                            <p class="font-bold text-slate-900 text-sm">Sarah J.</p>
-                            <p class="text-xs text-slate-500 uppercase tracking-wide">VP Marketing</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <footer class="bg-[#FDFBF7] pt-24 pb-12 px-6">
         <div class="max-w-7xl mx-auto grid md:grid-cols-4 gap-12 mb-20">
             <div class="col-span-1 md:col-span-2">
@@ -410,6 +380,38 @@
 
     <script>
         lucide.createIcons();
+
+        // TYPING EFFECT LOGIC
+        const words = ["thinks", "builds", "evolves", "creates"];
+        let wordIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        const typeTarget = document.getElementById('typewriter');
+
+        function typeEffect() {
+            const currentWord = words[wordIndex];
+            if (isDeleting) {
+                typeTarget.textContent = currentWord.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typeTarget.textContent = currentWord.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            let typeSpeed = isDeleting ? 100 : 200;
+
+            if (!isDeleting && charIndex === currentWord.length) {
+                isDeleting = true;
+                typeSpeed = 2000; // Pause at end
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                wordIndex = (wordIndex + 1) % words.length;
+                typeSpeed = 500; // Pause before next word
+            }
+
+            setTimeout(typeEffect, typeSpeed);
+        }
+        document.addEventListener('DOMContentLoaded', typeEffect);
 
         // SCENARIOS DATA
         const scenarios = [
