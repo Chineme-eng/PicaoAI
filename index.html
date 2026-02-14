@@ -59,7 +59,7 @@
             position: relative;
         }
 
-        /* THE GRID EFFECT: Faint lines that fade at the bottom */
+        /* THE GRID EFFECT */
         body::before {
             content: "";
             position: absolute;
@@ -446,6 +446,14 @@
     <script>
         lucide.createIcons();
 
+        // 1. VOICE LOADER (Fix for silent voices)
+        let allVoices = [];
+        function loadVoices() {
+            allVoices = window.speechSynthesis.getVoices();
+        }
+        window.speechSynthesis.onvoiceschanged = loadVoices;
+        loadVoices(); 
+
         // MODAL TOGGLE
         function toggleModal(id) {
             const modal = document.getElementById(id);
@@ -619,9 +627,12 @@
             return new Promise(resolve => {
                 window.speechSynthesis.cancel();
                 utterance = new SpeechSynthesisUtterance(text);
-                const voices = window.speechSynthesis.getVoices();
-                let voice = voices.find(v => v.lang === lang) || voices.find(v => v.lang.includes('en'));
+                
+                // Fallback Voice Selection Logic
+                if (allVoices.length === 0) allVoices = window.speechSynthesis.getVoices();
+                let voice = allVoices.find(v => v.lang === lang) || allVoices.find(v => v.lang.includes('en'));
                 if(voice) utterance.voice = voice;
+                
                 utterance.pitch = 1.05; 
                 utterance.rate = 1.05; 
                 
