@@ -118,10 +118,6 @@
         .dock { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(20px); border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 10px 30px rgba(0,0,0,0.05); border-radius: 30px; height: 60px; position: absolute; bottom: 20px; left: 20px; right: 20px; display: flex; justify-content: space-around; align-items: center; z-index: 60; }
         .dock-icon { color: #94A3B8; transition: 0.3s; width: 20px; height: 20px; }
         .dock-icon.active { color: #4F46E5; transform: translateY(-4px); filter: drop-shadow(0 4px 8px rgba(79, 70, 229, 0.3)); }
-
-        /* Typing cursor style */
-        .typing-cursor::after { content: '|'; animation: blink 0.7s infinite; }
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
     </style>
 </head>
 <body class="bg-[#FDFBF7]">
@@ -131,7 +127,6 @@
             <div class="flex items-center gap-3">
                 <img src="Picao-Logo.png" alt="Picao Logo" class="h-8 w-auto object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
                 <div class="w-8 h-8 rounded-lg bg-indigo-600 hidden items-center justify-center text-white font-serif italic font-bold text-lg shadow-glow">P</div>
-                
                 <span class="font-bold text-slate-900 tracking-tight text-lg">Picao<span class="text-indigo-600">AI</span></span>
             </div>
             <div class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-500">
@@ -146,8 +141,8 @@
     </nav>
 
     <header class="max-w-7xl mx-auto px-6 pt-24 pb-32 text-center reveal">
-        <h1 class="serif text-6xl md:text-8xl text-slate-900 leading-[1.1] mb-8 tracking-tight">
-            The workspace that <br> <span class="italic text-indigo-600 typing-cursor" id="typewriter"></span> with you.
+        <h1 class="serif text-6xl md:text-8xl text-slate-900 leading-[1.1] mb-8 tracking-tight min-h-[1.2em]">
+            The workspace that <br> <span class="italic text-indigo-600" id="typing-text"></span> with you.
         </h1>
         <p class="text-xl text-slate-500 max-w-2xl mx-auto leading-relaxed mb-12">
             Eliminate the "Context Tax." Ideate, refract, and launch your content across every platform without leaving your flow state.
@@ -155,7 +150,7 @@
 
         <div class="max-w-md mx-auto relative group">
             <div class="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full blur opacity-20 group-hover:opacity-40 transition duration-500"></div>
-            <form class="relative flex items-center bg-white rounded-full p-2 pl-6 shadow-xl shadow-indigo-100 ring-1 ring-slate-100">
+            <form onsubmit="handleWaitlist(event)" class="relative flex items-center bg-white rounded-full p-2 pl-6 shadow-xl shadow-indigo-100 ring-1 ring-slate-100">
                 <i data-lucide="mail" class="w-5 h-5 text-slate-400 mr-3"></i>
                 <input type="email" placeholder="enter your email..." class="email-input flex-1" required>
                 <button type="submit" class="bg-indigo-600 text-white px-6 py-3 rounded-full font-bold text-sm hover:bg-indigo-700 transition shadow-lg flex items-center gap-2">
@@ -339,13 +334,30 @@
         </div>
     </section>
 
+    <section class="py-24 bg-white border-y border-slate-100">
+        <div class="max-w-4xl mx-auto px-6 text-center reveal">
+            <h2 class="serif text-4xl text-slate-900 mb-6 italic">Ready to eliminate the context tax?</h2>
+            <p class="text-slate-500 text-lg mb-10">Be the first to know when we launch the workspace that thinks as fast as you do.</p>
+            
+            <div class="max-w-md mx-auto relative group">
+                <div class="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-3xl blur opacity-10 group-hover:opacity-20 transition"></div>
+                <form onsubmit="handleWaitlist(event)" class="relative flex flex-col md:flex-row gap-3">
+                    <input type="email" placeholder="your@email.com" class="flex-1 px-6 py-4 rounded-2xl bg-slate-50 border border-slate-100 text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500/20" required>
+                    <button type="submit" class="bg-slate-900 text-white px-8 py-4 rounded-2xl font-bold hover:bg-slate-800 transition shadow-lg">
+                        Get Early Access
+                    </button>
+                </form>
+            </div>
+            <div id="waitlist-msg" class="mt-6 text-indigo-600 font-medium opacity-0 transition-opacity">Welcome to the future of creation. Check your inbox soon.</div>
+        </div>
+    </section>
+
     <footer class="bg-[#FDFBF7] pt-24 pb-12 px-6">
         <div class="max-w-7xl mx-auto grid md:grid-cols-4 gap-12 mb-20">
             <div class="col-span-1 md:col-span-2">
                 <div class="flex items-center gap-2 mb-6">
                      <img src="Picao-Logo.png" alt="Picao Logo" class="h-6 w-auto object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
                     <div class="w-6 h-6 rounded bg-indigo-600 hidden items-center justify-center text-white font-serif italic font-bold text-xs">P</div>
-                    
                     <span class="font-bold text-slate-900">Picao<span class="text-indigo-600">AI</span></span>
                 </div>
                 <p class="text-slate-500 text-sm max-w-xs leading-relaxed">
@@ -381,20 +393,20 @@
     <script>
         lucide.createIcons();
 
-        // TYPING EFFECT LOGIC
+        // TYPING EFFECT
         const words = ["thinks", "builds", "evolves", "creates"];
         let wordIndex = 0;
         let charIndex = 0;
         let isDeleting = false;
-        const typeTarget = document.getElementById('typewriter');
+        const typeDisplay = document.getElementById('typing-text');
 
-        function typeEffect() {
+        function type() {
             const currentWord = words[wordIndex];
             if (isDeleting) {
-                typeTarget.textContent = currentWord.substring(0, charIndex - 1);
+                typeDisplay.textContent = currentWord.substring(0, charIndex - 1);
                 charIndex--;
             } else {
-                typeTarget.textContent = currentWord.substring(0, charIndex + 1);
+                typeDisplay.textContent = currentWord.substring(0, charIndex + 1);
                 charIndex++;
             }
 
@@ -402,22 +414,30 @@
 
             if (!isDeleting && charIndex === currentWord.length) {
                 isDeleting = true;
-                typeSpeed = 2000; // Pause at end
+                typeSpeed = 2000;
             } else if (isDeleting && charIndex === 0) {
                 isDeleting = false;
                 wordIndex = (wordIndex + 1) % words.length;
-                typeSpeed = 500; // Pause before next word
+                typeSpeed = 500;
             }
-
-            setTimeout(typeEffect, typeSpeed);
+            setTimeout(type, typeSpeed);
         }
-        document.addEventListener('DOMContentLoaded', typeEffect);
+        document.addEventListener('DOMContentLoaded', type);
+
+        // FORM HANDLER
+        function handleWaitlist(e) {
+            e.preventDefault();
+            const msg = document.getElementById('waitlist-msg');
+            msg.style.opacity = '1';
+            e.target.reset();
+            setTimeout(() => { msg.style.opacity = '0'; }, 5000);
+        }
 
         // SCENARIOS DATA
         const scenarios = [
             {
                 id: 'australian',
-                voiceLang: 'en-AU', // Browser hint
+                voiceLang: 'en-AU',
                 voicePitch: 0.8,
                 voiceRate: 0.9,
                 userText: "Mate, I've got these architectural sketches for the new eco-lodge. I want to show the sustainability angle but LinkedIn feels too dry.",
@@ -437,7 +457,7 @@
                 id: 'american',
                 voiceLang: 'en-US',
                 voicePitch: 1.2,
-                voiceRate: 1.1, // Faster, younger
+                voiceRate: 1.1,
                 userText: "Hey Picao, I just speedran the new Elden Ring DLC. I wanna make a guide but I'm too tired to edit a full video right now.",
                 aiText: "No stress. I'll pull the boss timestamps from your raw footage. Generating a 'Top 5 Boss Cheeses' TikTok script and a text-based strategy guide for Reddit.",
                 apps: ['TikTok Script', 'Reddit Guide', 'Discord Post', 'Video Exported']
@@ -445,7 +465,7 @@
         ];
 
         let currentScenario = null;
-        let utterance = null; // Global to prevent GC bugs
+        let utterance = null;
         const chatContainer = document.querySelector('#screen-chat .flex-col');
         const screens = {
             home: document.getElementById('screen-home'),
@@ -454,43 +474,21 @@
             apps: document.getElementById('screen-apps')
         };
 
-        // --- AUDIO ENGINE ---
         function speak(text, lang, pitch, rate) {
             return new Promise(resolve => {
-                // Cancel any ongoing speech
                 window.speechSynthesis.cancel();
-                
                 utterance = new SpeechSynthesisUtterance(text);
                 const voices = window.speechSynthesis.getVoices();
-                
-                // Try to find exact match, then loose match, then fallback to English
-                let voice = voices.find(v => v.lang === lang) || 
-                            voices.find(v => v.lang.includes(lang.split('-')[0])) ||
-                            voices.find(v => v.lang.includes('en'));
-                
-                if (voice) {
-                    console.log(`Using voice: ${voice.name}`);
-                    utterance.voice = voice;
-                } else {
-                    console.warn("No suitable voice found, using default.");
-                }
-                
+                let voice = voices.find(v => v.lang === lang) || voices.find(v => v.lang.includes('en'));
+                if (voice) utterance.voice = voice;
                 utterance.pitch = pitch;
                 utterance.rate = rate;
-
-                // Visualizer sync
-                utterance.onstart = () => {
-                    document.querySelectorAll('.bar').forEach(b => b.classList.add('speaking'));
-                };
+                utterance.onstart = () => { document.querySelectorAll('.bar').forEach(b => b.classList.add('speaking')); };
                 utterance.onend = () => {
                     document.querySelectorAll('.bar').forEach(b => b.classList.remove('speaking'));
                     resolve();
                 };
-                utterance.onerror = (e) => {
-                    console.error("Speech error", e);
-                    resolve(); // Resolve anyway to not block app
-                };
-                
+                utterance.onerror = () => { resolve(); };
                 window.speechSynthesis.speak(utterance);
             });
         }
@@ -501,10 +499,9 @@
             const gain = audioCtx.createGain();
             osc.connect(gain);
             gain.connect(audioCtx.destination);
-
             const now = audioCtx.currentTime;
             if (type === 'click') {
-                osc.type = 'sine'; osc.frequency.setValueAtTime(600, now); osc.frequency.exponentialRampToValueAtTime(300, now + 0.1);
+                osc.type = 'sine'; osc.frequency.setValueAtTime(600, now);
                 gain.gain.setValueAtTime(0.1, now); gain.gain.linearRampToValueAtTime(0, now + 0.1);
                 osc.start(now); osc.stop(now + 0.1);
             } else if (type === 'pop') {
@@ -512,14 +509,12 @@
                 gain.gain.setValueAtTime(0.1, now); gain.gain.exponentialRampToValueAtTime(0, now + 0.15);
                 osc.start(now); osc.stop(now + 0.15);
             } else if (type === 'whoosh') {
-                 // Simple noise burst simulation
-                 osc.type = 'sine'; osc.frequency.setValueAtTime(100, now); osc.frequency.linearRampToValueAtTime(300, now + 0.2);
+                 osc.type = 'sine'; osc.frequency.setValueAtTime(100, now);
                  gain.gain.setValueAtTime(0.05, now); gain.gain.linearRampToValueAtTime(0, now + 0.3);
                  osc.start(now); osc.stop(now + 0.3);
             }
         }
 
-        // --- SIMULATION LOGIC ---
         function switchScreen(name) {
             Object.values(screens).forEach(s => s.classList.remove('active-screen'));
             screens[name].classList.add('active-screen');
@@ -530,48 +525,25 @@
             element.innerHTML = '';
             for (let i = 0; i < text.length; i++) {
                 element.innerHTML += text.charAt(i);
-                await new Promise(r => setTimeout(r, 15)); // Fast typing
+                await new Promise(r => setTimeout(r, 15));
             }
         }
 
         async function startSimulation() {
-            // Unlock Audio Context immediately on user click
             const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             if (audioCtx.state === 'suspended') await audioCtx.resume();
-
-            // 1. Pick Scenario
             currentScenario = scenarios[Math.floor(Math.random() * scenarios.length)];
-            
-            // Update Logic Readout (Visual debug for user)
-            const readout = document.getElementById('logic-readout');
-            readout.innerHTML = `> Persona: ${currentScenario.id.toUpperCase()}<br>> Voice: ${currentScenario.voiceLang}<br>> Pitch: ${currentScenario.voicePitch}<br>> Running...`;
-
-            // Hide Overlay
+            document.getElementById('logic-readout').innerHTML = `> Persona: ${currentScenario.id.toUpperCase()}<br>> Running...`;
             document.getElementById('play-overlay').classList.add('hidden-overlay');
-            
-            // 2. Click Animation on Mic Button
-            await new Promise(r => setTimeout(r, 800)); // Delay to let user see "Home"
+            await new Promise(r => setTimeout(r, 800));
             document.getElementById('mic-btn').classList.add('scale-90');
             playSound('click');
             await new Promise(r => setTimeout(r, 200));
-
-            // 3. Listening Screen
             switchScreen('voice');
             document.getElementById('island').classList.add('active');
-            
-            await new Promise(r => setTimeout(r, 800)); // Pause before speaking
-            
-            // 4. Speak User Request
-            // Note: speak() is awaited, so it won't proceed until finished
             await speak(currentScenario.userText, currentScenario.voiceLang, currentScenario.voicePitch, currentScenario.voiceRate);
-
-            // 5. Processing State
-            document.getElementById('voice-status').innerText = "Refracting...";
             document.getElementById('island-text').innerText = "Thinking...";
-            await new Promise(r => setTimeout(r, 1200)); // Simulate thinking
-            playSound('pop');
-
-            // 6. Chat Screen
+            await new Promise(r => setTimeout(r, 1200));
             switchScreen('chat');
             chatContainer.innerHTML = `
                 <div class="bubble-user rounded-lg mb-2 shadow-sm">${currentScenario.userText}</div>
@@ -582,61 +554,31 @@
                     </div>
                 </div>
             `;
-            
             await new Promise(r => setTimeout(r, 500));
             document.getElementById('ai-response-row').classList.remove('opacity-0');
-            playSound('pop');
-            
-            // 7. AI Typing (Fast Stream) - Picao is SILENT text
-            document.getElementById('island-text').innerText = "Replying...";
             await typeText(document.getElementById('ai-text-cursor'), currentScenario.aiText);
-            
-            await new Promise(r => setTimeout(r, 1500)); // Let user read the reply
-
-            // 8. Apps / Refraction Screen
+            await new Promise(r => setTimeout(r, 1500));
             switchScreen('apps');
-            document.getElementById('island-text').innerText = "Refracting...";
-            
-            // Update App Text based on scenario
             const appNodes = document.querySelectorAll('.float-icon span');
-            if(appNodes.length >= 3) {
+            if(appNodes.length >= 4) {
                 appNodes[0].innerText = currentScenario.apps[0];
                 appNodes[1].innerText = currentScenario.apps[1];
                 appNodes[2].innerText = currentScenario.apps[2];
                 appNodes[3].innerText = currentScenario.apps[3];
             }
-
-            // Animate Apps in sequentially
             const apps = document.querySelectorAll('.float-icon');
-            apps.forEach((app, i) => {
-                setTimeout(() => {
-                    app.classList.add('active');
-                    playSound('pop');
-                }, i * 300);
-            });
-
-            await new Promise(r => setTimeout(r, 4000)); // Hold final screen longer
-            
-            // Reset
+            apps.forEach((app, i) => { setTimeout(() => { app.classList.add('active'); playSound('pop'); }, i * 300); });
+            await new Promise(r => setTimeout(r, 4000));
             document.getElementById('play-overlay').classList.remove('hidden-overlay');
             document.getElementById('island').classList.remove('active');
             apps.forEach(app => app.classList.remove('active'));
             switchScreen('home');
         }
 
-        // Initialize voices on load (needed for some browsers)
-        window.speechSynthesis.getVoices();
-
-        // Scroll Reveal
         const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if(entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                }
-            });
+            entries.forEach(entry => { if(entry.isIntersecting) entry.target.classList.add('active'); });
         }, {threshold: 0.1});
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
     </script>
 </body>
 </html>
