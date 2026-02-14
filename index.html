@@ -44,7 +44,30 @@
         :root { --picao-indigo: #4F46E5; --picao-purple: #9333EA; }
         
         /* --- PREMIUM LIGHT MODE BASE --- */
-        body { font-family: 'Inter', sans-serif; background-color: #FDFBF7; color: #0F172A; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #FDFBF7; 
+            color: #0F172A; 
+            overflow-x: hidden; 
+            -webkit-font-smoothing: antialiased; 
+            position: relative;
+        }
+
+        /* THE GRID EFFECT: Faint lines that fade at the bottom */
+        body::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+            background-image: 
+                linear-gradient(rgba(15, 23, 42, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(15, 23, 42, 0.02) 1px, transparent 1px);
+            background-size: 40px 40px;
+            -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+            mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+        }
+
         ::selection { background: rgba(79, 70, 229, 0.1); color: #4F46E5; }
         
         .serif { font-family: 'Lora', serif; }
@@ -127,7 +150,6 @@
             <div class="flex items-center gap-3">
                 <img src="Picao-Logo.png" alt="Picao Logo" class="h-8 w-auto object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
                 <div class="w-8 h-8 rounded-lg bg-indigo-600 hidden items-center justify-center text-white font-serif italic font-bold text-lg shadow-glow">P</div>
-                
                 <span class="font-bold text-slate-900 tracking-tight text-lg">Picao<span class="text-indigo-600">AI</span></span>
             </div>
             <div class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-500">
@@ -166,20 +188,10 @@
     <div class="marquee-container">
         <div class="marquee">
             <div class="marquee-content">
-                <span class="marquee-item">Context Aware</span>
-                <span class="marquee-item">Multi-Modal</span>
-                <span class="marquee-item">Zero Friction</span>
-                <span class="marquee-item">Auto-Scheduling</span>
-                <span class="marquee-item">Narrative Refraction</span>
-                <span class="marquee-item">Voice Intelligence</span>
+                <span class="marquee-item">Context Aware</span><span class="marquee-item">Multi-Modal</span><span class="marquee-item">Zero Friction</span><span class="marquee-item">Auto-Scheduling</span><span class="marquee-item">Narrative Refraction</span><span class="marquee-item">Voice Intelligence</span>
             </div>
             <div class="marquee-content">
-                <span class="marquee-item">Context Aware</span>
-                <span class="marquee-item">Multi-Modal</span>
-                <span class="marquee-item">Zero Friction</span>
-                <span class="marquee-item">Auto-Scheduling</span>
-                <span class="marquee-item">Narrative Refraction</span>
-                <span class="marquee-item">Voice Intelligence</span>
+                <span class="marquee-item">Context Aware</span><span class="marquee-item">Multi-Modal</span><span class="marquee-item">Zero Friction</span><span class="marquee-item">Auto-Scheduling</span><span class="marquee-item">Narrative Refraction</span><span class="marquee-item">Voice Intelligence</span>
             </div>
         </div>
     </div>
@@ -351,7 +363,7 @@
                     </button>
                 </form>
                 <p class="mt-4 text-xs text-slate-400">Join the founding circle of creators</p>
-                <div class="waitlist-success mt-6 text-indigo-600 font-medium opacity-0 transition-opacity">Welcome to the future of creation. Check your inbox soon.</div>
+                <div class="waitlist-success mt-4 text-indigo-600 font-medium opacity-0 transition-opacity">Welcome to the future of creation. Check your inbox soon.</div>
             </div>
         </div>
     </section>
@@ -362,7 +374,6 @@
                 <div class="flex items-center gap-2 mb-6">
                      <img src="Picao-Logo.png" alt="Picao Logo" class="h-6 w-auto object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
                     <div class="w-6 h-6 rounded bg-indigo-600 hidden items-center justify-center text-white font-serif italic font-bold text-xs">P</div>
-                    
                     <span class="font-bold text-slate-900">Picao<span class="text-indigo-600">AI</span></span>
                 </div>
                 <p class="text-slate-500 text-sm max-w-xs leading-relaxed">
@@ -382,6 +393,9 @@
                 <ul class="space-y-4 text-sm text-slate-500">
                     <li><a href="https://tally.so/r/GxlRG2" class="hover:text-indigo-600 transition">Join Team</a></li>
                     <li><a href="mailto:founder@picaoai.com" class="hover:text-indigo-600 transition">Contact</a></li>
+                    <li><a href="https://linkedin.com/company/picao-ai" target="_blank" class="hover:text-indigo-600 transition">LinkedIn</a></li>
+                    <li><a href="https://x.com/picaoai" target="_blank" class="hover:text-indigo-600 transition">Twitter / X</a></li>
+                    <li><a href="https://instagram.com/picaoai" target="_blank" class="hover:text-indigo-600 transition">Instagram</a></li>
                 </ul>
             </div>
         </div>
@@ -389,7 +403,7 @@
             <p>&copy; 2026 Picao AI Inc. All rights reserved.</p>
             <div class="flex gap-6 mt-4 md:mt-0">
                 <a href="https://linkedin.com/company/picao-ai" target="_blank" class="hover:text-indigo-600 transition">LinkedIn</a>
-                <a href="https://x.com/picaoai" target="_blank" class="hover:text-indigo-600 transition">X</a>
+                <a href="https://x.com/picaoai" target="_blank" class="hover:text-indigo-600 transition">Twitter / X</a>
                 <a href="https://instagram.com/picaoai" target="_blank" class="hover:text-indigo-600 transition">Instagram</a>
                 <button onclick="toggleModal('privacy-modal')" class="hover:text-indigo-600 transition">Privacy</button>
                 <button onclick="toggleModal('terms-modal')" class="hover:text-indigo-600 transition">Terms</button>
@@ -401,34 +415,19 @@
         <div class="bg-white rounded-3xl max-w-2xl w-full max-h-[85vh] overflow-y-auto p-10 shadow-2xl relative">
             <button onclick="toggleModal('privacy-modal')" class="absolute top-6 right-6 text-slate-400 hover:text-slate-900"><i data-lucide="x" class="w-6 h-6"></i></button>
             <h3 class="serif text-3xl font-bold mb-6 italic">Privacy Policy</h3>
-            <div class="text-slate-600 space-y-6 text-sm leading-relaxed">
-                <p class="font-mono text-xs uppercase tracking-widest text-indigo-600">Last Updated: February 2026</p>
-                <section>
-                    <h4 class="font-bold text-slate-900 mb-2">1. Information Collection</h4>
-                    <p>Picao AI collects only the minimum amount of data required to fulfill your request. At this stage, we only collect your email address when you voluntarily submit it to our waitlist.</p>
-                </section>
-                <section>
-                    <h4 class="font-bold text-slate-900 mb-2">2. How We Use Data</h4>
-                    <p>Your email is used strictly to provide updates regarding Picao AI’s launch, early access invitations, and relevant product development news. We do not sell or rent your personal information.</p>
-                </section>
+            <div class="text-slate-600 space-y-6 text-sm">
+                <section><h4 class="font-bold text-slate-900 mb-2">1. Information Collection</h4><p>Picao AI collects only the minimum amount of data required. At this stage, we only collect your email address voluntarily submitted to our waitlist.</p></section>
+                <section><h4 class="font-bold text-slate-900 mb-2">2. Usage</h4><p>Your email is used strictly for product updates and launch invitations. We do not sell or trade your personal information.</p></section>
             </div>
         </div>
     </div>
-
     <div id="terms-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-6 bg-slate-900/50 backdrop-blur-sm">
         <div class="bg-white rounded-3xl max-w-2xl w-full max-h-[85vh] overflow-y-auto p-10 shadow-2xl relative">
             <button onclick="toggleModal('terms-modal')" class="absolute top-6 right-6 text-slate-400 hover:text-slate-900"><i data-lucide="x" class="w-6 h-6"></i></button>
             <h3 class="serif text-3xl font-bold mb-6 italic">Terms of Service</h3>
-            <div class="text-slate-600 space-y-6 text-sm leading-relaxed">
-                <p class="font-mono text-xs uppercase tracking-widest text-indigo-600">Effective: February 2026</p>
-                <section>
-                    <h4 class="font-bold text-slate-900 mb-2">1. Waitlist Terms</h4>
-                    <p>By signing up for the Picao AI waitlist, you acknowledge that the product is currently in development. Signup does not guarantee immediate access.</p>
-                </section>
-                <section>
-                    <h4 class="font-bold text-slate-900 mb-2">2. Intellectual Property</h4>
-                    <p>All branding, terminology, and proprietary simulation logic displayed on this site are the exclusive property of Picao AI Inc.</p>
-                </section>
+            <div class="text-slate-600 space-y-6 text-sm">
+                <section><h4 class="font-bold text-slate-900 mb-2">1. Development Phase</h4><p>Picao AI is currently in pre-launch. Waitlist signup does not guarantee immediate access to an MVP.</p></section>
+                <section><h4 class="font-bold text-slate-900 mb-2">2. IP</h4><p>All branding, "Context Tax" concepts, and simulation logic are property of Picao AI Inc.</p></section>
             </div>
         </div>
     </div>
@@ -439,15 +438,9 @@
         // MODAL TOGGLE
         function toggleModal(id) {
             const modal = document.getElementById(id);
-            if (modal.classList.contains('hidden')) {
-                modal.classList.remove('hidden');
-                modal.classList.add('flex');
-                document.body.style.overflow = 'hidden';
-            } else {
-                modal.classList.add('hidden');
-                modal.classList.remove('flex');
-                document.body.style.overflow = 'auto';
-            }
+            modal.classList.toggle('hidden');
+            modal.classList.toggle('flex');
+            document.body.style.overflow = modal.classList.contains('hidden') ? 'auto' : 'hidden';
         }
 
         // TYPING EFFECT
@@ -488,7 +481,7 @@
             const container = form.closest('.max-w-md');
             const msg = container.querySelector('.waitlist-success');
             
-            // PASTE YOUR FORMSPREE ID BELOW
+            // Connect to Formspree endpoint here: https://formspree.io/f/xvzbaowa
             try {
                 const response = await fetch('https://formspree.io/f/xvzbaowa', {
                     method: 'POST',
@@ -511,8 +504,6 @@
             {
                 id: 'australian',
                 voiceLang: 'en-AU',
-                voicePitch: 0.8,
-                voiceRate: 0.9,
                 userText: "Mate, I've got these architectural sketches for the new eco-lodge. I want to show the sustainability angle but LinkedIn feels too dry.",
                 aiText: "Let's visual-storytell this. I'll take your sketches and draft a 'Green Blueprint' carousel for LinkedIn focusing on the materials, and a time-lapse script for Instagram Reels.",
                 apps: ['LinkedIn Carousel', 'IG Reel Script', 'Project Files', 'Meeting Scheduled']
@@ -520,8 +511,6 @@
             {
                 id: 'british',
                 voiceLang: 'en-GB',
-                voicePitch: 1.1,
-                voiceRate: 1.05,
                 userText: "I've just finished reading 'The Psychology of Money'. I want to share my notes but I don't want it to look like a boring book report.",
                 aiText: "Understood. I've extracted 3 contrarian takeaways. I'm drafting a Twitter thread titled 'Why Saving is Losing' and a newsletter deep-dive comparing it to current market trends.",
                 apps: ['Twitter Thread', 'Substack Draft', 'Notion Notes', 'Tweet Scheduled']
@@ -529,17 +518,13 @@
             {
                 id: 'american',
                 voiceLang: 'en-US',
-                voicePitch: 1.2,
-                voiceRate: 1.1,
                 userText: "Hey Picao, I just speedran the new Elden Ring DLC. I wanna make a guide but I'm too tired to edit a full video right now.",
                 aiText: "No stress. I'll pull the boss timestamps from your raw footage. Generating a 'Top 5 Boss Cheeses' TikTok script and a text-based strategy guide for Reddit.",
                 apps: ['TikTok Script', 'Reddit Guide', 'Discord Post', 'Video Exported']
             }
         ];
 
-        let currentScenario = null;
         let utterance = null;
-        const chatContainer = document.querySelector('#screen-chat .flex-col');
         const screens = {
             home: document.getElementById('screen-home'),
             voice: document.getElementById('screen-voice'),
@@ -547,105 +532,52 @@
             apps: document.getElementById('screen-apps')
         };
 
-        function speak(text, lang, pitch, rate) {
+        function speak(text, lang) {
             return new Promise(resolve => {
                 window.speechSynthesis.cancel();
                 utterance = new SpeechSynthesisUtterance(text);
-                const voices = window.speechSynthesis.getVoices();
-                let voice = voices.find(v => v.lang === lang) || voices.find(v => v.lang.includes('en'));
-                if (voice) utterance.voice = voice;
-                utterance.pitch = pitch;
-                utterance.rate = rate;
+                utterance.lang = lang;
                 utterance.onstart = () => { document.querySelectorAll('.bar').forEach(b => b.classList.add('speaking')); };
                 utterance.onend = () => {
                     document.querySelectorAll('.bar').forEach(b => b.classList.remove('speaking'));
                     resolve();
                 };
-                utterance.onerror = () => { resolve(); };
                 window.speechSynthesis.speak(utterance);
             });
-        }
-
-        function playSound(type) {
-            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
-            const now = audioCtx.currentTime;
-            if (type === 'click') {
-                osc.type = 'sine'; osc.frequency.setValueAtTime(600, now);
-                gain.gain.setValueAtTime(0.1, now); gain.gain.linearRampToValueAtTime(0, now + 0.1);
-                osc.start(now); osc.stop(now + 0.1);
-            } else if (type === 'pop') {
-                osc.type = 'triangle'; osc.frequency.setValueAtTime(400, now);
-                gain.gain.setValueAtTime(0.1, now); gain.gain.exponentialRampToValueAtTime(0, now + 0.15);
-                osc.start(now); osc.stop(now + 0.15);
-            } else if (type === 'whoosh') {
-                 osc.type = 'sine'; osc.frequency.setValueAtTime(100, now);
-                 gain.gain.setValueAtTime(0.05, now); gain.gain.linearRampToValueAtTime(0, now + 0.3);
-                 osc.start(now); osc.stop(now + 0.3);
-            }
         }
 
         function switchScreen(name) {
             Object.values(screens).forEach(s => s.classList.remove('active-screen'));
             screens[name].classList.add('active-screen');
-            playSound('whoosh');
         }
 
         async function startSimulation() {
             const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             if (audioCtx.state === 'suspended') await audioCtx.resume();
-            currentScenario = scenarios[Math.floor(Math.random() * scenarios.length)];
+            const currentScenario = scenarios[Math.floor(Math.random() * scenarios.length)];
             document.getElementById('logic-readout').innerHTML = `> Persona: ${currentScenario.id.toUpperCase()}<br>> Running...`;
             document.getElementById('play-overlay').classList.add('hidden-overlay');
-            await new Promise(r => setTimeout(r, 800));
-            document.getElementById('mic-btn').classList.add('scale-90');
-            playSound('click');
-            await new Promise(r => setTimeout(r, 200));
+            
             switchScreen('voice');
             document.getElementById('island').classList.add('active');
-            await speak(currentScenario.userText, currentScenario.voiceLang, currentScenario.voicePitch, currentScenario.voiceRate);
+            await speak(currentScenario.userText, currentScenario.voiceLang);
             document.getElementById('island-text').innerText = "Thinking...";
             await new Promise(r => setTimeout(r, 1200));
+            
             switchScreen('chat');
-            chatContainer.innerHTML = `
-                <div class="bubble-user rounded-lg mb-2 shadow-sm">${currentScenario.userText}</div>
-                <div class="flex gap-2 opacity-0 transition-opacity duration-500" id="ai-response-row">
-                    <div class="w-6 h-6 rounded bg-indigo-600 flex items-center justify-center text-white text-[10px] font-bold shrink-0">P</div>
-                    <div class="bubble-picao rounded-lg shadow-md">
-                        <span id="ai-text-cursor"></span><span class="w-1.5 h-3 bg-white inline-block animate-pulse align-middle ml-1"></span>
-                    </div>
-                </div>
-            `;
-            await new Promise(r => setTimeout(r, 500));
-            document.getElementById('ai-response-row').classList.remove('opacity-0');
-            await typeChatText(document.getElementById('ai-text-cursor'), currentScenario.aiText);
-            await new Promise(r => setTimeout(r, 1500));
+            document.querySelector('#screen-chat div').innerHTML = `<div class="bubble-picao">${currentScenario.aiText}</div>`;
+            await new Promise(r => setTimeout(r, 2000));
+            
             switchScreen('apps');
-            const appNodes = document.querySelectorAll('.float-icon span');
-            if(appNodes.length >= 4) {
-                appNodes[0].innerText = currentScenario.apps[0];
-                appNodes[1].innerText = currentScenario.apps[1];
-                appNodes[2].innerText = currentScenario.apps[2];
-                appNodes[3].innerText = currentScenario.apps[3];
-            }
-            const apps = document.querySelectorAll('.float-icon');
-            apps.forEach((app, i) => { setTimeout(() => { app.classList.add('active'); playSound('pop'); }, i * 300); });
+            document.querySelectorAll('.float-icon').forEach((app, i) => { 
+                app.querySelector('span').innerText = currentScenario.apps[i];
+                setTimeout(() => app.classList.add('active'), i * 300); 
+            });
+            
             await new Promise(r => setTimeout(r, 4000));
             document.getElementById('play-overlay').classList.remove('hidden-overlay');
             document.getElementById('island').classList.remove('active');
-            apps.forEach(app => app.classList.remove('active'));
             switchScreen('home');
-        }
-
-        async function typeChatText(element, text) {
-            element.innerHTML = '';
-            for (let i = 0; i < text.length; i++) {
-                element.innerHTML += text.charAt(i);
-                await new Promise(r => setTimeout(r, 15));
-            }
         }
 
         const observer = new IntersectionObserver((entries) => {
