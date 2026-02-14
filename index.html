@@ -160,8 +160,8 @@
     </nav>
 
     <header class="max-w-7xl mx-auto px-6 pt-24 pb-32 text-center reveal">
-        <h1 class="serif text-6xl md:text-8xl text-slate-900 leading-[1.1] mb-8 tracking-tight min-h-[1.2em]">
-            The workspace that <br> <span class="italic text-indigo-600" id="typing-text"></span> with you.
+        <h1 class="serif text-6xl md:text-8xl text-slate-900 leading-[1.1] mb-8 tracking-tight min-h-[4em] md:min-h-[1.2em]">
+            The workspace that <br> <span class="italic text-indigo-600 transition-opacity duration-500" id="typing-text">thinks</span> with you.
         </h1>
         <p class="text-xl text-slate-500 max-w-2xl mx-auto leading-relaxed mb-12">
             Eliminate the "Context Tax." Ideate, refract, and launch your content across every platform without leaving your flow state.
@@ -462,34 +462,20 @@
             document.body.style.overflow = modal.classList.contains('hidden') ? 'auto' : 'hidden';
         }
 
-        // TYPING EFFECT
+        // FADE CYCLE EFFECT (FIX FOR MOBILE JITTER)
         const words = ["thinks", "builds", "evolves", "creates"];
         let wordIndex = 0;
-        let charIndex = 0;
-        let isDeleting = false;
         const typeDisplay = document.getElementById('typing-text');
 
-        function type() {
-            const currentWord = words[wordIndex];
-            if (isDeleting) {
-                typeDisplay.textContent = currentWord.substring(0, charIndex - 1);
-                charIndex--;
-            } else {
-                typeDisplay.textContent = currentWord.substring(0, charIndex + 1);
-                charIndex++;
-            }
-            let typeSpeed = isDeleting ? 100 : 200;
-            if (!isDeleting && charIndex === currentWord.length) {
-                isDeleting = true;
-                typeSpeed = 2000;
-            } else if (isDeleting && charIndex === 0) {
-                isDeleting = false;
+        function cycleWords() {
+            typeDisplay.style.opacity = '0'; // Fade out
+            setTimeout(() => {
                 wordIndex = (wordIndex + 1) % words.length;
-                typeSpeed = 500;
-            }
-            setTimeout(type, typeSpeed);
+                typeDisplay.innerText = words[wordIndex];
+                typeDisplay.style.opacity = '1'; // Fade in
+            }, 500);
         }
-        document.addEventListener('DOMContentLoaded', type);
+        setInterval(cycleWords, 3000);
 
         // FORM HANDLER
         async function handleWaitlist(e) {
