@@ -340,18 +340,19 @@
             <p class="text-slate-500 text-lg mb-10">Be the first to know when we launch the workspace that thinks as fast as you do.</p>
             
             <div class="max-w-md mx-auto relative group">
-                <div class="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-3xl blur opacity-10 group-hover:opacity-20 transition"></div>
-                <form onsubmit="handleWaitlist(event)" class="relative flex flex-col md:flex-row gap-3">
-                    <input type="email" placeholder="your@email.com" class="flex-1 px-6 py-4 rounded-2xl bg-slate-50 border border-slate-100 text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500/20" required>
-                    <button type="submit" class="bg-slate-900 text-white px-8 py-4 rounded-2xl font-bold hover:bg-slate-800 transition shadow-lg">
-                        Get Early Access
+                <div class="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full blur opacity-10 group-hover:opacity-20 transition"></div>
+                <form onsubmit="handleWaitlist(event)" class="relative flex items-center bg-white rounded-full p-2 pl-6 shadow-xl shadow-indigo-100 ring-1 ring-slate-100">
+                    <i data-lucide="mail" class="w-5 h-5 text-slate-400 mr-3"></i>
+                    <input type="email" placeholder="enter your email..." class="email-input flex-1" required>
+                    <button type="submit" class="bg-indigo-600 text-white px-6 py-3 rounded-full font-bold text-sm hover:bg-indigo-700 transition shadow-lg flex items-center gap-2">
+                        Join Waitlist <i data-lucide="arrow-right" class="w-4 h-4"></i>
                     </button>
                 </form>
+                <p class="mt-4 text-xs text-slate-400">Join the founding circle of creators</p>
             </div>
             <div id="waitlist-msg" class="mt-6 text-indigo-600 font-medium opacity-0 transition-opacity">Welcome to the future of creation. Check your inbox soon.</div>
         </div>
     </section>
-
     <footer class="bg-[#FDFBF7] pt-24 pb-12 px-6">
         <div class="max-w-7xl mx-auto grid md:grid-cols-4 gap-12 mb-20">
             <div class="col-span-1 md:col-span-2">
