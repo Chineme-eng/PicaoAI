@@ -38,11 +38,41 @@
                 }
             }
         }
+    const phone = document.getElementById('phone');
+const container = phone.parentElement;
+
+container.addEventListener('mousemove', (e) => {
+    const { left, top, width, height } = container.getBoundingClientRect();
+    const x = (e.clientX - left) / width - 0.5;
+    const y = (e.clientY - top) / height - 0.5;
+
+    // Tilts the phone 15 degrees max in any direction
+    phone.style.transform = `perspective(1000px) rotateY(${x * 30}deg) rotateX(${-y * 30}deg)`;
+});
+
+// Reset position when mouse leaves
+container.addEventListener('mouseleave', () => {
+    phone.style.transform = `perspective(1000px) rotateY(0deg) rotateX(0deg)`;
+});
+
+// Mobile Touch Support
+container.addEventListener('touchmove', (e) => {
+    const touch = e.touches[0];
+    const { left, top, width, height } = container.getBoundingClientRect();
+    const x = (touch.clientX - left) / width - 0.5;
+    const y = (touch.clientY - top) / height - 0.5;
+
+    phone.style.transform = `perspective(1000px) rotateY(${x * 20}deg) rotateX(${-y * 20}deg)`;
+});
     </script>
 
     <style>
         :root { --picao-indigo: #4F46E5; --picao-purple: #9333EA; }
-        
+        #phone {
+    transition: transform 0.1s ease-out; /* Smooths the movement */
+    transform-style: preserve-3d;
+    will-change: transform;
+}
         /* --- PREMIUM LIGHT MODE BASE --- */
         body { 
             font-family: 'Inter', sans-serif; 
