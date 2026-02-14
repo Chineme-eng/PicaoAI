@@ -148,17 +148,19 @@
             Eliminate the "Context Tax." Ideate, refract, and launch your content across every platform without leaving your flow state.
         </p>
 
-        <div class="max-w-md mx-auto relative group">
-            <div class="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full blur opacity-20 group-hover:opacity-40 transition duration-500"></div>
-            <form onsubmit="handleWaitlist(event)" class="relative flex items-center bg-white rounded-full p-2 pl-6 shadow-xl shadow-indigo-100 ring-1 ring-slate-100">
-                <i data-lucide="mail" class="w-5 h-5 text-slate-400 mr-3"></i>
-                <input type="email" placeholder="enter your email..." class="email-input flex-1" required>
-                <button type="submit" class="bg-indigo-600 text-white px-6 py-3 rounded-full font-bold text-sm hover:bg-indigo-700 transition shadow-lg flex items-center gap-2">
-                    Join Waitlist <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                </button>
-            </form>
-            <p class="mt-4 text-xs text-slate-400">Get first-in-line for the next era of creation</p>
-        </div>
+      <div class="max-w-md mx-auto relative group">
+    <div class="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full blur opacity-20 group-hover:opacity-40 transition duration-500"></div>
+    <form onsubmit="handleWaitlist(event)" class="relative flex items-center bg-white rounded-full p-2 pl-6 shadow-xl shadow-indigo-100 ring-1 ring-slate-100">
+        <i data-lucide="mail" class="w-5 h-5 text-slate-400 mr-3"></i>
+        <input type="email" placeholder="enter your email..." class="email-input flex-1" required>
+        <button type="submit" class="bg-indigo-600 text-white px-6 py-3 rounded-full font-bold text-sm hover:bg-indigo-700 transition shadow-lg flex items-center gap-2">
+            Join Waitlist <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+    </form>
+    <p class="mt-4 text-xs text-slate-400">Get first-in-line for the next era of creation</p>
+    
+    <div class="waitlist-success mt-4 text-indigo-600 font-medium opacity-0 transition-opacity">Welcome to the future of creation. Check your inbox soon.</div>
+</div>
     </header>
 
     <div class="marquee-container">
@@ -501,13 +503,19 @@
         document.addEventListener('DOMContentLoaded', type);
 
         // FORM HANDLER
-        function handleWaitlist(e) {
-            e.preventDefault();
-            const msg = document.getElementById('waitlist-msg');
-            msg.style.opacity = '1';
-            e.target.reset();
-            setTimeout(() => { msg.style.opacity = '0'; }, 5000);
-        }
+       function handleWaitlist(e) {
+    e.preventDefault();
+    
+    // Finds the specific success message inside the same container as the form
+    const container = e.target.closest('.max-w-md');
+    const msg = container.querySelector('.waitlist-success') || document.getElementById('waitlist-msg');
+    
+    if (msg) {
+        msg.style.opacity = '1';
+        e.target.reset();
+        setTimeout(() => { msg.style.opacity = '0'; }, 5000);
+    }
+}
 
         // SCENARIOS DATA
         const scenarios = [
