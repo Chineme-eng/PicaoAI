@@ -353,6 +353,7 @@
             <div id="waitlist-msg" class="mt-6 text-indigo-600 font-medium opacity-0 transition-opacity">Welcome to the future of creation. Check your inbox soon.</div>
         </div>
     </section>
+
     <footer class="bg-[#FDFBF7] pt-24 pb-12 px-6">
         <div class="max-w-7xl mx-auto grid md:grid-cols-4 gap-12 mb-20">
             <div class="col-span-1 md:col-span-2">
@@ -385,14 +386,88 @@
         <div class="max-w-7xl mx-auto border-t border-slate-200 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-slate-400">
             <p>&copy; 2026 Picao AI Inc. All rights reserved.</p>
             <div class="flex gap-6 mt-4 md:mt-0">
-                <a href="#">Privacy</a>
-                <a href="#">Terms</a>
+                <button onclick="toggleModal('privacy-modal')" class="hover:text-indigo-600 transition">Privacy</button>
+                <button onclick="toggleModal('terms-modal')" class="hover:text-indigo-600 transition">Terms</button>
             </div>
         </div>
     </footer>
 
+    <div id="privacy-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-6 bg-slate-900/50 backdrop-blur-sm">
+        <div class="bg-white rounded-3xl max-w-2xl w-full max-h-[85vh] overflow-y-auto p-10 shadow-2xl relative">
+            <button onclick="toggleModal('privacy-modal')" class="absolute top-6 right-6 text-slate-400 hover:text-slate-900"><i data-lucide="x" class="w-6 h-6"></i></button>
+            <h3 class="serif text-3xl font-bold mb-6 italic">Privacy Policy</h3>
+            <div class="text-slate-600 space-y-6 text-sm leading-relaxed">
+                <p class="font-mono text-xs uppercase tracking-widest text-indigo-600">Last Updated: February 2026</p>
+                
+                <section>
+                    <h4 class="font-bold text-slate-900 mb-2">1. Information Collection</h4>
+                    <p>Picao AI collects only the minimum amount of data required to fulfill your request. At this stage, we only collect your email address when you voluntarily submit it to our waitlist.</p>
+                </section>
+
+                <section>
+                    <h4 class="font-bold text-slate-900 mb-2">2. How We Use Data</h4>
+                    <p>Your email is used strictly to provide updates regarding Picao AI’s launch, early access invitations, and relevant product development news. We do not use your data for automated decision-making or profiling.</p>
+                </section>
+
+                <section>
+                    <h4 class="font-bold text-slate-900 mb-2">3. Data Sharing & Security</h4>
+                    <p>We do not sell, rent, or trade your personal information. We implement industry-standard encryption and security protocols to protect your email from unauthorized access or disclosure.</p>
+                </section>
+
+                <section>
+                    <h4 class="font-bold text-slate-900 mb-2">4. Your Rights</h4>
+                    <p>You may request to be removed from our waitlist and have your data deleted at any time by contacting us at founder@picaoai.com. We comply with global data protection standards (GDPR/CCPA) regarding your right to be forgotten.</p>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <div id="terms-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-6 bg-slate-900/50 backdrop-blur-sm">
+        <div class="bg-white rounded-3xl max-w-2xl w-full max-h-[85vh] overflow-y-auto p-10 shadow-2xl relative">
+            <button onclick="toggleModal('terms-modal')" class="absolute top-6 right-6 text-slate-400 hover:text-slate-900"><i data-lucide="x" class="w-6 h-6"></i></button>
+            <h3 class="serif text-3xl font-bold mb-6 italic">Terms of Service</h3>
+            <div class="text-slate-600 space-y-6 text-sm leading-relaxed">
+                <p class="font-mono text-xs uppercase tracking-widest text-indigo-600">Effective: February 2026</p>
+
+                <section>
+                    <h4 class="font-bold text-slate-900 mb-2">1. Waitlist Terms</h4>
+                    <p>By signing up for the Picao AI waitlist, you acknowledge that the product is currently in development. Signup does not constitute a contract for service or a guarantee of immediate access.</p>
+                </section>
+
+                <section>
+                    <h4 class="font-bold text-slate-900 mb-2">2. Intellectual Property</h4>
+                    <p>The "Picao AI" name, logo, "Context Tax" terminology, and all proprietary simulation logic displayed on this landing page are the exclusive intellectual property of Picao AI Inc.</p>
+                </section>
+
+                <section>
+                    <h4 class="font-bold text-slate-900 mb-2">3. Limitation of Liability</h4>
+                    <p>Picao AI is provided "as is" during its pre-launch phase. We are not liable for any damages arising from your use of this site or reliance on pre-release product descriptions.</p>
+                </section>
+
+                <section>
+                    <h4 class="font-bold text-slate-900 mb-2">4. Governing Law</h4>
+                    <p>These terms are governed by the laws of the State of New York, without regard to its conflict of law principles.</p>
+                </section>
+            </div>
+        </div>
+    </div>
+
     <script>
         lucide.createIcons();
+
+        // MODAL TOGGLE
+        function toggleModal(id) {
+            const modal = document.getElementById(id);
+            if (modal.classList.contains('hidden')) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+                document.body.style.overflow = 'hidden';
+            } else {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                document.body.style.overflow = 'auto';
+            }
+        }
 
         // TYPING EFFECT
         const words = ["thinks", "builds", "evolves", "creates"];
