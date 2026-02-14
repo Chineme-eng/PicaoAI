@@ -296,9 +296,9 @@
             const form = e.target;
             const container = form.closest('.max-w-md');
             const msg = container.querySelector('.waitlist-success');
-            // Connect to Formspree endpoint here: https://formspree.io/f/YOUR_ID
+            // Connect to Formspree endpoint here: https://formspree.io/f/xvzbaowa
             try {
-                const response = await fetch('https://formspree.io/f/YOUR_ID_HERE', {
+                const response = await fetch('https://formspree.io/f/xvzbaowa', {
                     method: 'POST',
                     body: new FormData(form),
                     headers: { 'Accept': 'application/json' }
