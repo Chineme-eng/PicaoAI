@@ -252,11 +252,20 @@
                             </div>
                         </div>
 
-                        <div id="screen-home" class="screen active-screen items-center justify-center">
-                            <div class="w-20 h-20 bg-indigo-600 rounded-2xl flex items-center justify-center text-white text-3xl font-serif italic mb-6 shadow-xl shadow-indigo-200">P</div>
-                            <h3 class="text-xl font-bold text-slate-900 mb-2">Good morning.</h3>
-                            <p class="text-sm text-slate-400 mb-8">What are we building today?</p>
-                            <div class="flex items-center gap-3 px-5 py-3 bg-slate-50 rounded-full border border-slate-100 w-64 shadow-inner">
+                        <div id="screen-home" class="screen active-screen items-center justify-center relative">
+                            <div class="absolute top-16 w-full px-6">
+                                <div class="bg-white/80 backdrop-blur-md rounded-2xl p-4 shadow-sm border border-slate-100 flex items-center justify-between">
+                                    <div>
+                                        <p class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Picao AI</p>
+                                        <h3 class="text-lg font-serif italic text-slate-900" id="home-greeting">Welcome back.</h3>
+                                    </div>
+                                    <div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center">
+                                        <i data-lucide="user" class="w-4 h-4 text-slate-400"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center gap-3 px-5 py-3 bg-slate-50 rounded-full border border-slate-100 w-64 shadow-inner mt-20">
                                 <i data-lucide="search" class="w-4 h-4 text-slate-400"></i>
                                 <span class="text-xs text-slate-400">Ask Picao...</span>
                                 <div class="ml-auto w-8 h-8 bg-slate-200 rounded-full flex items-center justify-center cursor-pointer hover:bg-indigo-600 hover:text-white transition" id="mic-btn">
@@ -281,73 +290,32 @@
                             </div>
                         </div>
 
-                        <div id="screen-notes" class="screen bg-white px-6 pt-12">
-                            <div class="flex items-center gap-2 mb-4">
-                                <i data-lucide="file-text" class="w-4 h-4 text-indigo-600"></i>
-                                <span class="text-xs font-bold text-slate-400 uppercase tracking-wide">Picao Notes</span>
-                            </div>
-                            <h3 class="serif text-2xl text-slate-900 mb-4" id="note-title">Drafting...</h3>
-                            <div class="space-y-2">
-                                <div class="h-2 bg-slate-100 rounded w-full"></div>
-                                <div class="h-2 bg-slate-100 rounded w-5/6"></div>
-                                <div class="h-2 bg-slate-100 rounded w-4/6"></div>
-                            </div>
-                            <div class="mt-6 p-3 bg-indigo-50 rounded-lg border border-indigo-100 flex items-center gap-3">
-                                <div class="w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center text-white"><i data-lucide="check" class="w-4 h-4"></i></div>
-                                <div>
-                                    <p class="text-xs font-bold text-indigo-900">Summary Generated</p>
-                                    <p class="text-[10px] text-indigo-600">Ready for calendar</p>
+                        <div id="screen-notes" class="screen bg-white px-6 pt-16">
+                            <div class="flex items-center justify-between mb-6">
+                                <div class="flex items-center gap-2">
+                                    <i data-lucide="sparkles" class="w-4 h-4 text-indigo-600"></i>
+                                    <span class="text-xs font-bold text-indigo-600 uppercase tracking-wide">Extraction</span>
                                 </div>
+                                <span class="text-[10px] text-slate-400">Just now</span>
                             </div>
+                            <h3 class="serif text-xl text-slate-900 mb-6 leading-tight" id="note-title">Drafting...</h3>
+                            <div class="space-y-3" id="note-list">
+                                </div>
                         </div>
 
-                        <div id="screen-calendar" class="screen bg-white px-6 pt-12">
-                            <div class="flex items-center justify-between mb-6">
+                        <div id="screen-calendar" class="screen bg-white px-6 pt-16">
+                            <div class="flex items-center justify-between mb-8">
                                 <h3 class="text-lg font-bold text-slate-900">Schedule</h3>
-                                <span class="text-xs font-mono text-slate-400">Feb 2026</span>
+                                <span class="text-xs font-mono text-slate-400 bg-slate-100 px-2 py-1 rounded">TODAY</span>
                             </div>
-                            <div class="space-y-3">
-                                <div class="flex gap-3 items-start opacity-50">
-                                    <div class="w-10 text-xs text-slate-400 pt-1">09:00</div>
-                                    <div class="flex-1 p-2 bg-slate-50 rounded-lg border border-slate-100 text-xs text-slate-400">Deep Work</div>
+                            <div class="space-y-4" id="calendar-list">
                                 </div>
-                                <div class="flex gap-3 items-start">
-                                    <div class="w-10 text-xs text-slate-900 font-bold pt-1">10:30</div>
-                                    <div class="flex-1 p-3 bg-indigo-600 rounded-lg shadow-lg shadow-indigo-200 text-white">
-                                        <p class="text-xs font-bold mb-1">Post Content</p>
-                                        <div class="flex gap-2">
-                                            <i data-lucide="linkedin" class="w-3 h-3 text-white/70"></i>
-                                            <i data-lucide="twitter" class="w-3 h-3 text-white/70"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="flex gap-3 items-start opacity-50">
-                                    <div class="w-10 text-xs text-slate-400 pt-1">11:00</div>
-                                    <div class="flex-1 p-2 bg-slate-50 rounded-lg border border-slate-100 text-xs text-slate-400">Team Sync</div>
-                                </div>
-                            </div>
                         </div>
 
                         <div id="screen-apps" class="screen bg-slate-50 items-center justify-center">
                             <h3 class="text-lg font-bold text-slate-900 mb-8">Refracting...</h3>
-                            <div class="grid grid-cols-2 gap-4 w-64">
-                                <div class="p-4 bg-white rounded-2xl shadow-sm border border-slate-100 flex flex-col items-center gap-2 float-icon" id="app-1">
-                                    <i data-lucide="linkedin" class="w-6 h-6 text-blue-600"></i>
-                                    <span class="text-[10px] font-bold text-slate-600 text-center">Post Drafted</span>
+                            <div class="grid grid-cols-2 gap-4 w-64" id="apps-grid">
                                 </div>
-                                <div class="p-4 bg-white rounded-2xl shadow-sm border border-slate-100 flex flex-col items-center gap-2 float-icon" style="transition-delay: 100ms" id="app-2">
-                                    <i data-lucide="twitter" class="w-6 h-6 text-sky-400"></i>
-                                    <span class="text-[10px] font-bold text-slate-600 text-center">Thread Ready</span>
-                                </div>
-                                <div class="p-4 bg-white rounded-2xl shadow-sm border border-slate-100 flex flex-col items-center gap-2 float-icon" style="transition-delay: 200ms" id="app-3">
-                                    <i data-lucide="file-text" class="w-6 h-6 text-slate-800"></i>
-                                    <span class="text-[10px] font-bold text-slate-600 text-center">Saved to Docs</span>
-                                </div>
-                                <div class="p-4 bg-white rounded-2xl shadow-sm border border-slate-100 flex flex-col items-center gap-2 float-icon" style="transition-delay: 300ms" id="app-4">
-                                    <i data-lucide="calendar" class="w-6 h-6 text-red-500"></i>
-                                    <span class="text-[10px] font-bold text-slate-600 text-center">Scheduled</span>
-                                </div>
-                            </div>
                         </div>
 
                         <div class="dock">
@@ -559,31 +527,81 @@
             phone.style.transform = `perspective(1000px) rotateY(${x * 15}deg) rotateX(${-y * 15}deg)`;
         });
 
-        // SIMULATION LOGIC
+        // ----------------------------------------------------
+        // IMPROVED SIMULATION DATA
+        // ----------------------------------------------------
         const scenarios = [
             { 
-                id: 'AU', 
+                id: 'BRYAN', 
+                name: "Bryan",
+                role: "Business",
                 voiceLang: 'en-AU', 
-                userText: "Mate, I've got sketches for the eco-lodge. Sustainability focus.", 
-                noteTitle: "Green Blueprint",
-                aiText: "Drafting 'Green Blueprint' carousel and Reel script.", 
-                apps: ['LinkedIn Carousel', 'IG Reel Script', 'Files', 'Scheduled'] 
+                userText: "Picao, draft a summary of Q3 revenue for the stakeholders. Keep it professional.", 
+                aiText: "Analyzing Q3 reports. Highlighting 15% growth in APAC region.",
+                notes: [
+                    "Q3 Revenue: $4.2M (+15% YoY)",
+                    "Key Driver: Enterprise Sales",
+                    "Action: Update forecast"
+                ],
+                calendar: [
+                    { time: "10:00", event: "Board Meeting", active: false },
+                    { time: "14:00", event: "Stakeholder Call", active: true },
+                    { time: "16:30", event: "Review Q4 Plan", active: false }
+                ],
+                apps: [
+                    { icon: 'linkedin', color: 'text-blue-600', label: 'LinkedIn Post' },
+                    { icon: 'mail', color: 'text-slate-600', label: 'Email Draft' },
+                    { icon: 'bar-chart-2', color: 'text-indigo-600', label: 'Q3 Report' },
+                    { icon: 'sheet', color: 'text-green-600', label: 'Sheets Sync' }
+                ]
             },
             { 
-                id: 'GB', 
+                id: 'SUZIE', 
+                name: "Suzie",
+                role: "Education",
                 voiceLang: 'en-GB', 
-                userText: "Psychology of Money notes. No boring book reports.", 
-                noteTitle: "Why Saving is Losing",
-                aiText: "Drafting 'Why Saving is Losing' thread and deep-dive.", 
-                apps: ['Twitter Thread', 'Substack Draft', 'Notion', 'Scheduled'] 
+                userText: "Create a lesson plan for Year 5 history about the Romans. Include a creative activity.", 
+                aiText: "Searching curriculum. Suggesting 'Mosaic Making' workshop.", 
+                notes: [
+                    "Topic: Roman Empire",
+                    "Activity: Mosaic Art Class",
+                    "Homework: Chapter 4 Reading"
+                ],
+                calendar: [
+                    { time: "09:00", event: "Class 5B", active: true },
+                    { time: "11:00", event: "Staff Meeting", active: false },
+                    { time: "15:30", event: "Grading Papers", active: false }
+                ],
+                apps: [
+                    { icon: 'file-text', color: 'text-blue-500', label: 'Lesson Plan' },
+                    { icon: 'image', color: 'text-purple-500', label: 'Slides' },
+                    { icon: 'users', color: 'text-green-600', label: 'Classroom' },
+                    { icon: 'mail', color: 'text-red-500', label: 'Parents Email' }
+                ]
             },
             { 
-                id: 'US', 
+                id: 'KEVIN', 
+                name: "Kevin",
+                role: "Creator",
                 voiceLang: 'en-US', 
-                userText: "Hey Picao, speedrun the Elden Ring DLC. Make a guide.", 
-                noteTitle: "Top 5 Boss Cheeses",
-                aiText: "Extracting timestamps. Generating TikTok script and guide.", 
-                apps: ['TikTok Script', 'Reddit Guide', 'Discord', 'Exported'] 
+                userText: "I need a viral hook for my new drop. Something punchy for short-form video.", 
+                aiText: "Scanning trends. Analyzing high-retention formats.", 
+                notes: [
+                    "Hook: 'Stop doing this...'",
+                    "Visual Style: Fast cuts",
+                    "Audio: Trending Sound #4"
+                ],
+                calendar: [
+                    { time: "13:00", event: "Filming Content", active: true },
+                    { time: "16:00", event: "Edit Session", active: false },
+                    { time: "18:00", event: "Launch Post", active: false }
+                ],
+                apps: [
+                    { icon: 'music-2', color: 'text-pink-500', label: 'TikTok Script' },
+                    { icon: 'camera', color: 'text-purple-600', label: 'IG Story' },
+                    { icon: 'scissors', color: 'text-slate-800', label: 'CapCut Project' },
+                    { icon: 'mic', color: 'text-orange-500', label: 'Voiceover' }
+                ]
             }
         ];
 
@@ -604,8 +622,8 @@
                 const voices = window.speechSynthesis.getVoices();
                 let voice = voices.find(v => v.lang === lang) || voices.find(v => v.lang.includes('en'));
                 if(voice) utterance.voice = voice;
-                utterance.pitch = 1.1; 
-                utterance.rate = 1.1; 
+                utterance.pitch = 1.05; 
+                utterance.rate = 1.05; 
                 
                 utterance.onstart = () => { document.querySelectorAll('.bar').forEach(b => b.classList.add('speaking')); };
                 utterance.onend = () => {
@@ -625,39 +643,86 @@
             const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             if (audioCtx.state === 'suspended') await audioCtx.resume();
             
+            // PICK RANDOM SCENARIO
             const sc = scenarios[Math.floor(Math.random() * scenarios.length)];
-            document.getElementById('logic-readout').innerHTML = `> Persona: ${sc.id}<br>> Running...`;
+            
+            // UPDATE LOGIC READOUT
+            document.getElementById('logic-readout').innerHTML = `> Persona: ${sc.id}<br>> Mode: ${sc.role.toUpperCase()}<br>> Running...`;
             document.getElementById('play-overlay').classList.add('hidden-overlay');
             
+            // UPDATE HOME WIDGET
+            document.getElementById('home-greeting').innerText = `Welcome back, ${sc.name}.`;
+
             // 1. VOICE
             switchScreen('voice');
             document.getElementById('island').classList.add('active');
             await speak(sc.userText, sc.voiceLang);
-            document.getElementById('island-text').innerText = "Thinking...";
+            document.getElementById('island-text').innerText = "Processing...";
             await new Promise(r => setTimeout(r, 1000));
             
             // 2. CHAT
             switchScreen('chat');
             document.querySelector('#screen-chat').innerHTML = `<div class="p-4"><div class="bubble-picao">${sc.aiText}</div></div>`;
-            await new Promise(r => setTimeout(r, 2000));
+            await new Promise(r => setTimeout(r, 2500)); // SLOWER
 
-            // 3. NOTES (Simulate extraction)
-            document.getElementById('note-title').innerText = sc.noteTitle;
-            switchScreen('notes');
-            await new Promise(r => setTimeout(r, 2000));
-
-            // 4. CALENDAR (Simulate scheduling)
-            switchScreen('calendar');
-            await new Promise(r => setTimeout(r, 2000));
-            
-            // 5. APPS (Final refraction)
-            switchScreen('apps');
-            document.querySelectorAll('.float-icon').forEach((app, i) => { 
-                app.querySelector('span').innerText = sc.apps[i];
-                setTimeout(() => app.classList.add('active'), i * 300); 
+            // 3. NOTES (Detailed extraction)
+            document.getElementById('note-title').innerText = "Extracted Notes";
+            const noteList = document.getElementById('note-list');
+            noteList.innerHTML = '';
+            sc.notes.forEach(note => {
+                noteList.innerHTML += `
+                    <div class="flex items-center gap-3 p-3 bg-slate-50 rounded-lg border border-slate-100">
+                        <div class="w-1.5 h-1.5 rounded-full bg-indigo-500"></div>
+                        <span class="text-xs text-slate-600 font-medium">${note}</span>
+                    </div>`;
             });
+            switchScreen('notes');
+            await new Promise(r => setTimeout(r, 3000)); // SLOWER
+
+            // 4. CALENDAR (Detailed Schedule)
+            const calList = document.getElementById('calendar-list');
+            calList.innerHTML = '';
+            sc.calendar.forEach(item => {
+                if(item.active) {
+                    calList.innerHTML += `
+                        <div class="flex gap-3 items-start">
+                            <div class="w-10 text-xs text-slate-900 font-bold pt-1">${item.time}</div>
+                            <div class="flex-1 p-3 bg-indigo-600 rounded-lg shadow-lg shadow-indigo-200 text-white transform scale-105">
+                                <p class="text-xs font-bold">${item.event}</p>
+                                <span class="text-[10px] opacity-80">Auto-Scheduled</span>
+                            </div>
+                        </div>`;
+                } else {
+                    calList.innerHTML += `
+                        <div class="flex gap-3 items-start opacity-50">
+                            <div class="w-10 text-xs text-slate-400 pt-1">${item.time}</div>
+                            <div class="flex-1 p-2 bg-slate-50 rounded-lg border border-slate-100 text-xs text-slate-400">${item.event}</div>
+                        </div>`;
+                }
+            });
+            switchScreen('calendar');
+            await new Promise(r => setTimeout(r, 3000)); // SLOWER
             
-            await new Promise(r => setTimeout(r, 4000));
+            // 5. APPS (Unique Refraction)
+            const appGrid = document.getElementById('apps-grid');
+            appGrid.innerHTML = '';
+            sc.apps.forEach((app, i) => {
+                // We use dynamic HTML for icons to ensure they render correctly
+                appGrid.innerHTML += `
+                    <div class="p-4 bg-white rounded-2xl shadow-sm border border-slate-100 flex flex-col items-center gap-2 float-icon opacity-0 scale-50 transition-all duration-500" style="transition-delay: ${i*150}ms">
+                        <i data-lucide="${app.icon}" class="w-6 h-6 ${app.color}"></i>
+                        <span class="text-[10px] font-bold text-slate-600 text-center">${app.label}</span>
+                    </div>`;
+            });
+            lucide.createIcons(); // Re-render icons for new HTML
+            switchScreen('apps');
+            
+            // Animate icons in
+            setTimeout(() => {
+                document.querySelectorAll('#apps-grid .float-icon').forEach(el => el.classList.remove('opacity-0', 'scale-50'));
+            }, 100);
+
+            await new Promise(r => setTimeout(r, 5000)); // LONG PAUSE AT END
             
             // RESET
             document.getElementById('play-overlay').classList.remove('hidden-overlay');
