@@ -6,8 +6,10 @@
 <title>Picao AI</title>
 <meta name="description" content="Eliminate the Context Tax. Ideate, create, and launch in one flow.">
 <script src="[https://cdn.tailwindcss.com](https://cdn.tailwindcss.com/)"></script>
-<script src="[https://unpkg.com/lucide@latest](https://unpkg.com/lucide@latest)"></script>
-<link href="[https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600;800&family=JetBrains+Mono:wght@400;500&display=swap](https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600;800&family=JetBrains+Mono:wght@400;500&display=swap)" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+```
 <script>
     tailwind.config = {
         theme: {
@@ -137,8 +139,12 @@
     .dock-icon { color: #94A3B8; transition: 0.3s; width: 20px; height: 20px; }
     .dock-icon.active { color: #4F46E5; transform: translateY(-4px); filter: drop-shadow(0 4px 8px rgba(79, 70, 229, 0.3)); }
 </style>
+```
+
 </head>
 <body class="bg-[#FDFBF7]">
+
+```
 <nav class="sticky top-0 z-50 backdrop-blur-md bg-[#FDFBF7]/80 border-b border-black/[0.03]">
     <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
         <div class="flex items-center gap-3">
@@ -156,6 +162,8 @@
         </div>
     </div>
 </nav>
+```
+
 <header class="max-w-7xl mx-auto px-6 pt-12 md:pt-24 pb-16 md:pb-32 text-center reveal">
 <h1 class="serif text-5xl md:text-8xl text-slate-900 leading-[1.1] mb-6 tracking-tight min-h-[4em] md:min-h-[1.2em]">
 The workspace that <br> <span class="italic text-indigo-600 transition-opacity duration-500" id="typing-text">thinks</span> with you.
@@ -163,6 +171,8 @@ The workspace that <br> <span class="italic text-indigo-600 transition-opacity d
 <p class="text-lg md:text-xl text-slate-500 max-w-2xl mx-auto leading-relaxed mb-8 md:mb-12">
 Eliminate the "Context Tax." Ideate, refract, and launch your content across every platform without leaving your flow state.
 </p>
+
+```
     <div class="max-w-md mx-auto relative group">
         <div class="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full blur opacity-20 group-hover:opacity-40 transition duration-500"></div>
         <form onsubmit="handleWaitlist(event)" class="relative flex items-center bg-white rounded-full p-2 pl-6 shadow-xl shadow-indigo-100 ring-1 ring-slate-100">
@@ -725,5 +735,7 @@ Eliminate the "Context Tax." Ideate, refract, and launch your content across eve
     }, {threshold: 0.1});
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 </script>
+```
+
 </body>
 </html>
