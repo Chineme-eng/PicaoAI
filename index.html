@@ -408,13 +408,13 @@ footer { position: relative; padding: 96px 0 40px; border-top: 1px solid rgba(0,
 ════════════════════════════════ -->
 <nav id="navbar">
   <div class="nav-logo">
-    <!-- Replaced fallback div with the logo image -->
-    <img src="Picao-Logo.png" alt="Picao AI Logo" style="height: 32px; width: auto; object-fit: contain;">
+    <div id="logo-fallback" style="display:flex">
+      <img src="Picao-Logo.png" alt="Logo" style="height: 1em;">
+    </div>
     <span class="nav-logo-text">Picao<span>AI</span></span>
   </div>
-</nav>
-
-  <div class="nav-links">
+  
+    <div class="nav-links">
     <a href="#how-it-works" class="nav-link">How it Works</a>
     <a href="#demo" class="nav-link">Demo</a>
     <a href="#features" class="nav-link">Features</a>
