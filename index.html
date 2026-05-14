@@ -296,11 +296,23 @@ textarea, input { font-family: inherit; }
 #waitlist-success { margin-top: 16px; font-family: var(--f-cab); font-size: 14px; color: #c4b5fd; opacity: 0; transition: opacity 0.4s; }
 
 /* ─── FOOTER ─────────────────────────────────────── */
-footer { position: relative; padding: 96px 0 40px; border-top: 1px solid rgba(0,0,0,0.06); overflow: hidden; background: #0f0a1f; isolation: isolate; }
+footer { 
+  position: relative; 
+  padding: 60px 0 30px; /* Reduced from 96px */
+  border-top: 1px solid rgba(0,0,0,0.06); 
+  overflow: hidden; 
+  background: #0f0a1f; 
+  isolation: isolate; 
+}
 .footer-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; opacity: 0.55; }
 .footer-video-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(15,10,31,0.65) 0%, rgba(15,10,31,0.92) 70%, rgba(15,10,31,1) 100%); z-index: 1; pointer-events: none; }
 .footer-inner { max-width: 1180px; margin: 0 auto; padding: 0 32px; position: relative; z-index: 2; }
-.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 48px; margin-bottom: 56px; }
+.footer-grid { 
+  display: grid; 
+  grid-template-columns: 2fr 1fr 1fr; 
+  gap: 24px; /* Reduced from 48px */
+  margin-bottom: 32px; /* Reduced from 56px */
+}
 .footer-logo { display: flex; align-items: center; gap: 10px; font-family: var(--f-man); font-weight: 700; font-size: 17px; color: white; margin-bottom: 14px; }
 .footer-logo .footer-logo-mark { width: 28px; height: 28px; border-radius: 7px; background: var(--purple); color: white; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; box-shadow: 0 4px 14px rgba(123,57,252,0.4); }
 .footer-logo em { color: #c4b5fd; font-style: normal; }
@@ -336,6 +348,10 @@ footer { position: relative; padding: 96px 0 40px; border-top: 1px solid rgba(0,
 
 /* ─── RESPONSIVE ─────────────────────────────────── */
 @media (max-width: 1100px) {
+  .nav-links { display: none !important; }
+  .hero-ctas { flex-direction: column !important; width: 100%; }
+  .hero-ctas form { width: 100% !important; max-width: 100% !important; }
+  .cta-secondary { width: 100% !important; }
   .bf-grid { grid-template-columns: repeat(2, 1fr); }
   .demo-body { grid-template-columns: 1fr; }
   .demo-input-col { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.06); }
@@ -412,15 +428,14 @@ footer { position: relative; padding: 96px 0 40px; border-top: 1px solid rgba(0,
     <span class="nav-logo-text">Picao<span>AI</span></span>
   </div>
   
-    <div class="nav-links">
+  <div class="nav-links" style="position: absolute; left: 50%; transform: translateX(-50%);">
     <a href="#how-it-works" class="nav-link">How it Works</a>
-    <a href="#demo" class="nav-link">Demo</a>
-    <a href="#features" class="nav-link">Features</a>
+    <a href="#demo" class="nav-link">Demo Features</a>
     <a href="#waitlist" class="nav-link">Early Access</a>
   </div>
 
   <div class="nav-actions">
-    <button class="btn-signin">Sign In</button>
+    <a href="#waitlist" class="btn-signin" style="display: flex; align-items: center; justify-content: center;">Join Now</a>
     <a href="#waitlist" class="btn-getstarted">
       Get Started
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg>
@@ -443,28 +458,23 @@ footer { position: relative; padding: 96px 0 40px; border-top: 1px solid rgba(0,
   </video>
 
   <div id="hero-content">
-    <div class="tagline-pill">
-      <span class="tagline-badge">New</span>
-      <span class="tagline-text">Introducing Picao AI — Content Refraction Engine</span>
-    </div>
-
     <h1 class="hero-headline">Speak once. <em>Publish</em><br>everywhere, instantly.</h1>
-
     <p class="hero-sub">Stop rewriting the same idea 12 times. Capture your intent once and Picao turns it into posts, scripts, visuals, and scheduled content — automatically.</p>
-
-    <div class="hero-ctas">
-      <a href="#waitlist" class="cta-primary">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-        Join the Waitlist
-      </a>
-      <a href="#demo" class="cta-secondary">
+    <div class="hero-ctas" style="display: flex; align-items: center; gap: 14px; width: 100%; max-width: 650px; justify-content: center; flex-wrap: wrap;">
+      <form onsubmit="handleWaitlist(event)" style="flex: 2; min-width: 300px;">
+        <div class="email-row" style="box-shadow: 0 10px 40px rgba(0,0,0,0.3); margin: 0;">
+          <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          <input type="email" name="email" placeholder="Enter your email..." class="email-field" required>
+          <button type="submit" class="email-submit">Join Waitlist →</button>
+        </div>
+      </form>   
+      <a href="#demo" class="cta-secondary" style="flex: 1; height: 54px; display: flex; align-items: center; justify-content: center; white-space: nowrap; min-width: 180px;">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
         See It in Action
       </a>
     </div>
   </div>
 </section>
-
 <!-- Mobile menu -->
 <div id="mobile-menu">
   <button class="mm-close" onclick="closeMenu()">
