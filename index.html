@@ -52,7 +52,7 @@ textarea, input { font-family: inherit; }
 #navbar {
   position: fixed; top: 0; left: 0; right: 0; z-index: 50;
   display: flex; align-items: center; justify-content: space-between;
-  padding: 16px 48px;
+  padding: 24px 48px;
   background: transparent;
   border-bottom: 1px solid transparent;
   backdrop-filter: blur(0);
@@ -60,12 +60,22 @@ textarea, input { font-family: inherit; }
   transition: background 0.3s ease, padding 0.3s ease, border-color 0.3s ease, backdrop-filter 0.3s ease, box-shadow 0.3s ease;
 }
 #navbar.scrolled {
-  background: rgba(253,251,247,0.78);
-  border-bottom: 1px solid rgba(15,23,42,0.06);
+  background: rgba(253,251,247,0.82);
+  border-bottom: none; /* remove the full-width underline */
   backdrop-filter: blur(18px) saturate(140%);
   -webkit-backdrop-filter: blur(18px) saturate(140%);
-  padding: 10px 48px;
-  box-shadow: 0 1px 0 rgba(15,23,42,0.02), 0 10px 40px -20px rgba(15,23,42,0.15);
+  padding: 10px 24px;
+  
+  /* pill shape */
+  top: 16px;
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%);
+  width: fit-content;
+  min-width: min(700px, 90vw);
+  border-radius: 14px;
+  border: 1px solid rgba(15,23,42,0.08);
+  box-shadow: 0 4px 24px -4px rgba(15,23,42,0.14), 0 1px 0 rgba(255,255,255,0.6) inset;
 }
 .nav-logo { display: flex; align-items: center; gap: 10px; }
 .nav-logo img { height: 30px; width: auto; object-fit: contain; transition: filter 0.3s ease; }
