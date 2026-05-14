@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Picao AI — Speak Once. Publish Everywhere.</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%237b39fc'/%3E%3Ctext x='32' y='44' text-anchor='middle' font-family='sans-serif' font-weight='700' font-size='40' fill='white'%3EP%3C/text%3E%3C/svg%3E">
+<meta name="description" content="Turn one idea into a full content ecosystem. Speak once. Publish everywhere.">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Cabin:ital,wght@0,400;0,500;0,600;1,400&family=Instrument+Serif:ital,wght@0,400;1,400&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ─── RESET & TOKENS ─────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --purple:  #7b39fc;
+  --purple2: #6929e8;
+  --dark:    #2b2344;
+  --cream:   #FDFBF7;
+  --slate:   #0F172A;
+  --mid:     #334155;
+  --muted:   #64748B;
+  --light:   #94A3B8;
+  --border:  rgba(0,0,0,0.06);
+  --white:   #ffffff;
+  --f-sans:  'Inter', sans-serif;
+  --f-man:   'Manrope', sans-serif;
+  --f-cab:   'Cabin', sans-serif;
+  --f-serif: 'Instrument Serif', serif;
+  --f-mono:  'JetBrains Mono', monospace;
+}
+
+html { scroll-behavior: smooth; }
+body { font-family: var(--f-sans); background: var(--cream); color: var(--slate); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+::selection { background: rgba(123,57,252,0.12); color: var(--purple); }
+a { text-decoration: none; color: inherit; }
+button { cursor: pointer; font-family: inherit; }
+img { display: block; }
+textarea, input { font-family: inherit; }
+
+/* ─── PROGRESS BAR ───────────────────────────────── */
+#progress-bar { position: fixed; top: 0; left: 0; height: 2px; background: var(--purple); z-index: 300; width: 0; transition: width 0.1s linear; }
+
+/* ─── HERO ───────────────────────────────────────── */
+#hero { position: relative; min-height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+#hero-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; }
+#hero::after { content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none; background: linear-gradient(to bottom, rgba(0,0,0,0.30) 0%, rgba(0,0,0,0.12) 45%, rgba(0,0,0,0.65) 100%); }
+
+/* ─── NAVBAR (single, sticks + morphs to glass) ───── */
+#navbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 48px;
+  background: transparent;
+  border-bottom: 1px solid transparent;
+  backdrop-filter: blur(0);
+  -webkit-backdrop-filter: blur(0);
+  transition: background 0.3s ease, padding 0.3s ease, border-color 0.3s ease, backdrop-filter 0.3s ease, box-shadow 0.3s ease;
+}
+#navbar.scrolled {
+  background: rgba(253,251,247,0.78);
+  border-bottom: 1px solid rgba(15,23,42,0.06);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  padding: 10px 48px;
+  box-shadow: 0 1px 0 rgba(15,23,42,0.02), 0 10px 40px -20px rgba(15,23,42,0.15);
+}
+.nav-logo { display: flex; align-items: center; gap: 10px; }
+.nav-logo img { height: 30px; width: auto; object-fit: contain; transition: filter 0.3s ease; }
+#logo-fallback { width: 30px; height: 30px; border-radius: 8px; background: var(--purple); display: none; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 16px; }
+.nav-logo-text { font-family: var(--f-man); font-weight: 700; font-size: 17px; color: white; letter-spacing: -0.02em; transition: color 0.3s ease; }
+.nav-logo-text span { color: #c4b5fd; transition: color 0.3s ease; }
+#navbar.scrolled .nav-logo-text { color: var(--slate); }
+#navbar.scrolled .nav-logo-text span { color: var(--purple); }
+.nav-links { display: flex; align-items: center; gap: 28px; }
+.nav-link { font-family: var(--f-man); font-weight: 500; font-size: 14px; color: rgba(255,255,255,0.85); transition: color 0.2s, opacity 0.2s; }
+.nav-link:hover { color: white; }
+#navbar.scrolled .nav-link { color: var(--mid); }
+#navbar.scrolled .nav-link:hover { color: var(--purple); }
+.nav-actions { display: flex; align-items: center; gap: 10px; }
+.btn-signin { font-family: var(--f-man); font-weight: 600; font-size: 13.5px; color: white; background: transparent; border: 1px solid rgba(255,255,255,0.25); border-radius: 8px; padding: 8px 16px; transition: background 0.2s, color 0.2s, border-color 0.2s; }
+.btn-signin:hover { background: rgba(255,255,255,0.1); }
+#navbar.scrolled .btn-signin { color: var(--slate); border-color: rgba(15,23,42,0.12); background: transparent; }
+#navbar.scrolled .btn-signin:hover { background: rgba(15,23,42,0.04); border-color: rgba(15,23,42,0.2); }
+.btn-getstarted { font-family: var(--f-man); font-weight: 600; font-size: 13.5px; color: #fafafa; background: var(--purple); border: none; border-radius: 8px; padding: 8px 16px; box-shadow: 0 4px 14px rgba(123,57,252,0.35); transition: background 0.2s, transform 0.15s; display: inline-flex; align-items: center; gap: 6px; }
+.btn-getstarted:hover { background: var(--purple2); transform: translateY(-1px); }
+.btn-getstarted svg { width: 13px; height: 13px; }
+.nav-hamburger { display: none; background: none; border: none; color: white; padding: 4px; transition: color 0.3s ease; }
+#navbar.scrolled .nav-hamburger { color: var(--slate); }
+
+/* ─── HERO CONTENT ───────────────────────────────── */
+#hero-content { position: relative; z-index: 10; flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 0 24px 80px; }
+.tagline-pill { display: inline-flex; align-items: center; gap: 10px; background: rgba(85,80,110,0.42); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border: 1px solid rgba(164,132,215,0.5); border-radius: 10px; height: 38px; padding: 0 14px; margin-bottom: 28px; }
+.tagline-badge { background: var(--purple); border-radius: 6px; padding: 2px 9px; font-family: var(--f-cab); font-weight: 500; font-size: 12px; color: white; }
+.tagline-text { font-family: var(--f-cab); font-weight: 500; font-size: 14px; color: white; }
+.hero-headline { font-family: var(--f-serif); color: white; font-size: clamp(44px, 7vw, 92px); line-height: 1.07; max-width: 860px; margin-bottom: 22px; }
+.hero-headline em { font-style: italic; }
+.hero-sub { font-family: var(--f-sans); font-size: 18px; color: rgba(255,255,255,0.72); max-width: 560px; line-height: 1.7; margin-bottom: 40px; }
+.hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
+.cta-primary { display: inline-flex; align-items: center; gap: 8px; font-family: var(--f-cab); font-weight: 500; font-size: 16px; color: white; background: var(--purple); border: none; border-radius: 10px; padding: 14px 28px; box-shadow: 0 6px 20px rgba(123,57,252,0.4); transition: background 0.2s, transform 0.15s; }
+.cta-primary:hover { background: var(--purple2); transform: translateY(-1px); }
+.cta-secondary { display: inline-flex; align-items: center; gap: 8px; font-family: var(--f-cab); font-weight: 500; font-size: 16px; color: #f6f7f9; background: var(--dark); border: none; border-radius: 10px; padding: 14px 28px; transition: background 0.2s, transform 0.15s; }
+.cta-secondary:hover { background: #3a2f5a; transform: translateY(-1px); }
+
+/* ─── MOBILE MENU ────────────────────────────────── */
+#mobile-menu { position: fixed; inset: 0; background: #000; z-index: 200; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 32px; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+#mobile-menu.open { opacity: 1; pointer-events: auto; }
+.mm-close { position: absolute; top: 24px; right: 24px; background: none; border: none; color: white; }
+.mobile-link { font-family: var(--f-man); font-weight: 600; font-size: 28px; color: white; transition: color 0.2s; }
+.mobile-link:hover { color: var(--purple); }
+.mobile-actions { display: flex; gap: 12px; }
+
+/* ─── SECTION SCAFFOLD ───────────────────────────── */
+.section { padding: 96px 0; }
+.section-inner { max-width: 1100px; margin: 0 auto; padding: 0 32px; }
+.section-white { background: white; border-top: 1px solid rgba(0,0,0,0.05); border-bottom: 1px solid rgba(0,0,0,0.05); }
+.section-header { text-align: center; margin-bottom: 72px; }
+.eyebrow { display: inline-block; font-family: var(--f-man); font-weight: 700; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--purple); background: rgba(123,57,252,0.08); border-radius: 99px; padding: 5px 14px; margin-bottom: 18px; white-space: nowrap; }
+.section-title { font-family: var(--f-serif); font-size: clamp(32px,4vw,48px); color: var(--slate); line-height: 1.15; margin-bottom: 16px; }
+.section-sub { font-family: var(--f-sans); font-size: 17px; color: var(--muted); max-width: 520px; margin: 0 auto; line-height: 1.7; }
+
+/* ─── BUILT FOR (premium 3-col audience cards) ────── */
+.built-for { padding: 110px 0 110px; background: white; border-top: 1px solid rgba(15,23,42,0.05); border-bottom: 1px solid rgba(15,23,42,0.05); }
+.built-for-inner { max-width: 1180px; margin: 0 auto; padding: 0 32px; }
+.bf-header { text-align: center; margin-bottom: 64px; max-width: 720px; margin-left: auto; margin-right: auto; }
+.bf-eyebrow { display: inline-block; font-family: var(--f-man); font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--purple); background: rgba(123,57,252,0.08); border-radius: 99px; padding: 5px 14px; margin-bottom: 18px; }
+.bf-title { font-family: var(--f-serif); font-size: clamp(32px, 4vw, 48px); color: var(--slate); line-height: 1.15; margin-bottom: 16px; }
+.bf-title em { font-style: italic; color: var(--purple); }
+.bf-sub { font-family: var(--f-sans); font-size: 17px; color: var(--muted); max-width: 540px; margin: 0 auto; line-height: 1.7; }
+
+.bf-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.bf-card { background: white; border: 1px solid rgba(15,23,42,0.07); border-radius: 22px; padding: 34px 30px; display: flex; flex-direction: column; gap: 18px; transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; position: relative; overflow: hidden; }
+.bf-card::before { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(123,57,252,0.04) 0%, transparent 50%); opacity: 0; transition: opacity 0.3s ease; pointer-events: none; }
+.bf-card:hover { transform: translateY(-6px); border-color: rgba(123,57,252,0.2); box-shadow: 0 22px 50px -20px rgba(123,57,252,0.28); }
+.bf-card:hover::before { opacity: 1; }
+.bf-icon { width: 48px; height: 48px; border-radius: 14px; background: rgba(123,57,252,0.08); display: flex; align-items: center; justify-content: center; transition: background 0.3s ease, transform 0.3s ease; }
+.bf-card:hover .bf-icon { background: var(--purple); transform: rotate(-4deg) scale(1.05); }
+.bf-icon svg { width: 22px; height: 22px; stroke: var(--purple); fill: none; transition: stroke 0.3s ease; }
+.bf-card:hover .bf-icon svg { stroke: white; }
+.bf-card-body { display: flex; flex-direction: column; gap: 10px; flex: 1; }
+.bf-role { font-family: var(--f-man); font-weight: 700; font-size: 17px; color: var(--slate); letter-spacing: -0.01em; }
+.bf-use { font-family: var(--f-sans); font-size: 14px; color: var(--muted); line-height: 1.7; }
+.bf-tag { display: inline-flex; align-items: center; gap: 6px; align-self: flex-start; font-family: var(--f-man); font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--purple); background: rgba(123,57,252,0.08); border-radius: 99px; padding: 5px 12px; margin-top: auto; }
+
+/* ─── HOW IT WORKS (joined 3-step card) ──────────── */
+.steps-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: rgba(15,23,42,0.08); border-radius: 28px; overflow: hidden; box-shadow: 0 2px 12px rgba(15,23,42,0.04); border: 1px solid rgba(15,23,42,0.06); }
+.step { background: white; padding: 48px 40px 44px; display: flex; flex-direction: column; transition: background 0.25s ease; position: relative; }
+.step:hover { background: #faf8ff; }
+.step::after { content: ''; position: absolute; left: 50%; bottom: 0; width: 0; height: 2px; background: var(--purple); transform: translateX(-50%); transition: width 0.35s ease; }
+.step:hover::after { width: 60%; }
+.step-num { font-family: var(--f-mono); font-size: 11px; font-weight: 500; color: var(--purple); letter-spacing: 0.14em; margin-bottom: 28px; display: flex; align-items: center; gap: 10px; }
+.step-num::before { content: ''; width: 18px; height: 1px; background: var(--purple); opacity: 0.4; }
+.step-icon { width: 52px; height: 52px; border-radius: 14px; background: rgba(123,57,252,0.08); display: flex; align-items: center; justify-content: center; margin-bottom: 24px; transition: background 0.3s ease; }
+.step:hover .step-icon { background: var(--purple); }
+.step-icon svg { width: 22px; height: 22px; stroke: var(--purple); fill: none; transition: stroke 0.3s ease; }
+.step:hover .step-icon svg { stroke: white; }
+.step h3 { font-family: var(--f-man); font-weight: 800; font-size: 20px; color: var(--slate); margin-bottom: 12px; letter-spacing: -0.01em; }
+.step p { font-family: var(--f-sans); font-size: 14.5px; color: var(--muted); line-height: 1.75; }
+
+/* ─── DEMO (dark purple, premium SaaS) ───────────── */
+.demo-section { position: relative; padding: 120px 0; background: #0f0a1f; overflow: hidden; isolation: isolate; }
+.demo-section::before { content: ''; position: absolute; top: -100px; left: 50%; transform: translateX(-50%); width: 900px; height: 600px; background: radial-gradient(ellipse at center, rgba(123,57,252,0.32) 0%, rgba(123,57,252,0.08) 35%, transparent 70%); pointer-events: none; z-index: 0; }
+.demo-section::after { content: ''; position: absolute; inset: 0; background-image:
+  radial-gradient(circle at 20% 80%, rgba(123,57,252,0.12), transparent 40%),
+  radial-gradient(circle at 80% 20%, rgba(196,181,253,0.08), transparent 40%); pointer-events: none; z-index: 0; }
+.demo-grid-bg { position: absolute; inset: 0; background-image:
+  linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+  linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 60px 60px; mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%); -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%); z-index: 0; pointer-events: none; }
+.demo-section .section-inner { position: relative; z-index: 2; }
+.demo-section .section-header { margin-bottom: 56px; }
+.demo-section .eyebrow { color: #c4b5fd; background: rgba(196,181,253,0.1); border: 1px solid rgba(196,181,253,0.15); }
+.demo-section .section-title { color: white; }
+.demo-section .section-title em { font-style: italic; color: #c4b5fd; }
+.demo-section .section-sub { color: rgba(255,255,255,0.6); }
+
+.demo-frame {
+  background: linear-gradient(180deg, rgba(30,22,55,0.85) 0%, rgba(20,15,40,0.85) 100%);
+  border: 1px solid rgba(196,181,253,0.15);
+  border-radius: 20px; overflow: hidden;
+  box-shadow: 0 60px 120px -30px rgba(0,0,0,0.6), 0 0 0 1px rgba(196,181,253,0.05), inset 0 1px 0 rgba(255,255,255,0.04);
+  max-width: 1080px; margin: 0 auto;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+.demo-bar { display: flex; align-items: center; gap: 6px; padding: 12px 18px; background: rgba(255,255,255,0.025); border-bottom: 1px solid rgba(255,255,255,0.06); }
+.demo-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; opacity: 0.9; }
+.demo-bar-label { margin-left: 12px; font-family: var(--f-mono); font-size: 11px; color: rgba(255,255,255,0.4); display: flex; align-items: center; gap: 8px; }
+.demo-bar-live { display: inline-flex; align-items: center; gap: 6px; margin-left: auto; font-family: var(--f-mono); font-size: 10px; color: #86efac; letter-spacing: 0.08em; text-transform: uppercase; }
+.demo-bar-live::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 0 4px rgba(34,197,94,0.18); animation: livepulse 1.6s ease-in-out infinite; }
+@keyframes livepulse { 0%, 100% { box-shadow: 0 0 0 4px rgba(34,197,94,0.18); } 50% { box-shadow: 0 0 0 6px rgba(34,197,94,0); } }
+
+.demo-body { display: grid; grid-template-columns: 360px 1fr; gap: 0; }
+.demo-input-col { padding: 26px 26px 20px; border-right: 1px solid rgba(255,255,255,0.06); display: flex; flex-direction: column; gap: 18px; }
+.demo-step-label { display: flex; align-items: center; gap: 8px; font-family: var(--f-mono); font-size: 10px; color: rgba(196,181,253,0.7); text-transform: uppercase; letter-spacing: 0.12em; }
+.demo-step-label::before { content: ''; width: 18px; height: 18px; border-radius: 5px; background: rgba(123,57,252,0.2); display: inline-flex; align-items: center; justify-content: center; font-family: var(--f-man); font-size: 9px; color: #c4b5fd; }
+
+.demo-input-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 14px; padding: 16px; transition: border-color 0.25s ease; }
+.demo-input-card:focus-within { border-color: rgba(196,181,253,0.4); background: rgba(196,181,253,0.04); }
+.demo-input-head { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.demo-mic { width: 30px; height: 30px; border-radius: 8px; flex-shrink: 0; background: linear-gradient(180deg, #8b5cf6, #6929e8); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 14px rgba(123,57,252,0.35); }
+.demo-mic svg { width: 14px; height: 14px; stroke: white; fill: none; }
+.demo-input-title { font-family: var(--f-man); font-size: 13px; font-weight: 600; color: white; }
+.demo-input-meta { font-family: var(--f-mono); font-size: 10.5px; color: rgba(255,255,255,0.4); margin-left: auto; }
+#raw-idea { width: 100%; border: none; outline: none; resize: none; font-family: var(--f-sans); font-size: 14px; color: rgba(255,255,255,0.92); line-height: 1.55; min-height: 92px; background: transparent; }
+#raw-idea::placeholder { color: rgba(255,255,255,0.32); }
+
+.preset-row { display: flex; flex-direction: column; gap: 6px; }
+.preset-label { font-family: var(--f-mono); font-size: 10px; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 2px; }
+.preset-btn { font-family: var(--f-sans); font-size: 12.5px; background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.75); border: 1px solid rgba(255,255,255,0.07); border-radius: 8px; padding: 9px 12px; text-align: left; transition: all 0.2s; display: flex; align-items: center; gap: 8px; }
+.preset-btn::before { content: '↳'; color: rgba(196,181,253,0.5); font-family: var(--f-mono); }
+.preset-btn:hover { background: rgba(196,181,253,0.08); border-color: rgba(196,181,253,0.25); color: white; }
+
+.demo-cta-row { display: flex; align-items: center; gap: 10px; margin-top: auto; padding-top: 6px; }
+.demo-refract-btn { flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-family: var(--f-man); font-weight: 600; font-size: 13px; color: white; background: linear-gradient(180deg, #8b5cf6, #6929e8); border: none; border-radius: 10px; padding: 11px 18px; box-shadow: 0 6px 20px rgba(123,57,252,0.4), inset 0 1px 0 rgba(255,255,255,0.18); transition: transform 0.15s, box-shadow 0.2s; }
+.demo-refract-btn:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(123,57,252,0.5), inset 0 1px 0 rgba(255,255,255,0.18); }
+.demo-refract-btn svg { width: 13px; height: 13px; }
+
+.demo-output-col { padding: 22px 26px; min-width: 0; }
+.demo-output-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+#refract-status { font-family: var(--f-mono); font-size: 11px; color: rgba(255,255,255,0.5); display: inline-flex; align-items: center; gap: 8px; }
+#refract-status .pulse-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(196,181,253,0.5); }
+#refract-status.working .pulse-dot { background: #c4b5fd; animation: livepulse 1s ease-in-out infinite; }
+#refract-status.done .pulse-dot { background: #22c55e; }
+.demo-output-tabs { display: flex; gap: 4px; font-family: var(--f-mono); font-size: 10.5px; color: rgba(255,255,255,0.35); }
+.demo-output-tabs span { padding: 4px 8px; border-radius: 5px; background: rgba(255,255,255,0.04); }
+
+.output-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.output-card { background: rgba(255,255,255,0.025); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 16px; opacity: 0.4; transform: translateY(8px); transition: opacity 0.4s ease, transform 0.4s ease, border-color 0.3s, background 0.3s; position: relative; overflow: hidden; min-height: 180px; }
+.output-card.lit { opacity: 1; transform: translateY(0); border-color: rgba(196,181,253,0.22); background: rgba(196,181,253,0.04); }
+.output-card.lit::after { content: ''; position: absolute; top: 0; left: -100%; width: 60%; height: 100%; background: linear-gradient(90deg, transparent, rgba(196,181,253,0.08), transparent); animation: shimmer 1.2s ease forwards; pointer-events: none; }
+@keyframes shimmer { to { left: 130%; } }
+.output-label { display: flex; align-items: center; gap: 8px; font-family: var(--f-man); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px; color: rgba(255,255,255,0.9); }
+.output-label .out-icon { width: 22px; height: 22px; border-radius: 6px; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.output-label .out-icon svg { width: 12px; height: 12px; }
+.output-label .out-platform { display: inline-flex; align-items: center; gap: 6px; }
+.output-meta { margin-left: auto; font-family: var(--f-mono); font-size: 10px; color: rgba(255,255,255,0.35); font-weight: 400; text-transform: none; letter-spacing: 0; }
+.output-body { font-family: var(--f-sans); font-size: 12.5px; color: rgba(255,255,255,0.72); line-height: 1.65; white-space: pre-wrap; }
+
+.demo-footer-strip { display: flex; align-items: center; justify-content: space-between; padding: 14px 26px; border-top: 1px solid rgba(255,255,255,0.06); background: rgba(0,0,0,0.18); font-family: var(--f-mono); font-size: 10.5px; color: rgba(255,255,255,0.4); flex-wrap: wrap; gap: 8px; }
+.demo-footer-strip .strip-group { display: inline-flex; align-items: center; gap: 16px; }
+.demo-footer-strip .strip-item { display: inline-flex; align-items: center; gap: 6px; }
+.demo-footer-strip .strip-item::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: rgba(196,181,253,0.4); }
+.demo-footer-strip .strip-item.green::before { background: #22c55e; }
+
+/* ─── FEATURES (refined bento grid) ───────────────── */
+.features-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; }
+.feature-card { grid-column: span 2; background: white; border: 1px solid rgba(15,23,42,0.06); border-radius: 22px; padding: 32px; box-shadow: 0 2px 12px rgba(0,0,0,0.03); transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s; position: relative; overflow: hidden; display: flex; flex-direction: column; gap: 16px; }
+.feature-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(123,57,252,0), transparent); transition: background 0.4s ease; }
+.feature-card:hover { transform: translateY(-6px); box-shadow: 0 22px 56px -20px rgba(123,57,252,0.18); border-color: rgba(123,57,252,0.18); }
+.feature-card:hover::before { background: linear-gradient(90deg, transparent, rgba(123,57,252,0.55), transparent); }
+.feature-num { font-family: var(--f-mono); font-size: 11px; color: var(--light); letter-spacing: 0.14em; }
+.feature-icon { width: 46px; height: 46px; border-radius: 13px; background: rgba(123,57,252,0.08); display: flex; align-items: center; justify-content: center; transition: background 0.3s ease, transform 0.3s ease; }
+.feature-card:hover .feature-icon { background: var(--purple); transform: rotate(-4deg) scale(1.05); }
+.feature-icon svg { width: 21px; height: 21px; stroke: var(--purple); fill: none; transition: stroke 0.3s ease; }
+.feature-card:hover .feature-icon svg { stroke: white; }
+.feature-card h3 { font-family: var(--f-man); font-weight: 700; font-size: 18px; color: var(--slate); margin: 0; letter-spacing: -0.01em; }
+.feature-card p { font-family: var(--f-sans); font-size: 14px; color: var(--muted); line-height: 1.7; margin: 0; }
+.feature-card .feature-foot { display: flex; align-items: center; gap: 6px; font-family: var(--f-mono); font-size: 11px; color: var(--purple); margin-top: auto; padding-top: 6px; }
+.feature-card .feature-foot svg { width: 12px; height: 12px; stroke: currentColor; fill: none; transition: transform 0.25s ease; }
+.feature-card:hover .feature-foot svg { transform: translateX(3px); }
+
+/* Hero feature card (wider, darker, accent) */
+.feature-card.feat-hero { grid-column: span 3; background: linear-gradient(180deg, #1a1330 0%, #0f0a1f 100%); border-color: rgba(196,181,253,0.18); color: white; position: relative; }
+.feature-card.feat-hero::after { content: ''; position: absolute; top: -120px; right: -80px; width: 360px; height: 360px; border-radius: 50%; background: radial-gradient(circle, rgba(123,57,252,0.3) 0%, transparent 60%); pointer-events: none; }
+.feature-card.feat-hero > * { position: relative; z-index: 1; }
+.feature-card.feat-hero h3 { color: white; font-size: 22px; }
+.feature-card.feat-hero p { color: rgba(255,255,255,0.6); font-size: 14.5px; }
+.feature-card.feat-hero .feature-icon { background: rgba(196,181,253,0.15); }
+.feature-card.feat-hero .feature-icon svg { stroke: #c4b5fd; }
+.feature-card.feat-hero:hover .feature-icon { background: var(--purple); }
+.feature-card.feat-hero:hover .feature-icon svg { stroke: white; }
+.feature-card.feat-hero .feature-num { color: rgba(196,181,253,0.5); }
+.feature-card.feat-hero .feature-foot { color: #c4b5fd; }
+.feature-card.feat-wide { grid-column: span 3; }
+.feature-card-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+
+/* ─── WAITLIST CTA ───────────────────────────────── */
+.cta-block { background: var(--dark); border-radius: 28px; padding: 88px 48px; text-align: center; position: relative; overflow: hidden; }
+.cta-block::before { content: ''; position: absolute; top: -70px; right: -70px; width: 340px; height: 340px; border-radius: 50%; background: radial-gradient(circle, rgba(123,57,252,0.35) 0%, transparent 70%); pointer-events: none; }
+.cta-block::after { content: ''; position: absolute; bottom: -90px; left: -50px; width: 300px; height: 300px; border-radius: 50%; background: radial-gradient(circle, rgba(123,57,252,0.2) 0%, transparent 70%); pointer-events: none; }
+.cta-block > * { position: relative; z-index: 1; }
+.cta-eyebrow { font-family: var(--f-cab); font-size: 12px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(196,181,253,0.85); display: block; margin-bottom: 24px; }
+.cta-block h2 { font-family: var(--f-serif); font-size: clamp(32px,4vw,52px); color: white; line-height: 1.15; margin-bottom: 20px; }
+.cta-block h2 em { font-style: italic; }
+.cta-sub { font-size: 17px; color: rgba(255,255,255,0.58); max-width: 500px; margin: 0 auto 48px; line-height: 1.7; }
+.email-row { display: flex; align-items: center; background: white; border-radius: 12px; padding: 6px 6px 6px 20px; max-width: 480px; margin: 0 auto; box-shadow: 0 8px 30px rgba(0,0,0,0.22); gap: 10px; }
+.email-row svg { width: 18px; height: 18px; stroke: var(--light); fill: none; flex-shrink: 0; }
+.email-field { flex: 1; border: none; outline: none; font-size: 15px; color: var(--slate); background: transparent; }
+.email-field::placeholder { color: var(--light); }
+.email-submit { font-family: var(--f-cab); font-weight: 600; font-size: 14px; color: white; background: var(--purple); border: none; border-radius: 8px; padding: 12px 22px; white-space: nowrap; transition: background 0.2s; }
+.email-submit:hover { background: var(--purple2); }
+.cta-note { margin-top: 14px; font-size: 12px; color: rgba(255,255,255,0.35); }
+#waitlist-success { margin-top: 16px; font-family: var(--f-cab); font-size: 14px; color: #c4b5fd; opacity: 0; transition: opacity 0.4s; }
+
+/* ─── FOOTER ─────────────────────────────────────── */
+footer { position: relative; padding: 96px 0 40px; border-top: 1px solid rgba(0,0,0,0.06); overflow: hidden; background: #0f0a1f; isolation: isolate; }
+.footer-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; opacity: 0.55; }
+.footer-video-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(15,10,31,0.65) 0%, rgba(15,10,31,0.92) 70%, rgba(15,10,31,1) 100%); z-index: 1; pointer-events: none; }
+.footer-inner { max-width: 1180px; margin: 0 auto; padding: 0 32px; position: relative; z-index: 2; }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 48px; margin-bottom: 56px; }
+.footer-logo { display: flex; align-items: center; gap: 10px; font-family: var(--f-man); font-weight: 700; font-size: 17px; color: white; margin-bottom: 14px; }
+.footer-logo .footer-logo-mark { width: 28px; height: 28px; border-radius: 7px; background: var(--purple); color: white; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; box-shadow: 0 4px 14px rgba(123,57,252,0.4); }
+.footer-logo em { color: #c4b5fd; font-style: normal; }
+.footer-brand p { font-size: 13.5px; color: rgba(255,255,255,0.55); max-width: 280px; line-height: 1.75; }
+.footer-socials { display: flex; gap: 10px; margin-top: 24px; }
+.social-btn { width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.7); transition: background 0.2s, color 0.2s, border-color 0.2s; }
+.social-btn:hover { background: var(--purple); color: white; border-color: var(--purple); }
+.social-btn svg { width: 15px; height: 15px; }
+.footer-col h5 { font-family: var(--f-man); font-weight: 700; font-size: 12px; color: white; margin-bottom: 20px; letter-spacing: 0.06em; text-transform: uppercase; }
+.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+.footer-col a, .footer-col button { font-family: var(--f-man); font-size: 13.5px; color: rgba(255,255,255,0.55); background: none; border: none; padding: 0; cursor: pointer; transition: color 0.2s; text-align: left; }
+.footer-col a:hover, .footer-col button:hover { color: #c4b5fd; }
+.footer-bottom { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 28px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+.footer-bottom p { font-family: var(--f-man); font-size: 12px; color: rgba(255,255,255,0.4); }
+
+/* ─── MODAL ──────────────────────────────────────── */
+.modal-overlay { position: fixed; inset: 0; z-index: 100; background: rgba(15,23,42,0.55); backdrop-filter: blur(6px); display: none; align-items: center; justify-content: center; padding: 24px; }
+.modal-overlay.open { display: flex; }
+.modal-box { background: white; border-radius: 24px; max-width: 600px; width: 100%; max-height: 85vh; overflow-y: auto; padding: 48px; box-shadow: 0 40px 80px rgba(0,0,0,0.2); position: relative; }
+.modal-close { position: absolute; top: 20px; right: 20px; background: none; border: none; color: var(--light); transition: color 0.2s; }
+.modal-close:hover { color: var(--slate); }
+.modal-close svg { width: 22px; height: 22px; stroke: currentColor; fill: none; }
+.modal-box h3 { font-family: var(--f-serif); font-size: 30px; color: var(--slate); margin-bottom: 28px; font-style: italic; }
+.modal-box section { margin-bottom: 20px; }
+.modal-box h4 { font-family: var(--f-man); font-weight: 700; font-size: 14px; color: var(--slate); margin-bottom: 8px; }
+.modal-box p { font-size: 14px; color: var(--muted); line-height: 1.7; }
+
+/* ─── REVEAL ─────────────────────────────────────── */
+.reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease-out, transform 0.7s ease-out; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal.d1 { transition-delay: 0.12s; }
+.reveal.d2 { transition-delay: 0.24s; }
+
+/* ─── RESPONSIVE ─────────────────────────────────── */
+@media (max-width: 1100px) {
+  .bf-grid { grid-template-columns: repeat(2, 1fr); }
+  .demo-body { grid-template-columns: 1fr; }
+  .demo-input-col { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .features-grid { grid-template-columns: repeat(4, 1fr); }
+  .feature-card { grid-column: span 2; }
+  .feature-card.feat-hero { grid-column: span 4; }
+  .feature-card.feat-wide { grid-column: span 4; }
+}
+@media (max-width: 960px) {
+  #navbar { padding: 14px 18px; }
+  #navbar.scrolled { padding: 10px 18px; }
+  .nav-links, .nav-actions { display: none; }
+  .nav-hamburger { display: flex; }
+  .steps-grid { grid-template-columns: 1fr; gap: 1px; }
+  .output-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+  .built-for { padding: 80px 0; }
+  .hero-headline { font-size: clamp(36px, 8vw, 56px); }
+  .hero-sub { font-size: 16px; }
+  .section { padding: 80px 0; }
+}
+@media (max-width: 640px) {
+  #navbar { padding: 12px 16px; }
+  #navbar.scrolled { padding: 9px 16px; }
+  .nav-logo-text { font-size: 16px; }
+  #hero-content { padding: 0 18px 60px; padding-top: 70px; }
+  .tagline-pill { height: 34px; padding: 0 12px; font-size: 12px; }
+  .tagline-text { font-size: 12.5px; }
+  .hero-ctas { flex-direction: column; align-items: stretch; width: 100%; max-width: 320px; }
+  .cta-primary, .cta-secondary { width: 100%; justify-content: center; padding: 13px 22px; font-size: 15px; }
+  .section { padding: 64px 0; }
+  .section-inner { padding: 0 20px; }
+  .built-for { padding: 64px 0; }
+  .built-for-inner { padding: 0 20px; }
+  .bf-header { margin-bottom: 40px; }
+  .bf-grid { grid-template-columns: 1fr; gap: 14px; }
+  .bf-card { padding: 26px 22px; }
+  .step { padding: 36px 26px; }
+  .features-grid { grid-template-columns: 1fr; gap: 14px; }
+  .feature-card, .feature-card.feat-hero, .feature-card.feat-wide { grid-column: span 1; padding: 26px 22px; }
+  .feature-card.feat-hero h3 { font-size: 20px; }
+  .demo-section { padding: 70px 0; }
+  .demo-section .section-inner { padding: 0 16px; }
+  .demo-frame { border-radius: 16px; }
+  .demo-input-col, .demo-output-col { padding: 18px; }
+  .demo-footer-strip { padding: 12px 18px; font-size: 10px; }
+  .demo-footer-strip .strip-group { gap: 10px; flex-wrap: wrap; }
+  .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+  .footer-bottom { flex-direction: column; text-align: center; gap: 10px; }
+  .cta-block { padding: 56px 22px; }
+  .cta-block h2 { font-size: clamp(26px, 7vw, 36px); }
+  .cta-sub { font-size: 15px; }
+  .email-row { flex-direction: column; border-radius: 14px; padding: 14px; align-items: stretch; gap: 12px; }
+  .email-row svg { display: none; }
+  .email-field { padding: 6px 4px; }
+  .email-submit { padding: 14px; width: 100%; }
+  .section-title { font-size: clamp(26px, 6vw, 36px); }
+  .section-sub { font-size: 15px; }
+  .bf-title { font-size: clamp(26px, 6vw, 36px); }
+}
+</style>
+</head>
+
+<body>
+
+<div id="progress-bar"></div>
+
+<!-- ════════════════════════════════
+     FIXED NAV (single, morphs on scroll)
+════════════════════════════════ -->
+<nav id="navbar">
+  <div class="nav-logo">
+    <div id="logo-fallback" style="display:flex">P</div>
+    <span class="nav-logo-text">Picao<span>AI</span></span>
+  </div>
+
+  <div class="nav-links">
+    <a href="#how-it-works" class="nav-link">How it Works</a>
+    <a href="#demo" class="nav-link">Demo</a>
+    <a href="#features" class="nav-link">Features</a>
+    <a href="#waitlist" class="nav-link">Early Access</a>
+  </div>
+
+  <div class="nav-actions">
+    <button class="btn-signin">Sign In</button>
+    <a href="#waitlist" class="btn-getstarted">
+      Get Started
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg>
+    </a>
+  </div>
+
+  <button class="nav-hamburger" onclick="openMenu()">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+    </svg>
+  </button>
+</nav>
+
+<!-- ════════════════════════════════
+     HERO
+════════════════════════════════ -->
+<section id="hero">
+  <video id="hero-video" autoplay loop muted playsinline>
+    <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260210_031346_d87182fb-b0af-4273-84d1-c6fd17d6bf0f.mp4" type="video/mp4">
+  </video>
+
+  <div id="hero-content">
+    <div class="tagline-pill">
+      <span class="tagline-badge">New</span>
+      <span class="tagline-text">Introducing Picao AI — Content Refraction Engine</span>
+    </div>
+
+    <h1 class="hero-headline">Speak once. <em>Publish</em><br>everywhere, instantly.</h1>
+
+    <p class="hero-sub">Stop rewriting the same idea 12 times. Capture your intent once and Picao turns it into posts, scripts, visuals, and scheduled content — automatically.</p>
+
+    <div class="hero-ctas">
+      <a href="#waitlist" class="cta-primary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        Join the Waitlist
+      </a>
+      <a href="#demo" class="cta-secondary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        See It in Action
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Mobile menu -->
+<div id="mobile-menu">
+  <button class="mm-close" onclick="closeMenu()">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </button>
+  <a href="#how-it-works" class="mobile-link" onclick="closeMenu()">How it Works</a>
+  <a href="#demo" class="mobile-link" onclick="closeMenu()">Demo</a>
+  <a href="#features" class="mobile-link" onclick="closeMenu()">Features</a>
+  <a href="#waitlist" class="mobile-link" onclick="closeMenu()">Early Access</a>
+  <div class="mobile-actions">
+    <button class="btn-signin">Sign In</button>
+    <button class="btn-getstarted">Get Started</button>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     BUILT FOR
+════════════════════════════════ -->
+<section class="built-for" id="built-for">
+  <div class="built-for-inner">
+    <div class="bf-header reveal">
+      <span class="bf-eyebrow">Built For</span>
+      <h2 class="bf-title">Every kind of <em>modern builder.</em></h2>
+      <p class="bf-sub">Whether you're scaling a brand, growing a classroom, or launching a startup — Picao fits the way you think and work.</p>
+    </div>
+
+    <div class="bf-grid">
+      <div class="bf-card reveal">
+        <div class="bf-icon">
+          <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+        </div>
+        <div class="bf-card-body">
+          <div class="bf-role">Founders &amp; Startups</div>
+          <div class="bf-use">Turn every product update, launch, and milestone into a multi-platform content moment — without hiring a content team.</div>
+        </div>
+        <span class="bf-tag">Brand building</span>
+      </div>
+
+      <div class="bf-card reveal d1">
+        <div class="bf-icon">
+          <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+        </div>
+        <div class="bf-card-body">
+          <div class="bf-role">Creators &amp; Influencers</div>
+          <div class="bf-use">One video idea becomes a full week of LinkedIn posts, short-form hooks, email newsletters, and X threads — instantly.</div>
+        </div>
+        <span class="bf-tag">Content at scale</span>
+      </div>
+
+      <div class="bf-card reveal d2">
+        <div class="bf-icon">
+          <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+        </div>
+        <div class="bf-card-body">
+          <div class="bf-role">Educators &amp; Coaches</div>
+          <div class="bf-use">Transform lesson plans, research, and expert knowledge into posts and outreach that grow your audience and authority.</div>
+        </div>
+        <span class="bf-tag">Thought leadership</span>
+      </div>
+
+      <div class="bf-card reveal">
+        <div class="bf-icon">
+          <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l19-9-9 19-2-8-8-2z"/></svg>
+        </div>
+        <div class="bf-card-body">
+          <div class="bf-role">Marketers &amp; Agencies</div>
+          <div class="bf-use">Produce platform-native content for every client, in every voice, in a fraction of the time. Brief in, full campaign out.</div>
+        </div>
+        <span class="bf-tag">Faster campaigns</span>
+      </div>
+
+      <div class="bf-card reveal d1">
+        <div class="bf-icon">
+          <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <div class="bf-card-body">
+          <div class="bf-role">Teams &amp; Enterprises</div>
+          <div class="bf-use">Centralise your content strategy. Keep every person on brand, on message, and on schedule — without the back-and-forth.</div>
+        </div>
+        <span class="bf-tag">Team alignment</span>
+      </div>
+
+      <div class="bf-card reveal d2">
+        <div class="bf-icon">
+          <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"/><line x1="16" y1="8" x2="2" y2="22"/><line x1="17.5" y1="15" x2="9" y2="15"/></svg>
+        </div>
+        <div class="bf-card-body">
+          <div class="bf-role">Solopreneurs</div>
+          <div class="bf-use">Show up consistently across every channel without burning out. Your brand runs on autopilot. You focus on the work.</div>
+        </div>
+        <span class="bf-tag">Always-on presence</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════
+     HOW IT WORKS
+════════════════════════════════ -->
+<section class="section" id="how-it-works">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <span class="eyebrow">The Method</span>
+      <h2 class="section-title">Three steps. Infinite reach.</h2>
+      <p class="section-sub">Most tools make you do the work. Picao is the execution layer — between your raw thought and your published brand.</p>
+    </div>
+
+    <div class="steps-grid reveal d1">
+      <div class="step">
+        <div class="step-num">01 / CAPTURE</div>
+        <div class="step-icon">
+          <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+        </div>
+        <h3>Speak Your Intent</h3>
+        <p>Talk naturally, type a rough idea, or paste a voice memo. Picao understands nuance and context — not just keywords.</p>
+      </div>
+
+      <div class="step">
+        <div class="step-num">02 / REFRACT</div>
+        <div class="step-icon">
+          <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+        </div>
+        <h3>Picao Refracts It</h3>
+        <p>Your single idea is intelligently routed and reformatted for LinkedIn, X, YouTube, email, and short-form — in seconds.</p>
+      </div>
+
+      <div class="step">
+        <div class="step-num">03 / PUBLISH</div>
+        <div class="step-icon">
+          <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </div>
+        <h3>Publish Everywhere</h3>
+        <p>Schedule, export, or push directly to your platforms. No copy-paste. No reformatting. One idea, a full week of content.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════
+     DEMO — dark refraction engine
+════════════════════════════════ -->
+<section class="demo-section" id="demo">
+  <div class="demo-grid-bg"></div>
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <span class="eyebrow">Live Refraction</span>
+      <h2 class="section-title">Watch one idea become <em>four.</em></h2>
+      <p class="section-sub">Drop a raw thought. Picao routes it through specialist models and returns publish-ready content for every channel — in seconds.</p>
+    </div>
+
+    <div class="demo-frame reveal d1">
+      <div class="demo-bar">
+        <div class="demo-dot" style="background:#f87171"></div>
+        <div class="demo-dot" style="background:#fbbf24"></div>
+        <div class="demo-dot" style="background:#4ade80"></div>
+        <span class="demo-bar-label">picao · refraction-engine · v1.0</span>
+        <span class="demo-bar-live">Live</span>
+      </div>
+
+      <div class="demo-body">
+        <div class="demo-input-col">
+          <div class="demo-step-label">Step 01 — Capture intent</div>
+          <div class="demo-input-card">
+            <div class="demo-input-head">
+              <div class="demo-mic">
+                <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg>
+              </div>
+              <span class="demo-input-title">Voice or text</span>
+              <span class="demo-input-meta">EN · auto</span>
+            </div>
+            <textarea id="raw-idea" placeholder="Drop your raw idea here… e.g. 'Founders should ship ugly first and iterate fast'" rows="4" oninput="scheduleRefract()"></textarea>
+          </div>
+
+          <div class="preset-row">
+            <span class="preset-label">Try a prompt</span>
+            <button class="preset-btn" onclick="setPreset(0)">Ship ugly, iterate fast</button>
+            <button class="preset-btn" onclick="setPreset(1)">Q3 hit 200% growth</button>
+            <button class="preset-btn" onclick="setPreset(2)">AI is changing education</button>
+          </div>
+
+          <div class="demo-cta-row">
+            <button onclick="runRefract()" class="demo-refract-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              Refract Now
+            </button>
+          </div>
+        </div>
+
+        <div class="demo-output-col">
+          <div class="demo-output-head">
+            <span id="refract-status"><span class="pulse-dot"></span>Awaiting input</span>
+            <div class="demo-output-tabs">
+              <span>4 outputs</span>
+            </div>
+          </div>
+
+          <div class="output-grid">
+            <div class="output-card" id="out-linkedin">
+              <div class="output-label">
+                <span class="out-icon" style="background:rgba(37,99,235,0.18);color:#60a5fa">
+                  <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                </span>
+                <span class="out-platform">LinkedIn</span>
+                <span class="output-meta">Post</span>
+              </div>
+              <div class="output-body" id="out-linkedin-text">Your LinkedIn post will appear here…</div>
+            </div>
+            <div class="output-card" id="out-twitter">
+              <div class="output-label">
+                <span class="out-icon" style="background:rgba(255,255,255,0.08);color:#fff">
+                  <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.859-8.162-10.641h6.052l4.264 5.633 4.609-5.633zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                </span>
+                <span class="out-platform">X / Twitter</span>
+                <span class="output-meta">Thread</span>
+              </div>
+              <div class="output-body" id="out-twitter-text">Your thread will appear here…</div>
+            </div>
+            <div class="output-card" id="out-youtube">
+              <div class="output-label">
+                <span class="out-icon" style="background:rgba(220,38,38,0.18);color:#f87171">
+                  <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.54C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="#0f0a1f"/></svg>
+                </span>
+                <span class="out-platform">YouTube</span>
+                <span class="output-meta">Hook</span>
+              </div>
+              <div class="output-body" id="out-youtube-text">Your video hook will appear here…</div>
+            </div>
+            <div class="output-card" id="out-email">
+              <div class="output-label">
+                <span class="out-icon" style="background:rgba(196,181,253,0.18);color:#c4b5fd">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                </span>
+                <span class="out-platform">Email</span>
+                <span class="output-meta">Opener</span>
+              </div>
+              <div class="output-body" id="out-email-text">Your email opener will appear here…</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo-footer-strip">
+        <div class="strip-group">
+          <span class="strip-item green">Models routed: 4</span>
+          <span class="strip-item">Voice match: brand profile</span>
+          <span class="strip-item">Tokens: 1.2k</span>
+        </div>
+        <div class="strip-group">
+          <span class="strip-item">Latency: ~9s</span>
+          <span class="strip-item">Schedule-ready</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════
+     FEATURES
+════════════════════════════════ -->
+<section class="section section-white" id="features">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <span class="eyebrow">Features</span>
+      <h2 class="section-title">The Creative <em>Operating System.</em></h2>
+      <p class="section-sub">Your ideas shouldn't live in silos. Picao connects thinking to publishing — across every platform you care about.</p>
+    </div>
+
+    <div class="features-grid">
+      <!-- Hero feature: Content Refraction -->
+      <div class="feature-card feat-hero reveal">
+        <div class="feature-card-head">
+          <div class="feature-icon"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+          <span class="feature-num">01 / CORE</span>
+        </div>
+        <h3>Content Refraction</h3>
+        <p>One idea simultaneously becomes a LinkedIn post, X thread, YouTube hook, email, and short-form script — each natively shaped for the platform, all in your voice. This is the engine the rest of Picao is built on.</p>
+        <div class="feature-foot">
+          See it in action
+          <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </div>
+      </div>
+
+      <div class="feature-card feat-wide reveal d1">
+        <div class="feature-card-head">
+          <div class="feature-icon"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/><circle cx="12" cy="12" r="10"/></svg></div>
+          <span class="feature-num">02 / ROUTING</span>
+        </div>
+        <h3>Model Agnostic</h3>
+        <p>Every task is auto-routed to the model best suited for it — writing, structure, visuals. You choose the goal, not the tool.</p>
+      </div>
+
+      <div class="feature-card reveal">
+        <div class="feature-card-head">
+          <div class="feature-icon"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg></div>
+          <span class="feature-num">03 / MEMORY</span>
+        </div>
+        <h3>Instant Context</h3>
+        <p>Picao remembers your brand voice, audience, and past content so every output sounds unmistakably like you.</p>
+      </div>
+
+      <div class="feature-card reveal d1">
+        <div class="feature-card-head">
+          <div class="feature-icon"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></div>
+          <span class="feature-num">04 / DISPATCH</span>
+        </div>
+        <h3>Native Publishing</h3>
+        <p>Don't just generate — schedule, export, or publish directly to LinkedIn, X, YouTube and more. One screen. One click.</p>
+      </div>
+
+      <div class="feature-card reveal d2">
+        <div class="feature-card-head">
+          <div class="feature-icon"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></div>
+          <span class="feature-num">05 / INTERFACE</span>
+        </div>
+        <h3>Voice-to-Execution</h3>
+        <p>Speak naturally. Picao understands intent, not keywords — and turns rough thoughts into ready-to-ship content.</p>
+      </div>
+
+      <div class="feature-card reveal">
+        <div class="feature-card-head">
+          <div class="feature-icon"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+          <span class="feature-num">06 / RHYTHM</span>
+        </div>
+        <h3>Auto-Scheduling</h3>
+        <p>Picao doesn't just write — it plans. Content slots into an optimal publishing calendar without you lifting a finger.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════
+     WAITLIST
+════════════════════════════════ -->
+<section class="section" id="waitlist">
+  <div class="section-inner">
+    <div class="cta-block reveal">
+      <span class="cta-eyebrow">Early Access</span>
+      <h2>Turn one idea into<br><em>a full content brand.</em></h2>
+      <p class="cta-sub">Join the founding circle and help shape the execution layer of the creator economy. Early members lock in lifetime pricing.</p>
+      <form onsubmit="handleWaitlist(event)">
+        <div class="email-row">
+          <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          <input type="email" name="email" placeholder="Enter your email..." class="email-field" required>
+          <button type="submit" class="email-submit">Join Waitlist →</button>
+        </div>
+      </form>
+      <p class="cta-note">Founding circle access for serious builders · No spam, ever.</p>
+      <div id="waitlist-success">You're in. We'll send early access details soon. 🎉</div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════
+     FOOTER
+════════════════════════════════ -->
+<footer>
+  <video class="footer-video" autoplay loop muted playsinline>
+    <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260210_031346_d87182fb-b0af-4273-84d1-c6fd17d6bf0f.mp4" type="video/mp4">
+  </video>
+  <div class="footer-video-overlay"></div>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <span class="footer-logo-mark">P</span>
+          Picao<em>AI</em>
+        </div>
+        <p>Building the execution engine for modern creators. Born in NYC.</p>
+        <div class="footer-socials">
+          <a href="https://linkedin.com/company/picao-ai" target="_blank" class="social-btn">
+            <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          </a>
+          <a href="https://x.com/picaoai" target="_blank" class="social-btn">
+            <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.859-8.162-10.641h6.052l4.264 5.633 4.609-5.633zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </a>
+          <a href="https://instagram.com/picaoai" target="_blank" class="social-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>Product</h5>
+        <ul>
+          <li><a href="#how-it-works">How it Works</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#">Roadmap</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Company</h5>
+        <ul>
+          <li><a href="https://tally.so/r/GxlRG2" target="_blank">Join the Team</a></li>
+          <li><a href="/cdn-cgi/l/email-protection#264049534842435466564f454749474f0845494b">Contact</a></li>
+          <li><button onclick="toggleModal('privacy-modal')">Privacy</button></li>
+          <li><button onclick="toggleModal('terms-modal')">Terms</button></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Picao AI Inc. All rights reserved.</p>
+      <p>Born in NYC · Building the future of content creation</p>
+    </div>
+  </div>
+</footer>
+
+<!-- Privacy Modal -->
+<div id="privacy-modal" class="modal-overlay" onclick="if(event.target===this)toggleModal('privacy-modal')">
+  <div class="modal-box">
+    <button class="modal-close" onclick="toggleModal('privacy-modal')"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    <h3>Privacy Policy</h3>
+    <section><h4>1. Information Collection</h4><p>Picao AI collects only the minimum data required — currently only your email address submitted to the waitlist.</p></section>
+    <section><h4>2. Usage</h4><p>Your email is used strictly for product updates and launch invitations. We do not sell or trade your information.</p></section>
+  </div>
+</div>
+
+<!-- Terms Modal -->
+<div id="terms-modal" class="modal-overlay" onclick="if(event.target===this)toggleModal('terms-modal')">
+  <div class="modal-box">
+    <button class="modal-close" onclick="toggleModal('terms-modal')"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    <h3>Terms of Service</h3>
+    <section><h4>1. Development Phase</h4><p>Picao AI is currently in pre-launch. Waitlist signup does not guarantee immediate access.</p></section>
+    <section><h4>2. Intellectual Property</h4><p>All branding, "Content Refraction" concepts, and logic are property of Picao AI Inc.</p></section>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     SCRIPTS — zero external deps
+════════════════════════════════ -->
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// Mobile menu
+function openMenu()  { document.getElementById('mobile-menu').classList.add('open');    document.body.style.overflow='hidden'; }
+function closeMenu() { document.getElementById('mobile-menu').classList.remove('open'); document.body.style.overflow=''; }
+
+// Modal
+function toggleModal(id) {
+  var m = document.getElementById(id);
+  m.classList.toggle('open');
+  document.body.style.overflow = m.classList.contains('open') ? 'hidden' : '';
+}
+
+// Scroll behaviours
+var heroEl     = document.getElementById('hero');
+var navbar     = document.getElementById('navbar');
+var progressBar = document.getElementById('progress-bar');
+
+window.addEventListener('scroll', function() {
+  navbar.classList.toggle('scrolled', window.scrollY > 40);
+  var pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+  progressBar.style.width = pct + '%';
+}, { passive: true });
+
+// Reveal on scroll
+var revealEls = document.querySelectorAll('.reveal');
+var io = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.08 });
+revealEls.forEach(function(el) { io.observe(el); });
+
+// Waitlist form
+async function handleWaitlist(e) {
+  e.preventDefault();
+  var success = document.getElementById('waitlist-success');
+  try {
+    var res = await fetch('https://formspree.io/f/xvzbaowa', {
+      method: 'POST', body: new FormData(e.target), headers: { 'Accept': 'application/json' }
+    });
+    if (res.ok) {
+      success.style.opacity = '1';
+      e.target.reset();
+      setTimeout(function(){ success.style.opacity='0'; }, 6000);
+    }
+  } catch(err) { console.error(err); }
+}
+
+// ── Refraction Demo ────────────────────────────────
+var presets = [
+  "Founders should ship ugly first and iterate fast. The perfect product that never launches is worth nothing. Done beats perfect — every time.",
+  "Q3 results: we hit 200% of our growth target. Here's what we did differently this quarter and what it means for where we're headed.",
+  "AI is fundamentally changing how we learn. Teachers aren't becoming obsolete — but the ones who ignore this shift will be."
+];
+
+var outputData = [
+  {
+    linkedin: "Most founders get this backwards.\n\nThey spend 18 months building the perfect product. No users. No feedback. No market.\n\nThe best founders I know shipped something embarrassing in 6 weeks — and built something incredible by week 26.\n\nDone beats perfect. Every single time.",
+    twitter:  "Thread: Why shipping ugly is your biggest competitive advantage 🧵\n\n1/ The best product that never launches is worth $0.\n2/ Shipping creates feedback. Feedback creates PMF. PMF creates revenue.\n3/ Your users don't care about your architecture. They care if it works.",
+    youtube:  "[HOOK] I almost killed my startup trying to make it perfect. Here's what I did instead — and how it 10x'd our growth in 90 days.",
+    email:    "Subject: Why I shipped the ugliest version first\n\nPerfection is a trap.\n\nWe spent weeks on font sizes while our competitors got users. Then we stopped. And shipped."
+  },
+  {
+    linkedin: "Q3 numbers are in — and I didn't think we'd be here.\n\n200% of target. What changed:\n\n→ Stopped trying to please everyone\n→ Doubled down on the 20% doing 80% of the work\n→ Let data lead, not assumptions\n\nQ4 will be different.",
+    twitter:  "Q3 results: 200% of target. 🎯\n\nWhat we did differently (thread):\n1/ Cut 4 channels. Focused on 2.\n2/ Rebuilt our ICP from scratch in July.\n3/ Daily standups for 6 weeks straight.\n\nSometimes less is more.",
+    youtube:  "[HOOK] We 2x'd our Q3 target — not by doing more, but by doing *less*. Here's exactly what we cut.",
+    email:    "Subject: The counterintuitive thing we did to hit 200%\n\nA teardown of what worked, what didn't, and what we're betting Q4 on."
+  },
+  {
+    linkedin: "A bold claim: the traditional classroom has about 5 years left before it's unrecognisable.\n\nAI tutors. Adaptive curricula. Real-time feedback.\n\nTeachers aren't going anywhere — but those who master these tools will be untouchable.",
+    twitter:  "Hot take: AI isn't going to replace teachers.\n\nIt's going to replace teachers who don't use AI.\n\nHere's why the shift is happening faster than education wants to admit 🧵",
+    youtube:  "[HOOK] I tested 5 AI tools in a real classroom for 30 days. The results changed everything I thought about the future of learning.",
+    email:    "Subject: What 30 days of AI in the classroom taught me\n\nThe students adapted faster than I expected. So did their outcomes."
+  }
+];
+
+function setPreset(i) {
+  document.getElementById('raw-idea').value = presets[i];
+  scheduleRefract();
+}
+
+function setStatus(text, state) {
+  var el = document.getElementById('refract-status');
+  el.innerHTML = '<span class="pulse-dot"></span>' + text;
+  el.classList.remove('working', 'done');
+  if (state) el.classList.add(state);
+}
+
+var refractTimer;
+function scheduleRefract() {
+  setStatus('Analyzing intent…', 'working');
+  clearTimeout(refractTimer);
+  refractTimer = setTimeout(runRefract, 950);
+}
+
+function generateGeneric(val) {
+  var short = val.length > 70 ? val.slice(0,70)+'...' : val;
+  return {
+    linkedin: "Here's a perspective that changed how I think:\n\n"+val+"\n\nMost people scroll past this. The ones who don't? They build differently.",
+    twitter:  'Thread on something I\'ve been sitting with 🧵\n\n"'+short+'"\n\n1/ This matters more than people realise.\n2/ Here\'s the nuance most people miss.\n3/ Here\'s what I\'m doing about it.',
+    youtube:  "[HOOK] Everyone's talking about this — but nobody's talking about the part that actually matters.",
+    email:    "Subject: The thing nobody wants to say\n\n\""+short+"\"\n\nI think this changes everything about how we approach this space."
+  };
+}
+
+function runRefract() {
+  var val = document.getElementById('raw-idea').value.trim();
+  if (!val) { setStatus('Awaiting input'); return; }
+  var match = -1;
+  presets.forEach(function(p,i){ if(val===p) match=i; });
+  var data = match >= 0 ? outputData[match] : generateGeneric(val);
+  setStatus('Refracting across 4 channels…', 'working');
+  ['linkedin','twitter','youtube','email'].forEach(function(id, i) {
+    var card = document.getElementById('out-'+id);
+    var text = document.getElementById('out-'+id+'-text');
+    card.classList.remove('lit');
+    setTimeout(function(){
+      text.textContent = data[id];
+      card.classList.add('lit');
+      if (i===3) setStatus('Refracted into 4 formats', 'done');
+    }, 220 + i*200);
+  });
+}
+</script>
+
+</body>
+</html>
